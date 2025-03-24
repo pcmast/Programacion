@@ -1,8 +1,10 @@
 # Proyecto de programación
 
-## Componentes
 
-- Nombre 1
-- Nombre 2
-- 
+## Desarrollado por
+- Pedro Castaño
+- Daniel Castro
+- Alejandro Moreno
+- Francisco Javier Soler
+
 ## Instrucciones para ejecutarlo
