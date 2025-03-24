@@ -8,30 +8,6 @@ public class Utilidades {
     public static Scanner sc = new Scanner(System.in);
 
     /**
-     * Pide un número entero al usuario con validación.
-     * Si el usuario introduce un valor no válido, se le muestra un mensaje de error y se vuelve a pedir el número.
-     *
-     * @param msn El mensaje que se muestra al usuario antes de pedir el número.
-     * @return El número entero introducido por el usuario.
-     */
-    public static int pideEntero(String msn) {
-        int n = 0;
-        boolean error = false;
-        do {
-            try {
-                System.out.println(msn);  // Muestra el mensaje al usuario.
-                n = sc.nextInt();  // Lee el número entero introducido.
-                error = false;  // Si no hay error, sale del bucle.
-            } catch (InputMismatchException e) {
-                System.out.println("Valor no válido");  // Muestra mensaje de error si la entrada no es un número entero.
-                error = true;  // Si hay error, se repite el proceso.
-                sc.next();  // Limpia el buffer del Scanner.
-            }
-        } while (error);  // Repite mientras haya un error.
-        return n;  // Devuelve el número entero introducido.
-    }
-
-    /**
      * Lee un número entero desde la consola con validación.
      * Si el usuario introduce un valor no válido, se muestra un mensaje de error y se solicita nuevamente el número.
      *
@@ -56,7 +32,7 @@ public class Utilidades {
     }
 
     /**
-     * Lee un número decimal (double) desde la consola con validación.
+     * Lee un número decimal desde la consola con validación.
      * Si el usuario introduce un valor no válido, se muestra un mensaje de error y se solicita nuevamente el número.
      *
      * @param mensaje El mensaje que se muestra al usuario antes de pedir el número.
@@ -67,18 +43,17 @@ public class Utilidades {
         double numero = 0;
         boolean valido = false;
 
-        while (!valido) {  // Repite hasta que se introduzca un número válido.
+        while (!valido) {
             try {
-                System.out.print(mensaje);  // Muestra el mensaje al usuario.
-                numero = Double.parseDouble(scanner.nextLine());  // Intenta convertir la entrada en un número decimal.
-                valido = true;  // Si no hay error, se marca como válido.
+                System.out.print(mensaje);
+                numero = Double.parseDouble(scanner.nextLine());
+                valido = true;
             } catch (NumberFormatException e) {
                 System.out.println("Error: Ingresa un número válido.");  // Muestra mensaje de error si la entrada no es un número válido.
             }
         }
-        return numero;  // Devuelve el número decimal introducido.
+        return numero;
     }
-
 
     /**
      * Valida un correo electrónico asegurándose de que tenga el formato estándar:
@@ -105,10 +80,8 @@ public class Utilidades {
      * @return true si el número de teléfono es válido según el formato, false en caso contrario.
      */
     public static boolean validarTelefono(String telefono) {
-        // Expresión regular que valida un número de teléfono con formato estándar.
         return telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$");
     }
-
 
     /**
      * Muestra un mensaje en consola.
@@ -117,7 +90,6 @@ public class Utilidades {
     public static void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
     }
-
 
     /**
      * Pide una cadena de texto al usuario.
@@ -131,5 +103,4 @@ public class Utilidades {
         sc.nextLine(); // Consume el salto de línea pendiente
         return cadena;
     }
-
 }
