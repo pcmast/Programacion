@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Actividad {
 
@@ -10,6 +11,7 @@ public class Actividad {
     private String fechaFin;
     private boolean voluntario;
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
+    private List<Comentario> comentarios;
 
     public Actividad() {
     }
@@ -71,15 +73,24 @@ public class Actividad {
         return estado;
     }
 
+
+
     public void setEstado(EstadoActividad estado) {
         this.estado = estado;
     }
 
+    public void agregarComentario(Comentario comentario) {
+        comentarios.add(comentario);
+    }
+
     /**
-     * Método para cambiar el estado (Enum)
+     * Método para cambiar el estado e insertar un comentario
      */
-    public void cambiarEstado(EstadoActividad nuevoEstado) {
+    public void actualizarEstado(EstadoActividad nuevoEstado, String comentario) {
         this.estado = nuevoEstado;
+        if (comentario != null && !comentario.trim().isEmpty()) { //Esta línea de comandos hace que el comentario si es vacío, lo detecte como vacío
+            agregarComentario(new Comentario(comentario, responsable, LocalDate.now()));
+        }
     }
 
     @Override
