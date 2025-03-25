@@ -13,7 +13,7 @@ public class MenuVista {
 
     /**
      * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
-     * @return el usuario con los datos ya registrados
+     * @return el usuario con los datos ya registrados.
      */
     public Usuario pideDatosRegistrarUsuario() {
         String nombre = Utilidades.pideString("Introduce el nombre del usuario");
@@ -38,7 +38,7 @@ public class MenuVista {
 
 
     /**
-     * Menu que pide los datos en caso de inicio de sesion
+     * Menu que pide los datos en caso de inicio de sesion.
      */
     public void pideDatosInicioSesion() {
         String usuario = Utilidades.pideString("Introduce el usuario");
@@ -46,7 +46,7 @@ public class MenuVista {
     }
 
     /**
-     * Menu para seleccionar el tipo de usuario
+     * Menu para seleccionar el tipo de usuario.
      */
     public void muestraMenuCreadorOVoluntario() {
         System.out.println("Elige el tipo de usuario");
@@ -56,7 +56,7 @@ public class MenuVista {
     }
 
     /**
-     * Menu de los usuarios creadores
+     * Menu de los usuarios creadores.
      */
     public void menuCreador() {
         System.out.println("1. Crear iniciativa\n" +
@@ -69,7 +69,7 @@ public class MenuVista {
 
 
     /**
-     * Menu de los usuarios voluntarios
+     * Menu de los usuarios voluntarios.
      */
     public void menuVoluntarios() {
         System.out.println("1. Ver tareas asignadas\n" +
