@@ -89,7 +89,7 @@ public class Actividad {
     public void actualizarEstado(EstadoActividad nuevoEstado, String comentario) {
         this.estado = nuevoEstado;
         if (comentario != null && !comentario.trim().isEmpty()) { //Esta línea de comandos hace que el comentario si es vacío, lo detecte como vacío
-            agregarComentario(new Comentario(comentario, responsable, LocalDate.now()));
+            //agregarComentario(new Comentario(comentario, responsable, LocalDate.now()));
         }
     }
 
