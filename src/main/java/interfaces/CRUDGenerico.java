@@ -7,7 +7,7 @@ public interface CRUDGenerico<T> {
 
     public boolean annadirList(T t);
 
-    public boolean eliminarList(T t);
+    public boolean eliminarList(String cadena);
 
     public boolean modificar(T t);
 
