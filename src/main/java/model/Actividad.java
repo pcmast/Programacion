@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public class Actividad {
+public class  Actividad {
 
     private String nombre;
     private String descripcion;
