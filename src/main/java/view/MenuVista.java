@@ -36,7 +36,6 @@ public class MenuVista {
         return usuario1;
     }
 
-
     /**
      * Menu que pide los datos en caso de inicio de sesion.
      */
