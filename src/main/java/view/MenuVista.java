@@ -1,54 +1,81 @@
 package view;
 
+import model.Creador;
 import model.Usuario;
+import model.Voluntario;
+import utils.Utilidades;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class MenuVista {
-    private HashMap<String, Usuario> usuarios;
+    public void muestraMensaje(String mensaje) {
+        System.out.println(mensaje);
+    }
 
-
-    public MenuVista(){
-        this.usuarios = new HashMap<>();
+    /**
+     * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
+     * @return el usuario con los datos ya registrados
+     */
+    public Usuario pideDatosRegistrarUsuario() {
+        String nombre = Utilidades.pideString("Introduce el nombre del usuario");
+        String usuario = Utilidades.pideString("Introduce el usuario");
+        String correo = Utilidades.pideString("Introduce el correo");
+        String contrasenna = Utilidades.pideString("Introduce tu contraseña");
+        muestraMenuCreadorOVoluntario();
+        int opcion = Utilidades.leeEntero("Introduce el tipo de usuario");
+        Usuario usuario1 = null;
+        switch (opcion) {
+            case 1:
+                usuario1 = new Creador(nombre, usuario, contrasenna, correo);
+                break;
+            case 2:
+                usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
+                break;
+            default:
+                System.out.println("Opción incorrecta, vuelve a intentarlo");
+        }
+        return usuario1;
     }
 
 
     /**
-     *
-     * @param usuario que recibe el metodo,
-     *                el metodo comprueba que no exista ya,
-     *                si existe devuelve false.
-     * @return
+     * Menu que pide los datos en caso de inicio de sesion
      */
-    public boolean registrarUsuario (Usuario usuario){
-        boolean registrado = true;
-        if (usuarios.containsKey(usuario.getUsuario())){
-            registrado = false;
-        }
+    public void pideDatosInicioSesion() {
+        String usuario = Utilidades.pideString("Introduce el usuario");
+        String contrasenna = Utilidades.pideString("Introduce la contraseña");
+    }
 
-        return registrado;
+    /**
+     * Menu para seleccionar el tipo de usuario
+     */
+    public void muestraMenuCreadorOVoluntario() {
+        System.out.println("Elige el tipo de usuario");
+        muestraMensaje("1. Creador");
+        muestraMensaje("2. Voluntario");
 
     }
 
     /**
-     *
-     * @param usuario
-     * @param contrasenna
-     *
-     * Se busca el usuario en el HashMap usuarios usando el nombre de usuario de clave.
-     * El resultado de la busqueda se almacena en la variable Usuario u.
-     * Comporbamos que el usuario no este nulo y que las contraseñas coincidan
-     * Si se cumple el boolean cambia su valor a true
-     * @return
+     * Menu de los usuarios creadores
      */
-    public boolean iniciarSesion(String usuario, String contrasenna){
-        Usuario u = usuarios.get(usuario);
-        boolean correcto = false;
-
-        if (u != null && u.getContrasenna().equals(contrasenna)){
-            correcto = true;
-        }
-        return correcto;
+    public void menuCreador() {
+        System.out.println("1. Crear iniciativa\n" +
+                "2.Crear tareas de una iniciativa\n" +
+                "3. Agregar colaboradores a una iniciativa\n" +
+                "4. Ver iniciativas creadas\n" +
+                "5. Ver iniciativas y actividades del usuario\n" +
+                "6. Cerrar sesion");
     }
+
+
+    /**
+     * Menu de los usuarios voluntarios
+     */
+    public void menuVoluntarios() {
+        System.out.println("1. Ver tareas asignadas\n" +
+                "2. Cambiar estado actividad\n" +
+                "3. Ver iniciativas y actividades del usuario\n" +
+                "4. Cerrar sesion");
+    }
+
 }
