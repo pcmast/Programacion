@@ -14,4 +14,4 @@
 
 ## Instrucciones para ejecutarlo
 
- * Podemos ejecutarlo pulsando ``
+ * Podemos ejecutarlo pulsando
