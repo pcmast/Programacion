@@ -14,6 +14,9 @@ public class Usuario implements InterfazUsuario {
         this.contrasenna = contrasenna;
         this.correo = correo;
     }
+    public Usuario() {
+    }
+
 
     public String getNombre() {
         return nombre;
@@ -48,9 +51,10 @@ public class Usuario implements InterfazUsuario {
     }
 
     public boolean iniciarSesion(String correo, String contrasenna) {
-
         this.correo = correo;
         this.contrasenna = contrasenna;
+
+
 
         return false;
     }
@@ -61,6 +65,8 @@ public class Usuario implements InterfazUsuario {
         this.usuario = usuario;
         this.correo = correo;
         this.contrasenna = contrasenna;
+
+
     }
 
     public boolean cerrarSesion() {
