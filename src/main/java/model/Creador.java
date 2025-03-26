@@ -8,10 +8,10 @@ public class Creador extends Usuario {
     private String ongPertenece;
     private ArrayList<Iniciativa> list = new ArrayList<>();
 
-    public Creador(String nombre, String usuario, String contrasenna, String correo) {
+    public Creador(String nombre, String usuario, String contrasenna, String correo,String ongPertenece) {
         super(nombre, usuario, contrasenna, correo);
+        this.ongPertenece = ongPertenece;
     }
-
 
     /**
      * Crea una iniciativa y si la lista de este creador no contiene esa iniciativa la añade
