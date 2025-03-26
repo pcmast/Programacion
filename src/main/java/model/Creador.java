@@ -13,6 +13,21 @@ public class Creador extends Usuario {
         this.ongPertenece = ong;
     }
 
+    public String getOngPertenece() {
+        return ongPertenece;
+    }
+
+    public void setOngPertenece(String ongPertenece) {
+        this.ongPertenece = ongPertenece;
+    }
+
+    public ArrayList<Iniciativa> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<Iniciativa> list) {
+        this.list = list;
+    }
 
     /**
      * Crea una iniciativa y si la lista de este creador no contiene esa iniciativa la añade
@@ -82,6 +97,14 @@ public class Creador extends Usuario {
         }
         }
         return eliminada;
+    }
+
+    /**
+     * Este metodo devuelve una copia de las iniciativas de un creador
+     * @return
+     */
+    public ArrayList<Iniciativa> verIniciativas(){
+        return getList();
     }
 
 
