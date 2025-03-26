@@ -1,11 +1,8 @@
 package model;
 
 public enum EstadoActividad {
-    NO_INICIADA(),
-    EN_PROCESO(""),
-    COMPLETADA(comentario);
+    NO_INICIADA,
+    EN_PROCESO,
+    COMPLETADA;
 
-    private Comentario comentario;
-    EstadoActividad(Comentario comentario) {
-    }
 }
