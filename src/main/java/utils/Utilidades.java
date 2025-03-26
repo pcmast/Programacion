@@ -1,5 +1,8 @@
 package utils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -85,6 +88,7 @@ public class Utilidades {
 
     /**
      * Muestra un mensaje en consola.
+     *
      * @param mensaje : el mensaje a mostrar.
      */
     public static void mostrarMensaje(String mensaje) {
@@ -93,6 +97,7 @@ public class Utilidades {
 
     /**
      * Pide una cadena de texto al usuario.
+     *
      * @param msn : el mensaje que se muestra al usuario.
      * @return la cadena introducida por el usuario.
      */
@@ -102,5 +107,30 @@ public class Utilidades {
         cadena = sc.next(); // Lee una palabra
         sc.nextLine(); // Consume el salto de línea pendiente
         return cadena;
+    }
+
+    /**
+     * Pide al usuario que introduzca una fecha por texto con el siguiente formato: (dd/MM/yyyy)
+     * @param msn mensaje que vamos a mostrar al usuario
+     * @return fecha introducida por el usuario en formato LocalDate, o null si no se ha introducido una fecha correcta.
+     */
+    public static LocalDate pideFecha(String msn) {
+        LocalDate fecha = null;
+        boolean fechaCorrecta = false;
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        while (!fechaCorrecta) {
+            mostrarMensaje(msn);
+            String fechaString = sc.nextLine();
+
+            try {
+                fecha = LocalDate.parse(fechaString, formatoFecha);
+                fechaCorrecta = true;
+                mostrarMensaje("fecha introducida: "+fecha);
+            } catch (DateTimeParseException e) {
+                mostrarMensaje("Formato de fecha incorrecto. Debe ser dd/MM/yyyy");
+            }
+        }
+    return fecha;
     }
 }
