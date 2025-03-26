@@ -1,3 +1,4 @@
+
 package view;
 
 import model.Creador;
@@ -7,46 +8,26 @@ import utils.Utilidades;
 
 
 public class MenuVista {
-    /**
-     * Metodo que muestra un mensaje
-     * @param mensaje la cadena que se muestra.
-     */
     public void muestraMensaje(String mensaje) {
         System.out.println(mensaje);
     }
 
     /**
-     * Metodo que muestra un objeto
-     * @param o el objeto que se muestra
-     */
-    public void muestraObjeto(Object o){
-        System.out.println(o);
-    }
-
-    /**
-     * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador.
+     * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
      * @return el usuario con los datos ya registrados.
      */
     public Usuario pideDatosRegistrarUsuario() {
         String nombre = Utilidades.pideString("Introduce el nombre del usuario");
         String usuario = Utilidades.pideString("Introduce el usuario");
-
-        String correo;
-        do {
-            correo = Utilidades.pideString("Introduce el correo electrónico");
-            if (!Utilidades.validarCorreo(correo)) {
-                System.out.println("Correo inválido, por favor introduce un correo válido.");
-            }
-        } while (!Utilidades.validarCorreo(correo));
-
+        String correo = Utilidades.pideString("Introduce el correo");
         String contrasenna = Utilidades.pideString("Introduce tu contraseña");
         muestraMenuCreadorOVoluntario();
         int opcion = Utilidades.leeEntero("Introduce el tipo de usuario");
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
-                String ong = Utilidades.pideString("Introduce la ONG a la que perteneces");
-                usuario1 = new Creador(nombre, usuario, contrasenna, correo, ong);
+                String ong = Utilidades.pideString("Introduce la ong que pertenece");
+                usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
                 break;
             case 2:
                 usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
@@ -76,27 +57,26 @@ public class MenuVista {
     }
 
     /**
-     * Menu de los usuarios creadores que muestra sus opciones.
+     * Menu de los usuarios creadores.
      */
     public void menuCreador() {
         System.out.println("1. Crear iniciativa\n" +
-                "2. Crear tareas de una iniciativa\n" +
+                "2.Crear tareas de una iniciativa\n" +
                 "3. Agregar colaboradores a una iniciativa\n" +
                 "4. Ver iniciativas creadas\n" +
                 "5. Ver iniciativas y actividades del usuario\n" +
-                "6. Ver ONG a la que pertenezco\n" +
-                "7. Cerrar sesión");
+                "6. Cerrar sesion");
     }
 
+
     /**
-     * Menu de los usuarios voluntarios que muestra sus opciones
+     * Menu de los usuarios voluntarios.
      */
     public void menuVoluntarios() {
         System.out.println("1. Ver tareas asignadas\n" +
                 "2. Cambiar estado actividad\n" +
                 "3. Ver iniciativas y actividades del usuario\n" +
-                "4. Ver mis puntos acumulados\n" +
-                "5. Cerras sesión");
+                "4. Cerrar sesion");
     }
 
 }

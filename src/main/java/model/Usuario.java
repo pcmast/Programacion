@@ -1,6 +1,8 @@
 package model;
 
-public class Usuario {
+import interfaces.InterfazUsuario;
+
+public class Usuario implements InterfazUsuario {
     private String nombre;
     private String usuario;
     private String contrasenna;
@@ -12,6 +14,9 @@ public class Usuario {
         this.contrasenna = contrasenna;
         this.correo = correo;
     }
+    public Usuario() {
+    }
+
 
     public String getNombre() {
         return nombre;
@@ -43,5 +48,31 @@ public class Usuario {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public boolean iniciarSesion(String correo, String contrasenna) {
+        this.correo = correo;
+        this.contrasenna = contrasenna;
+
+
+
+        return false;
+    }
+
+
+    public void registrarse(String nombre, String usuario, String correo, String contrasenna) {
+        this.nombre = nombre;
+        this.usuario = usuario;
+        this.correo = correo;
+        this.contrasenna = contrasenna;
+
+
+    }
+
+    public boolean cerrarSesion() {
+
+
+
+        return false;
     }
 }
