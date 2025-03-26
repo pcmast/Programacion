@@ -26,8 +26,7 @@ public class MenuVista {
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
-                String ong = Utilidades.pideString("Introduce la ong a la que pertenece");
-                usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
+                usuario1 = new Creador(nombre, usuario, contrasenna, correo);
                 break;
             case 2:
                 usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
