@@ -12,7 +12,7 @@ public class  Actividad {
     private LocalDate fechaFin;
     private boolean voluntario;
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
-    private List<Comentario> comentarios;
+    private String comentario;
 
     public Actividad() {
     }
@@ -80,17 +80,13 @@ public class  Actividad {
         this.estado = estado;
     }
 
-    public void agregarComentario(Comentario comentario) {
-        comentarios.add(comentario);
-    }
-
     /**
      * Método para cambiar el estado e insertar un comentario
      */
-    public void actualizarEstado(EstadoActividad nuevoEstado, String comentario) {
+    public void actualizarEstado(EstadoActividad nuevoEstado, String nuevoComentario) {
         this.estado = nuevoEstado;
-        if (comentario != null && !comentario.trim().isEmpty()) { //Esta línea de comandos hace que el comentario si es vacío, lo detecte como vacío
-            //agregarComentario(new Comentario(comentario, responsable, LocalDate.now()));
+        if (nuevoComentario != null && !nuevoComentario.trim().isEmpty()) {
+            this.comentario = nuevoComentario;
         }
     }
 
