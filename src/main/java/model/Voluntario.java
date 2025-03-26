@@ -10,6 +10,4 @@ public class Voluntario extends Usuario{
 
 
 
-
-
 }
