@@ -87,10 +87,10 @@ public class  Actividad {
     /**
      * Método para cambiar el estado e insertar un comentario
      */
-    public void actualizarEstado(EstadoActividad nuevoEstado, String comentario) {
+    public void actualizarEstado(EstadoActividad nuevoEstado, String nuevoComentario) {
         this.estado = nuevoEstado;
-        if (comentario != null && !comentario.trim().isEmpty()) { //Esta línea de comandos hace que el comentario si es vacío, lo detecte como vacío
-            //agregarComentario(new Comentario(comentario, responsable, LocalDate.now()));
+        if (nuevoComentario != null && !nuevoComentario.trim().isEmpty()) {
+            this.comentario = nuevoComentario;
         }
     }
 
