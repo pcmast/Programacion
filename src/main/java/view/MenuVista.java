@@ -7,8 +7,20 @@ import utils.Utilidades;
 
 
 public class MenuVista {
+    /**
+     * Metodo que muestra un mensaje
+     * @param mensaje la cadena que se muestra.
+     */
     public void muestraMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    /**
+     * Metodo que muestra un objeto
+     * @param o el objeto que se muestra
+     */
+    public void muestraObjeto(Object o){
+        System.out.println(o);
     }
 
     /**
@@ -33,7 +45,8 @@ public class MenuVista {
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
-                usuario1 = new Creador(nombre, usuario, contrasenna, correo);
+                String ong = Utilidades.pideString("Introduce la ONG a la que perteneces");
+                usuario1 = new Creador(nombre, usuario, contrasenna, correo, ong);
                 break;
             case 2:
                 usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
