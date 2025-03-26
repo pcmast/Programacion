@@ -9,14 +9,12 @@ import java.util.ArrayList;
 
 public class ActividadController {
 
-    ArrayList<Actividad> listaActividades = new ArrayList<Actividad>();
-
     /**
      * Metodo que crea una actividad nueva pidiendo los datos de la actividad
      *
      * @return true si la actividad se creó correctamente, false en caso contrario.
      */
-    public boolean creaActividad() {
+    public Actividad creaActividad() {
 
         boolean actividadCreada = false;
 
@@ -48,9 +46,8 @@ public class ActividadController {
         if (actividad != null) {
             actividadCreada = true;
             Utilidades.mostrarMensaje("Actividad creada con éxito");
-            listaActividades.add(actividad);
         }
-        return actividadCreada;
+        return actividad;
     }
 
     /**
@@ -60,36 +57,31 @@ public class ActividadController {
      * @return true si la actividad se ha eliminado correctamente, false en caso contrario.
      *
      */
-    public boolean eliminaActividad() {
+    public Actividad eliminaActividad(Actividad actividad) {
         boolean actividadEliminada = false;
-        boolean listaVacia = listaActividades.isEmpty();
-        if (listaActividades.isEmpty()) {
-            Utilidades.mostrarMensaje("No hay actividades creadas");
-            return actividadEliminada;
-        } else {
-            Utilidades.mostrarMensaje("Introduce el nombre de la actividad a eliminar:  ");
-            for (Actividad actividadActual : listaActividades) {
-                Utilidades.mostrarMensaje(actividadActual.toString());
-            }
+        Utilidades.mostrarMensaje("Está seguro de eliminar la actividad "+ actividad.getNombre()+ " ?");
+        Utilidades.mostrarMensaje("1. Si");
+        Utilidades.mostrarMensaje("2. No");
+        int opcion = Utilidades.leeEntero("Opción:");
+        switch (opcion) {
+            case 1:
+               actividad = null;
+                break;
+            case 2:
+                Utilidades.mostrarMensaje("Operación cancelada");
+                break;
+        }
 
-            String opcion = Utilidades.pideString("Opción:");
-            for (Actividad actividadActual : listaActividades) {
-                if (actividadActual.getNombre().equalsIgnoreCase(opcion)) {
-                    listaActividades.remove(actividadActual);
-                    actividadEliminada = true;
-                    Utilidades.mostrarMensaje("Actividad eliminada con éxito");
-                    break;
-                }else{
-                    Utilidades.mostrarMensaje("Actividad no encontrada");
-                }
-            }
-            return actividadEliminada;
-        }
+        return actividad;
     }
-    public void muestraActividades() {
-        for (Actividad actividadActual : listaActividades){
-            Utilidades.mostrarMensaje(actividadActual.toString());
-        }
+
+
+    public Actividad modificaActividad(Actividad actividad) {
+        boolean actividadModificada = false;
+        Actividad actvididadmodificada = creaActividad();
+        return actvididadmodificada;
     }
+
+
 }
 
