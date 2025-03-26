@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class  Actividad {
-
+    //Atributo a la iniciativa el nombre lo pondremos clave
     private String nombre;
     private String descripcion;
     private LocalDate fechaInicio;
     private String fechaFin;
     private boolean voluntario;
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
-    private List<Comentario> comentarios;
+    private String comentario;
 
     public Actividad() {
     }
@@ -80,9 +80,6 @@ public class  Actividad {
         this.estado = estado;
     }
 
-    public void agregarComentario(Comentario comentario) {
-        comentarios.add(comentario);
-    }
 
     /**
      * Método para cambiar el estado e insertar un comentario
