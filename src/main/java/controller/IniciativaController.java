@@ -13,11 +13,7 @@ public class IniciativaController {
      */
     public Iniciativa creaIniciativa() {
 
-        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
-        String descripcionIniciativa = Utilidades.pideString("Introduce la descripción de la iniciativa:");
-        String creadorIniciativa = Utilidades.pideString("Introduce el creador de la iniciativa:");
-
-        Iniciativa iniciativa = new Iniciativa(nombreIniciativa, descripcionIniciativa, creadorIniciativa);
+        Iniciativa iniciativa = menuIniciativaActividad.pideDatosCrearIniciativa();
         return iniciativa;
     }
 
