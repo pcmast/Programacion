@@ -8,26 +8,46 @@ import utils.Utilidades;
 
 
 public class MenuVista {
+    /**
+     * Metodo que muestra un mensaje
+     * @param mensaje la cadena que se muestra.
+     */
     public void muestraMensaje(String mensaje) {
         System.out.println(mensaje);
     }
 
     /**
-     * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
+     * Metodo que muestra un objeto
+     * @param o el objeto que se muestra
+     */
+    public void muestraObjeto(Object o){
+        System.out.println(o);
+    }
+
+    /**
+     * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador.
      * @return el usuario con los datos ya registrados.
      */
     public Usuario pideDatosRegistrarUsuario() {
         String nombre = Utilidades.pideString("Introduce el nombre del usuario");
         String usuario = Utilidades.pideString("Introduce el usuario");
-        String correo = Utilidades.pideString("Introduce el correo");
+
+        String correo;
+        do {
+            correo = Utilidades.pideString("Introduce el correo electrónico");
+            if (!Utilidades.validarCorreo(correo)) {
+                System.out.println("Correo inválido, por favor introduce un correo válido.");
+            }
+        } while (!Utilidades.validarCorreo(correo));
+
         String contrasenna = Utilidades.pideString("Introduce tu contraseña");
         muestraMenuCreadorOVoluntario();
         int opcion = Utilidades.leeEntero("Introduce el tipo de usuario");
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
-                String ong = Utilidades.pideString("Introduce la ong que pertenece");
-                usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
+                String ong = Utilidades.pideString("Introduce la ONG a la que perteneces");
+                usuario1 = new Creador(nombre, usuario, contrasenna, correo, ong);
                 break;
             case 2:
                 usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
