@@ -9,7 +9,7 @@ public class  Actividad {
     private String nombre;
     private String descripcion;
     private LocalDate fechaInicio;
-    private String fechaFin;
+    private LocalDate fechaFin;
     private boolean voluntario;
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
     private String comentario;
@@ -21,7 +21,7 @@ public class  Actividad {
      * Constructor con parámetros (útil para inicializar fácilmente)
      */
     public Actividad(String nombre, String descripcion, LocalDate fechaInicio,
-                     String fechaFin, boolean voluntario, EstadoActividad estado) {
+                     LocalDate fechaFin, boolean voluntario, EstadoActividad estado) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -54,11 +54,11 @@ public class  Actividad {
         this.fechaInicio = fechaInicio;
     }
 
-    public String getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(String fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
