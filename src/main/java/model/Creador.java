@@ -1,7 +1,5 @@
 package model;
 
-import interfaces.InterfazUsuario;
-
 import java.util.ArrayList;
 
 public class Creador extends Usuario {
