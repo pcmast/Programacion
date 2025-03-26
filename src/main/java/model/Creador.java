@@ -1,7 +1,5 @@
 package model;
 
-import interfaces.InterfazUsuario;
-
 import java.util.ArrayList;
 
 public class Creador extends Usuario {
@@ -106,8 +104,5 @@ public class Creador extends Usuario {
     public ArrayList<Iniciativa> verIniciativas(){
         return getList();
     }
-
-
-
 
 }

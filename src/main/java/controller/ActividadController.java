@@ -22,7 +22,7 @@ public class ActividadController {
         String nombreActividad = Utilidades.pideString("Nombre de la actividad:");
         String descripcionActividad = Utilidades.pideString("Descripción de la actividad:");
         LocalDate fechaInicio = Utilidades.pideFecha("Introduce la fecha de inicio (dd/MM/yyyy):");
-        String fechaFin = Utilidades.pideString("Introduce la fecha de fin (dd/MM/yyyy):");
+        LocalDate fechaFin = Utilidades.pideFecha("Introduce la fecha de fin (dd/MM/yyyy):");
         Utilidades.mostrarMensaje("Seleccione el estado de la actividad:\n" +
                 "1. NO INICIADA\n" +
                 "2. EN PROCESO\n" +

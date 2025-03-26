@@ -6,7 +6,7 @@ import java.util.List;
 public class Voluntario extends Usuario{
     private int puntos;
     private ArrayList<Actividad> list = new ArrayList<>();
-    private ArrayList<Actividad> listCompletada = new ArrayList<>();
+
     //Constructor full equip
     public Voluntario(String nombre, String usuario, String contrasenna, String correo) {
         super(nombre, usuario, contrasenna, correo);
@@ -16,14 +16,6 @@ public class Voluntario extends Usuario{
     }
     public int getPuntos() {
         return puntos;
-    }
-
-    public ArrayList<Actividad> getListCompletada() {
-        return listCompletada;
-    }
-
-    public void setListCompletada(ArrayList<Actividad> listCompletada) {
-        this.listCompletada = listCompletada;
     }
 
     public ArrayList<Actividad> getList() {
@@ -42,9 +34,6 @@ public class Voluntario extends Usuario{
         return getList();
     }
 
-    public ArrayList<Actividad> verActividadesCompletadas(){
-        return getListCompletada();
-    }
 
     public boolean unirseActividad(Actividad actividad){
         boolean unido = false;
@@ -59,8 +48,7 @@ public class Voluntario extends Usuario{
         boolean completada = false;
         for (Actividad actividad: list){
             if (actividad.getNombre().equals(nombre)){
-                list.remove(actividad);
-                listCompletada.add(actividad);
+                actividad.setEstado(EstadoActividad.COMPLETADA);
                 completada = true;
                 otorgarPuntos();
             }
@@ -71,7 +59,6 @@ public class Voluntario extends Usuario{
     public ArrayList<Iniciativa> verIniciativas(Creador creador){
         return creador.getList();
     }
-
 
 
     public ArrayList<Actividad> verActividadesDisponibles(Iniciativa iniciativa){

@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class  Actividad {
-
+    //Atributo a la iniciativa el nombre lo pondremos clave
     private String nombre;
     private String descripcion;
     private LocalDate fechaInicio;
-    private String fechaFin;
+    private LocalDate fechaFin;
     private boolean voluntario;
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
-    private List<Comentario> comentarios;
+    private String comentario;
 
     public Actividad() {
     }
@@ -21,7 +21,7 @@ public class  Actividad {
      * Constructor con parámetros (útil para inicializar fácilmente)
      */
     public Actividad(String nombre, String descripcion, LocalDate fechaInicio,
-                     String fechaFin, boolean voluntario, EstadoActividad estado) {
+                     LocalDate fechaFin, boolean voluntario, EstadoActividad estado) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -54,11 +54,11 @@ public class  Actividad {
         this.fechaInicio = fechaInicio;
     }
 
-    public String getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(String fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -80,17 +80,14 @@ public class  Actividad {
         this.estado = estado;
     }
 
-    public void agregarComentario(Comentario comentario) {
-        comentarios.add(comentario);
-    }
 
     /**
      * Método para cambiar el estado e insertar un comentario
      */
-    public void actualizarEstado(EstadoActividad nuevoEstado, String comentario) {
+    public void actualizarEstado(EstadoActividad nuevoEstado, String nuevoComentario) {
         this.estado = nuevoEstado;
-        if (comentario != null && !comentario.trim().isEmpty()) { //Esta línea de comandos hace que el comentario si es vacío, lo detecte como vacío
-            //agregarComentario(new Comentario(comentario, responsable, LocalDate.now()));
+        if (nuevoComentario != null && !nuevoComentario.trim().isEmpty()) {
+            this.comentario = nuevoComentario;
         }
     }
 
