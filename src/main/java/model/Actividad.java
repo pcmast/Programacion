@@ -12,7 +12,7 @@ public class  Actividad {
     private LocalDate fechaFin;
     private boolean voluntario;
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
-    private List<Comentario> comentarios;
+    private String comentario;
 
     public Actividad() {
     }
@@ -75,14 +75,10 @@ public class  Actividad {
     }
 
 
-
     public void setEstado(EstadoActividad estado) {
         this.estado = estado;
     }
 
-    public void agregarComentario(Comentario comentario) {
-        comentarios.add(comentario);
-    }
 
     /**
      * Método para cambiar el estado e insertar un comentario
