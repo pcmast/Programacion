@@ -1,8 +1,8 @@
 package controller;
 
-import model.Actividad;
-import model.EstadoActividad;
+import model.*;
 import utils.Utilidades;
+import view.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,76 +10,44 @@ import java.util.ArrayList;
 public class ActividadController {
 
     /**
-     * Metodo que crea una actividad nueva pidiendo los datos de la actividad
-     *
-     * @return true si la actividad se creó correctamente, false en caso contrario.
+     * Metodo que crea una actividad
+     * @param creador El creador de la actividad
+     * @param iniciativa La iniciativa a la que pertenece la actividad
      */
-    public Actividad creaActividad() {
-
-        boolean actividadCreada = false;
-
-        Utilidades.mostrarMensaje("Ingrese los datos de la actividad:");
-        String nombreActividad = Utilidades.pideString("Nombre de la actividad:");
-        String descripcionActividad = Utilidades.pideString("Descripción de la actividad:");
-        LocalDate fechaInicio = Utilidades.pideFecha("Introduce la fecha de inicio (dd/MM/yyyy):");
-        LocalDate fechaFin = Utilidades.pideFecha("Introduce la fecha de fin (dd/MM/yyyy):");
-        Utilidades.mostrarMensaje("Seleccione el estado de la actividad:\n" +
-                "1. NO INICIADA\n" +
-                "2. EN PROCESO\n" +
-                "3. COMPLETADA");
-        int opcion = Utilidades.leeEntero("Opción:");
-        EstadoActividad estadoActividad = null;
-        switch (opcion) {
-            case 1:
-                estadoActividad = EstadoActividad.NO_INICIADA;
-                break;
-            case 2:
-                estadoActividad = EstadoActividad.EN_PROCESO;
-                break;
-            case 3:
-                estadoActividad = EstadoActividad.COMPLETADA;
-                break;
-        }
-
-        Actividad actividad = new Actividad(nombreActividad, descripcionActividad, fechaInicio, fechaFin, false, estadoActividad);
-        // Llenar los datos de la actividad
-        if (actividad != null) {
-            actividadCreada = true;
-            Utilidades.mostrarMensaje("Actividad creada con éxito");
-        }
-        return actividad;
+    public void creaActividad(Creador creador, Iniciativa iniciativa) {
+        creador.crearActividad(menuIniciativaActividad.pideDatosCrearActividad(),iniciativa.getNombre());
     }
 
     /**
-     * Metodo que primero comprueba que la lista de actividades no este vacia y despues muestra la lista de actividades. De esa lista se introduce el nomnbre
-     * de la actividad que se quiere eliminar y si esta actividad está en la lista de actividades se elimina.
-     *
-     * @return true si la actividad se ha eliminado correctamente, false en caso contrario.
+     * Método que elimina una actividad
+     * @param creador El creador de la actividad
+     * @param actividad La actividad a eliminar
+     * @param iniciativa La iniciativa a la que pertenece la actividad
      *
      */
-    public Actividad eliminaActividad(Actividad actividad) {
-        boolean actividadEliminada = false;
-        Utilidades.mostrarMensaje("Está seguro de eliminar la actividad "+ actividad.getNombre()+ " ?");
-        Utilidades.mostrarMensaje("1. Si");
-        Utilidades.mostrarMensaje("2. No");
-        int opcion = Utilidades.leeEntero("Opción:");
-        switch (opcion) {
-            case 1:
-               actividad = null;
-                break;
-            case 2:
-                Utilidades.mostrarMensaje("Operación cancelada");
-                break;
-        }
-
-        return actividad;
+    public void eliminaActividad(Creador creador,Actividad actividad, Iniciativa iniciativa) {
+        creador.eliminarActividad(actividad.getNombre(), iniciativa.getNombre());
     }
 
+    /**
+     * Método que crea una actividad con los datos modificados y elimina la actividad que se desea modificar
+     * @param creador El creador de la actividad
+     * @param actividad La actividad a modificar
+     * @param iniciativa La iniciativa a la que pertenece la actividad
+     */
+    public void modificaActividad(Creador creador,Actividad actividad, Iniciativa iniciativa) {
+        creaActividad(creador, iniciativa);
+        eliminaActividad(creador, actividad, iniciativa);
+    }
 
-    public Actividad modificaActividad(Actividad actividad) {
-        boolean actividadModificada = false;
-        Actividad actvididadmodificada = creaActividad();
-        return actvididadmodificada;
+    /**
+     * Método que muestra las actividades en las que está inscrito un voluntario
+     * @param voluntario el voluntario del que se quieren ver las actividades a las que está inscrito
+     */
+    public void verActividades(Voluntario voluntario){
+        for(Actividad actividad : voluntario.verActividades() ){
+            System.out.println(actividad);
+        }
     }
 
 

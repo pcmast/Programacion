@@ -2,58 +2,48 @@ package controller;
 
 import model.Actividad;
 import model.Iniciativa;
+import model.Usuario;
+import model.Creador;
 import utils.Utilidades;
 import view.*;
 
 public class IniciativaController {
 
     /**
-     * Método que pide los necesarios al usuario para crear una iniciativa.
-     * @return Iniciativa con los datos introducidos por el usuario.
+     * Método que crea una iniciativa para un creador
+     * @param creador el creador que creará la iniciativa
      */
-    public Iniciativa creaIniciativa() {
-
-        Iniciativa iniciativa = menuIniciativaActividad.pideDatosCrearIniciativa();
-        return iniciativa;
+    public void creaIniciativa(Creador creador) {
+        creador.crearIniciativa(menuIniciativaActividad.pideDatosCrearIniciativa(creador));
     }
 
     /** por corregir
      * Método que elimina una iniciativa. (por ahora solo la deja en null)
      * @param iniciativa la iniciativa que queremos eliminar
-     * @return true si se ha podido eliminar o false si no se ha podido.
      */
-    public boolean eliminaIniciativa(Iniciativa iniciativa) {
-        boolean eliminada = false;
-
-        Utilidades.mostrarMensaje("¿Estás seguro de eliminar la iniciativa '" + iniciativa.getNombre() + "'?");
-        int opcion = Utilidades.leeEntero("1. Sí\n2. No");
-
-        switch (opcion) {
-            case 1:
-                iniciativa = null;
-                eliminada = true;
-                Utilidades.mostrarMensaje("Iniciativa eliminada correctamente.");
-                break;
-
-            case 2:
-                Utilidades.mostrarMensaje("La iniciativa no ha sido eliminada.");
-                break;
-        }
-        return eliminada;
-
+    public void eliminaIniciativa(Creador creador,Iniciativa iniciativa) {
+        creador.eliminarIniciativa(iniciativa.getNombre(),creador.getNombre());
     }
 
     /**
-     * Método que modifica la iniciativa pidiendo que se introduzcan los datos de la iniciativa.
+     * Método que modifica una iniciativa pidiendo al usuario que cree una nueva con los datos actualizados y eliminando la anterior
+     * @param creador el creador que modificará la iniciativa y creará la iniciativa nueva
      * @param iniciativa la iniciativa que queremos modificar
-     * @return true si se ha podido modificar o false si no se ha podido.
      */
-    public boolean modificarIniciativa(Iniciativa iniciativa){
-        boolean modificada = false;
-        Iniciativa iniciativaModificada = creaIniciativa();
-        iniciativa = iniciativaModificada;
-        modificada = true;
-        return modificada;
+    public void modificarIniciativa(Creador creador,Iniciativa iniciativa){
+        creaIniciativa(creador);
+        eliminaIniciativa(creador, iniciativa);
     }
+
+    /**
+     * Método que muestra todas las iniciativas de un creador
+     * @param creador el creador que queremos mostrar las iniciativas
+     */
+    public void muestraIniciativas(Creador creador) {
+        Utilidades.mostrarMensaje("Iniciativas de " + creador.getNombre() + ":" );
+        creador.verIniciativas();
+    }
+
+
 
 }
