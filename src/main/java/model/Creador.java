@@ -8,8 +8,9 @@ public class Creador extends Usuario {
     private String ongPertenece;
     private ArrayList<Iniciativa> list = new ArrayList<>();
 
-    public Creador(String nombre, String usuario, String contrasenna, String correo) {
+    public Creador(String nombre, String usuario, String contrasenna, String correo,String ong) {
         super(nombre, usuario, contrasenna, correo);
+        this.ongPertenece = ong;
     }
 
 
