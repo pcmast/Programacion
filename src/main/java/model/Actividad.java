@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class Actividad {
 
@@ -91,6 +92,18 @@ public class Actividad {
         if (comentario != null && !comentario.trim().isEmpty()) { //Esta línea de comandos hace que el comentario si es vacío, lo detecte como vacío
             //agregarComentario(new Comentario(comentario, responsable, LocalDate.now()));
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Actividad actividad = (Actividad) o;
+        return Objects.equals(nombre, actividad.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(nombre);
     }
 
     @Override
