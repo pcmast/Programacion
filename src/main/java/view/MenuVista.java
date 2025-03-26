@@ -12,13 +12,21 @@ public class MenuVista {
     }
 
     /**
-     * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
+     * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador.
      * @return el usuario con los datos ya registrados.
      */
     public Usuario pideDatosRegistrarUsuario() {
         String nombre = Utilidades.pideString("Introduce el nombre del usuario");
         String usuario = Utilidades.pideString("Introduce el usuario");
-        String correo = Utilidades.pideString("Introduce el correo");
+
+        String correo;
+        do {
+            correo = Utilidades.pideString("Introduce el correo electrónico");
+            if (!Utilidades.validarCorreo(correo)) {
+                System.out.println("Correo inválido, por favor introduce un correo válido.");
+            }
+        } while (!Utilidades.validarCorreo(correo));
+
         String contrasenna = Utilidades.pideString("Introduce tu contraseña");
         muestraMenuCreadorOVoluntario();
         int opcion = Utilidades.leeEntero("Introduce el tipo de usuario");
@@ -55,26 +63,27 @@ public class MenuVista {
     }
 
     /**
-     * Menu de los usuarios creadores.
+     * Menu de los usuarios creadores que muestra sus opciones.
      */
     public void menuCreador() {
         System.out.println("1. Crear iniciativa\n" +
-                "2.Crear tareas de una iniciativa\n" +
+                "2. Crear tareas de una iniciativa\n" +
                 "3. Agregar colaboradores a una iniciativa\n" +
                 "4. Ver iniciativas creadas\n" +
                 "5. Ver iniciativas y actividades del usuario\n" +
-                "6. Cerrar sesion");
+                "6. Ver ONG a la que pertenezco\n" +
+                "7. Cerrar sesión");
     }
 
-
     /**
-     * Menu de los usuarios voluntarios.
+     * Menu de los usuarios voluntarios que muestra sus opciones
      */
     public void menuVoluntarios() {
         System.out.println("1. Ver tareas asignadas\n" +
                 "2. Cambiar estado actividad\n" +
                 "3. Ver iniciativas y actividades del usuario\n" +
-                "4. Cerrar sesion");
+                "4. Ver mis puntos acumulados\n" +
+                "5. Cerras sesión");
     }
 
 }
