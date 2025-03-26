@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class  Actividad {
-    //Atributo a la iniciativa el nombre lo pondremos clave
+
     private String nombre;
     private String descripcion;
     private LocalDate fechaInicio;
@@ -73,7 +73,6 @@ public class  Actividad {
     public EstadoActividad getEstado() {
         return estado;
     }
-
 
 
     public void setEstado(EstadoActividad estado) {
