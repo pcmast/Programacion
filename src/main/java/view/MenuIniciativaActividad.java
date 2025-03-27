@@ -38,8 +38,10 @@ public class MenuIniciativaActividad {
         LocalDate fechaInicio = Utilidades.pideFecha("Introduce la fecha de inicio de la actividad");
         LocalDate fechaFin = Utilidades.pideFecha("Introduce la fecha de fin de la activiad");
         boolean voluntario = false;
+        String iniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que pertenece");
         EstadoActividad estado = EstadoActividad.valueOf(Utilidades.pideString("Introduce el estado de la actividad (NO_INICIADA, EN_PROCESO, COMPLETADA)"));
 
+        Actividad actividadNueva = new Actividad(nombre, descripcion, fechaInicio, fechaFin, voluntario, estado,iniciativa);
 
         return actividadNueva;
     }
