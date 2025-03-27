@@ -24,6 +24,11 @@ public class Usuario {
     //Constructor vacío
     public Usuario() {
     }
+
+    public Usuario(String nombre,String contrasenna){
+        this.nombre = nombre;
+        this.contrasenna = hashPassword(contrasenna); // Se almacena el hash;
+    }
     public Usuario(String nombre, String usuario, String contrasenna, String correo) {
         this.nombre = nombre;
         this.usuario = usuario;

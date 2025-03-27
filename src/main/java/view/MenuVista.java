@@ -71,10 +71,17 @@ public class MenuVista {
     /**
      * Menu que pide los datos en caso de inicio de sesion.
      */
-    public static void pideDatosInicioSesion() {
+    public static Usuario pideDatosInicioSesion() {
         String usuario = Utilidades.pideString("Introduce el usuario");
         String contrasenna = Utilidades.pideString("Introduce la contraseña");
-
+        Usuario usuario1 = new Usuario(usuario, contrasenna);
+        boolean contraseñaValida = usuario1.verificarContrasenna(contrasenna);
+        if (contraseñaValida){
+            Utilidades.mostrarMensaje("Sesión iniciada correctamente");
+        }else {
+            Utilidades.mostrarMensaje("Contraseña incorrecta, vuelve a intentarlo");
+        }
+    return usuario1;
     }
 
     /**
