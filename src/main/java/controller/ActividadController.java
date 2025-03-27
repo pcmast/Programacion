@@ -11,43 +11,71 @@ public class ActividadController {
 
     private UsuarioActualController usuarioActualController = new UsuarioActualController();
     /**
-     * Metodo que crea una actividad
+     * Metodo que crea una actividad nueva y la añade a la lista de actividades del usuario actual
      *
      */
     public void creaActividad() {
-        Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
-        Uti
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+        Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
+        boolean creado = creador.crearActividad(actividad, actividad.getIniciativa());
+        if (creado){
+            MenuVista.muestraMensaje("Se ha creado correctamente");
+        }else {
+            MenuVista.muestraMensaje("No se ha podido crear la actividad");
+        }
     }
 
     /**
-     * Método que elimina una actividad
-     * @param creador El creador de la actividad
-     * @param actividad La actividad a eliminar
-     * @param iniciativa La iniciativa a la que pertenece la actividad
+     * Método que elimina una actividad de la lista de actividades del usuario actual
      *
      */
-    public void eliminaActividad(Creador creador,Actividad actividad, Iniciativa iniciativa) {
-        creador.eliminarActividad(actividad.getNombre(), iniciativa.getNombre());
+    public void eliminaActividad() {
+        boolean eliminado = false;
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+        String nombre = Utilidades.pideString("Introduce el nombre de la actividad");
+        for (Iniciativa iniciativa:creador.verIniciativas()){
+            for (Actividad actividad:iniciativa.getList()){
+                if (actividad.getNombre().equals(nombre)){
+                    eliminado = actividad.eliminarList(nombre);
+                    break;
+                }
+            }
+        }
+        if (eliminado){
+            MenuVista.muestraMensaje("Se ha eliminado correctamente");
+        }else {
+            MenuVista.muestraMensaje("No se ha podido eliminar la actividad");
+        }
     }
 
     /**
-     * Método que crea una actividad con los datos modificados y elimina la actividad que se desea modificar
-     * @param creador El creador de la actividad
-     * @param actividad La actividad a modificar
-     * @param iniciativa La iniciativa a la que pertenece la actividad
+     * Método que modifica una actividad de la lista de actividades del usuario actual
      */
-    public void modificaActividad(Creador creador,Actividad actividad, Iniciativa iniciativa) {
-        creaActividad(creador, iniciativa);
-        eliminaActividad(creador, actividad, iniciativa);
+    public void modificaActividad() {
+        boolean actualizado = false;
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+        ArrayList<Iniciativa> list = creador.verIniciativas();
+        Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
+        for (Iniciativa iniciativa:list){
+            actualizado=iniciativa.modificar(actividad);
+
+        }
+        if (actualizado){
+            MenuVista.muestraMensaje("Se ha podido modificar correctamente");
+        }else {
+            MenuVista.muestraMensaje("No se ha podido modificar no existe la iniciativa");
+        }
     }
 
     /**
      * Método que muestra las actividades en las que está inscrito un voluntario
-     * @param voluntario el voluntario del que se quieren ver las actividades a las que está inscrito
      */
-    public void verActividades(Voluntario voluntario){
-        for(Actividad actividad : voluntario.verActividades() ){
-            System.out.println(actividad);
+    public void verActividades(){
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+        for (Iniciativa iniciativa:creador.verIniciativas()){
+            for (Actividad actividad: iniciativa.obtenerTodos()){
+                Utilidades.mostrarMensaje(actividad.getNombre());
+            }
         }
     }
 
