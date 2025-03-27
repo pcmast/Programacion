@@ -1,12 +1,24 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement(name = "Voluntarios")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Voluntario extends Usuario{
+    @XmlElement
     private int puntos;
+    @XmlElement(name = "actividad", type = Actividad.class)
     private ArrayList<Actividad> list = new ArrayList<>();
+    @XmlElement(name = "premio", type = Premio.class)
     private ArrayList<Premio> premiosObtenidos = new ArrayList<>();
+
+    //Constructor vacío
+    public Voluntario() {}
 
     ///Constructor full equip
     public Voluntario(String nombre, String usuario, String contrasenna, String correo) {
