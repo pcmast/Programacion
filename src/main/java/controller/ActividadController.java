@@ -9,13 +9,14 @@ import java.util.ArrayList;
 
 public class ActividadController {
 
+    private UsuarioActualController usuarioActualController = new UsuarioActualController();
     /**
      * Metodo que crea una actividad
-     * @param creador El creador de la actividad
-     * @param iniciativa La iniciativa a la que pertenece la actividad
+     *
      */
-    public void creaActividad(Creador creador, Iniciativa iniciativa) {
-        creador.crearActividad(MenuIniciativaActividad.pideDatosCrearActividad(),iniciativa.getNombre());
+    public void creaActividad() {
+        Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
+        Uti
     }
 
     /**

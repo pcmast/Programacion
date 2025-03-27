@@ -13,7 +13,14 @@ public class UsuarioController {
      * Método que muestra en pantalla el menú de registro de usuario y crea el usuario con los datos del registro.
      */
     public void registrarUsuario() {
-        MenuVista.pideDatosRegistrarUsuario();
+        Usuario usuarioNuevo=MenuVista.pideDatosRegistrarUsuario();
+        if(list.contains(usuarioNuevo)){
+            Utilidades.mostrarMensaje("El usuario ya existe");
+        }else if(list.add(usuarioNuevo)){
+            Utilidades.mostrarMensaje("El usuario se ha registrado correctamente");
+        }else {
+            Utilidades.mostrarMensaje("El usuario no ha sido registrado.");
+        }
 
     }
 
