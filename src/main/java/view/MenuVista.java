@@ -8,7 +8,7 @@ import utils.Utilidades;
 
 
 public class MenuVista {
-    public void muestraMensaje(String mensaje) {
+    public static void muestraMensaje(String mensaje) {
         System.out.println(mensaje);
     }
 
@@ -16,7 +16,7 @@ public class MenuVista {
      * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
      * @return el usuario con los datos ya registrados.
      */
-    public Usuario pideDatosRegistrarUsuario() {
+    public static Usuario pideDatosRegistrarUsuario() {
         String nombre = Utilidades.pideString("Introduce el nombre del usuario");
         String usuario = Utilidades.pideString("Introduce el usuario");
         String correo = Utilidades.pideString("Introduce el correo");
@@ -41,15 +41,16 @@ public class MenuVista {
     /**
      * Menu que pide los datos en caso de inicio de sesion.
      */
-    public void pideDatosInicioSesion() {
+    public static void pideDatosInicioSesion() {
         String usuario = Utilidades.pideString("Introduce el usuario");
         String contrasenna = Utilidades.pideString("Introduce la contraseña");
+
     }
 
     /**
      * Menu para seleccionar el tipo de usuario.
      */
-    public void muestraMenuCreadorOVoluntario() {
+    public static void muestraMenuCreadorOVoluntario() {
         System.out.println("Elige el tipo de usuario");
         muestraMensaje("1. Creador");
         muestraMensaje("2. Voluntario");
@@ -59,7 +60,7 @@ public class MenuVista {
     /**
      * Menu de los usuarios creadores.
      */
-    public void menuCreador() {
+    public static void menuCreador() {
         System.out.println("1. Crear iniciativa\n" +
                 "2.Crear tareas de una iniciativa\n" +
                 "3. Agregar colaboradores a una iniciativa\n" +
@@ -68,11 +69,10 @@ public class MenuVista {
                 "6. Cerrar sesion");
     }
 
-
     /**
      * Menu de los usuarios voluntarios.
      */
-    public void menuVoluntarios() {
+    public static void menuVoluntarios() {
         System.out.println("1. Ver tareas asignadas\n" +
                 "2. Cambiar estado actividad\n" +
                 "3. Ver iniciativas y actividades del usuario\n" +
