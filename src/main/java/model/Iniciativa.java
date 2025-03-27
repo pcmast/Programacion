@@ -130,8 +130,11 @@ public class Iniciativa implements CRUDGenerico {
      * Metodo que devuelve una copia de la lista de actividades
      * @return devuelve la copia de la lista
      */
-    public List obtenerTodos() {
+    public ArrayList<Actividad> obtenerTodos() {
         return getList();
     }
+
+
+
 
 }

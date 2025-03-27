@@ -90,12 +90,12 @@ public class Voluntario extends Usuario{
     }
 
     public ArrayList<Iniciativa> verIniciativas(Creador creador){
-        return creador.getList();
+        return creador.verIniciativas();
     }
 
 
     public ArrayList<Actividad> verActividadesDisponibles(Iniciativa iniciativa){
-        return iniciativa.getList();
+        return iniciativa.obtenerTodos();
     }
 
     public ArrayList<Premio> verPremiosObtenidos() {
