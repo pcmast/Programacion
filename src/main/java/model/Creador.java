@@ -1,6 +1,6 @@
 package model;
 
-import interfaces.InterfazUsuario;
+import dataAcces.XMLManager;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,7 @@ public class Creador extends Usuario {
     public Creador(String nombre, String usuario, String contrasenna, String correo,String ong) {
         super(nombre, usuario, contrasenna, correo);
         this.ongPertenece = ong;
+
     }
 
     public String getOngPertenece() {
@@ -106,8 +107,5 @@ public class Creador extends Usuario {
     public ArrayList<Iniciativa> verIniciativas(){
         return getList();
     }
-
-
-
 
 }
