@@ -40,7 +40,6 @@ public class MenuIniciativaActividad {
         boolean voluntario = false;
         EstadoActividad estado = EstadoActividad.valueOf(Utilidades.pideString("Introduce el estado de la actividad (NO_INICIADA, EN_PROCESO, COMPLETADA)"));
 
-        Actividad actividadNueva = new Actividad(nombre, descripcion, fechaInicio, fechaFin, voluntario, estado);
 
         return actividadNueva;
     }
