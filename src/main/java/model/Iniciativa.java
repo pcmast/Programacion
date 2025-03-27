@@ -24,7 +24,7 @@ public class Iniciativa implements CRUDGenerico {
 
     public Iniciativa() {}
 
-    //Constructor full equip
+    // Constructor con todos los parámetros
     public Iniciativa(String nombre, String descripcion, String creadorIniciativa) {
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -76,71 +76,55 @@ public class Iniciativa implements CRUDGenerico {
     }
 
     /**
-     * Metodo que añade un objeto si no lo contiene a una lista
-     * @param o el objeto que se va a añadir
-     * @return devuelve true si se pudo añadir o false si no pudo
+     * Método que añade un objeto si no lo contiene a una lista.
+     * @param o el objeto que se va a añadir.
+     * @return true si se pudo añadir, false en caso contrario.
      */
     public boolean annadirList(Object o) {
-        boolean annadido = false;
-        if (!list.contains(o)){
+        if (!list.contains(o)) {
             list.add((Actividad) o);
-            annadido = true;
+            return true;
         }
-
-        return annadido;
+        return false;
     }
 
     /**
-     * Metodo que elimina un objeto por su nombre
-     * @param nombre El nombre de ese objeto
-     * @return devuelve true si se pudo eliminar y false si no pudo
+     * Método que elimina un objeto por su nombre.
+     * @param nombre El nombre de ese objeto.
+     * @return true si se pudo eliminar, false en caso contrario.
      */
     public boolean eliminarList(String nombre) {
-        boolean eliminado = false;
-
-        for (Actividad actividad:list){
-            if (actividad.getNombre().equals(nombre)){
-                list.remove(actividad);
-                eliminado = true;
-            }
-        }
-        return eliminado;
+        return list.removeIf(actividad -> actividad.getNombre().equals(nombre));
     }
 
     /**
-     * Metodo que modifica un objeto pasado como parametro elimina el objeto anterior añadiendo el nuevo
-     * @param o objeto que se modificara
-     * @return devuelve true si se pudo modificar y false si no pudo
+     * Método que modifica un objeto en la lista.
+     * Elimina el objeto anterior y añade el nuevo.
+     * @param o objeto que se modificará.
+     * @return true si se pudo modificar, false en caso contrario.
      */
     public boolean modificar(Object o) {
-        boolean actualizado = false;
-
-        for (Actividad actividad:list){
-            if (actividad.equals(o)){
-                list.remove(actividad);
-                list.add((Actividad) o);
-                actualizado = true;
-            }
-
+        if (list.contains(o)) {
+            list.remove(o);
+            list.add((Actividad) o);
+            return true;
         }
-        return actualizado;
+        return false;
     }
 
     /**
-     * Metodo que devuelve una copia de la lista de actividades
-     * @return devuelve la copia de la lista
+     * Método que devuelve una copia de la lista de actividades.
+     * @return una copia de la lista de actividades.
      */
     public ArrayList<Actividad> obtenerTodos() {
-        return getList();
+        return new ArrayList<>(list);
     }
-
 
     @Override
     public String toString() {
         return "Iniciativa" +
                 "nombre= " + nombre + '\n' +
-                "descripcion=" + descripcion + '\n' +
+                "descripcion= " + descripcion + '\n' +
                 "creadorIniciativa= " + creadorIniciativa;
     }
-
 }

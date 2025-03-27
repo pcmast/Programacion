@@ -2,21 +2,36 @@ package model;
 
 import interfaces.CRUDGenerico;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlRootElement(name = "Actividades")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class  Actividad implements CRUDGenerico {
 
+    @XmlElement
     private String nombre;
+    @XmlElement
     private String descripcion;
+    @XmlElement
     private LocalDate fechaInicio;
+    @XmlElement
     private LocalDate fechaFin;
+    @XmlElement
     private boolean voluntario;
+    @XmlElement
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
+    @XmlElement
     private String comentario;
+    @XmlElement
     private String iniciativa;
+    @XmlElement(name = "usuario", type = Usuario.class)
     private ArrayList<Usuario> list = new ArrayList<>();
 
 
