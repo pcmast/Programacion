@@ -12,17 +12,44 @@ public class MenuVista {
         System.out.println(mensaje);
     }
 
+    public void mostrarMenuPrincipal() {
+        while (true) {
+            System.out.println("\n--------Sistema de Gestión de Voluntariado--------");
+            System.out.println("1. Iniciar Sesión");
+            System.out.println("2. Registrarse");
+            System.out.println("3. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = Utilidades.sc.nextInt();
+            Utilidades.sc.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    pideDatosInicioSesion();
+                    break;
+                case 2:
+                    pideDatosRegistrarUsuario();
+                    break;
+                case 3:
+                    System.out.println("¡Gracias por usar el sistema!");
+                    return;
+                default:
+                    System.out.println("Opción no válida");
+            }
+        }
+    }
+
     /**
      * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
      * @return el usuario con los datos ya registrados.
      */
     public Usuario pideDatosRegistrarUsuario() {
-        String nombre = Utilidades.pideString("Introduce el nombre del usuario");
-        String usuario = Utilidades.pideString("Introduce el usuario");
-        String correo = Utilidades.pideString("Introduce el correo");
-        String contrasenna = Utilidades.pideString("Introduce tu contraseña");
+        String nombre = Utilidades.pideString("Introduce el nombre del usuario: ");
+        String usuario = Utilidades.pideString("Introduce el usuario: ");
+        String correo = Utilidades.pideString("Introduce el correo: ");
+        String contrasenna = Utilidades.pideString("Introduce tu contraseña: ");
         muestraMenuCreadorOVoluntario();
-        int opcion = Utilidades.leeEntero("Introduce el tipo de usuario");
+        int opcion = Utilidades.leeEntero("Introduce el tipo de usuario: ");
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
@@ -42,8 +69,8 @@ public class MenuVista {
      * Menu que pide los datos en caso de inicio de sesion.
      */
     public void pideDatosInicioSesion() {
-        String usuario = Utilidades.pideString("Introduce el usuario");
-        String contrasenna = Utilidades.pideString("Introduce la contraseña");
+        String usuario = Utilidades.pideString("Introduce el usuario: ");
+        String contrasenna = Utilidades.pideString("Introduce la contraseña: ");
     }
 
     /**

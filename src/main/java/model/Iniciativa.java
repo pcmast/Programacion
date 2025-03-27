@@ -2,16 +2,27 @@ package model;
 
 import interfaces.CRUDGenerico;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlRootElement(name = "Iniciativas")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Iniciativa implements CRUDGenerico {
-
+    @XmlElement
     private String nombre;
+    @XmlElement
     private String descripcion;
+    @XmlElement
     private String creadorIniciativa;
+    @XmlElement(name = "iniciativa", type = Iniciativa.class)
     private ArrayList<Actividad> list = new ArrayList<>();
+
+    public Iniciativa() {}
 
     //Constructor full equip
     public Iniciativa(String nombre, String descripcion, String creadorIniciativa) {

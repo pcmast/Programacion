@@ -1,10 +1,21 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
+@XmlRootElement(name = "Iniciativas")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Creador extends Usuario {
+    @XmlElement
     private String ongPertenece;
+    @XmlElement(name = "iniciativa", type = Iniciativa.class)
     private ArrayList<Iniciativa> list = new ArrayList<>();
+
+    //Constructor vacío
+    public Creador() {}
 
     public Creador(String nombre, String usuario, String contrasenna, String correo,String ong) {
         super(nombre, usuario, contrasenna, correo);
