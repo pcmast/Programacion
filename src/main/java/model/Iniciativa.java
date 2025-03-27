@@ -135,6 +135,12 @@ public class Iniciativa implements CRUDGenerico {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Iniciativa" +
+                "nombre= " + nombre + '\n' +
+                "descripcion=" + descripcion + '\n' +
+                "creadorIniciativa= " + creadorIniciativa;
+    }
 
 }

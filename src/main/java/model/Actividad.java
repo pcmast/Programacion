@@ -1,10 +1,13 @@
 package model;
 
+import interfaces.CRUDGenerico;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class  Actividad {
+public class  Actividad implements CRUDGenerico {
 
     private String nombre;
     private String descripcion;
@@ -13,6 +16,9 @@ public class  Actividad {
     private boolean voluntario;
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
     private String comentario;
+    private String iniciativa;
+    private ArrayList<Usuario> list = new ArrayList<>();
+
 
     public Actividad() {
     }
@@ -21,13 +27,14 @@ public class  Actividad {
      * Constructor con parámetros (útil para inicializar fácilmente)
      */
     public Actividad(String nombre, String descripcion, LocalDate fechaInicio,
-                     LocalDate fechaFin, boolean voluntario, EstadoActividad estado) {
+                     LocalDate fechaFin, boolean voluntario, EstadoActividad estado,String iniciativa) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.voluntario = voluntario;
         this.estado = estado;
+        this.iniciativa = iniciativa;
     }
 
     public String getNombre() {
@@ -70,10 +77,25 @@ public class  Actividad {
         this.voluntario = voluntario;
     }
 
+    public String getIniciativa() {
+        return iniciativa;
+    }
+
+    public void setIniciativa(String iniciativa) {
+        this.iniciativa = iniciativa;
+    }
+
     public EstadoActividad getEstado() {
         return estado;
     }
 
+    public ArrayList<Usuario> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<Usuario> list) {
+        this.list = list;
+    }
 
     public void setEstado(EstadoActividad estado) {
         this.estado = estado;
@@ -100,6 +122,51 @@ public class  Actividad {
     @Override
     public int hashCode() {
         return Objects.hashCode(nombre);
+    }
+
+
+
+    @Override
+    public boolean annadirList(Object o) {
+        boolean annadido = false;
+        if (!list.contains(o)){
+            list.add((Usuario) o);
+            annadido = true;
+        }
+
+        return annadido;
+
+    }
+
+    @Override
+    public boolean eliminarList(String cadena) {
+        boolean eliminado = false;
+        for (Usuario usuario:list){
+            if (usuario.getNombre().equals(nombre)){
+                list.remove(usuario);
+                eliminado = true;
+            }
+        }
+        return eliminado;
+    }
+
+    @Override
+    public boolean modificar(Object o) {
+        boolean actualizado = false;
+        for (Usuario usuario:list){
+            if (usuario.equals(o)){
+                list.remove(usuario);
+                list.add((Usuario) o);
+                actualizado = true;
+            }
+
+        }
+        return actualizado;
+    }
+
+    @Override
+    public List obtenerTodos() {
+        return getList();
     }
 
     @Override
