@@ -15,7 +15,7 @@ public class ActividadController {
      * @param iniciativa La iniciativa a la que pertenece la actividad
      */
     public void creaActividad(Creador creador, Iniciativa iniciativa) {
-        creador.crearActividad(menuIniciativaActividad.pideDatosCrearActividad(),iniciativa.getNombre());
+        creador.crearActividad(MenuIniciativaActividad.pideDatosCrearActividad(),iniciativa.getNombre());
     }
 
     /**
@@ -52,4 +52,3 @@ public class ActividadController {
 
 
 }
-
