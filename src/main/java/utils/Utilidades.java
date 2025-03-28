@@ -1,5 +1,7 @@
 package utils;
 
+import view.MenuVista;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -87,22 +89,13 @@ public class Utilidades {
     }
 
     /**
-     * Muestra un mensaje en consola.
-     *
-     * @param mensaje : el mensaje a mostrar.
-     */
-    public static void mostrarMensaje(String mensaje) {
-        System.out.println(mensaje);
-    }
-
-    /**
      * Pide una cadena de texto al usuario.
      *
      * @param msn : el mensaje que se muestra al usuario.
      * @return la cadena introducida por el usuario.
      */
     public static String pideString(String msn) {
-        mostrarMensaje(msn);
+        MenuVista.muestraMensaje(msn);
         String cadena = null;
         cadena = sc.next(); // Lee una palabra
         sc.nextLine(); // Consume el salto de línea pendiente
@@ -111,6 +104,7 @@ public class Utilidades {
 
     /**
      * Pide al usuario que introduzca una fecha por texto con el siguiente formato: (dd/MM/yyyy)
+     *
      * @param msn mensaje que vamos a mostrar al usuario
      * @return fecha introducida por el usuario en formato LocalDate, o null si no se ha introducido una fecha correcta.
      */
@@ -120,17 +114,17 @@ public class Utilidades {
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         while (!fechaCorrecta) {
-            mostrarMensaje(msn);
+            MenuVista.muestraMensaje(msn);
             String fechaString = sc.nextLine();
 
             try {
                 fecha = LocalDate.parse(fechaString, formatoFecha);
                 fechaCorrecta = true;
-                mostrarMensaje("fecha introducida: "+fecha);
+                MenuVista.muestraMensaje("fecha introducida: " + fecha);
             } catch (DateTimeParseException e) {
-                mostrarMensaje("Formato de fecha incorrecto. Debe ser dd/MM/yyyy");
+                MenuVista.muestraMensaje("Formato de fecha incorrecto. Debe ser dd/MM/yyyy");
             }
         }
-    return fecha;
+        return fecha;
     }
 }

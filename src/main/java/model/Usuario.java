@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.Objects;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Usuario {
@@ -72,4 +74,6 @@ public class Usuario {
         return BCrypt.hashpw(password, BCrypt.gensalt(12)); // Esto de las rondas es la cantidad de veces que BCrypt
                                                                         // va a repetir el proceso de cifrado interno
     }
+
+
 }
