@@ -1,5 +1,6 @@
 package controller;
 
+import dataAcces.XMLManager;
 import exceptions.AutenticacionException;
 import model.Usuario;
 import utils.Utilidades;
@@ -7,26 +8,34 @@ import view.MenuVista;
 
 import java.util.ArrayList;
 
-import static view.MenuVista.menuCreador;
-import static view.MenuVista.menuVoluntarios;
-
 public class UsuarioController {
     private ArrayList<Usuario> list = new ArrayList<>();
 
     /**
-     * Método que muestra en pantalla el menú de registro de usuario,crea el usuario con los datos del registro y lo añade a la lista de usuarios registrados.
+     * Registra un nuevo usuario en la lista y persiste la lista actualizada en un archivo XML.
+     *
+     * @param usuarioNuevo Objeto Usuario que se desea registrar.
      */
     public void registrarUsuario(Usuario usuarioNuevo) {
-
         if (list.contains(usuarioNuevo)) {
-            MenuVista.muestraMensaje("El usuario ya existe");
+            MenuVista.muestraMensaje("¡El usuario ya existe!");
         } else if (list.add(usuarioNuevo)) {
-            MenuVista.muestraMensaje("El usuario se ha registrado correctamente");
+            MenuVista.muestraMensaje(">> ✅ ¡El usuario se ha registrado correctamente!");
+            try {
+                boolean exito = XMLManager.writeXML(list, "usuarios.xml");
+                if (exito) {
+                    MenuVista.muestraMensaje(">> ✅ Datos guardados correctamente en XML");
+                } else {
+                    MenuVista.muestraMensaje(">> ❌ Ocurrió un error al guardar los datos en XML.");
+                }
+            } catch (RuntimeException e) {
+                MenuVista.muestraMensaje("❌ ¡Error al guardar en XML: " + e.getMessage()+ "!");
+            }
         } else {
-            MenuVista.muestraMensaje("El usuario no ha sido registrado.");
+            MenuVista.muestraMensaje(">> ❌ ¡El usuario no ha sido registrado!");
         }
-
     }
+
 
     /**
      * * Método que muestra en pantalla el menú de inicio de sesión, y comprueba si
