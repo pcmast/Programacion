@@ -12,51 +12,58 @@ public class MenuVista {
         System.out.println(mensaje);
     }
 
+    public static void mostrarMenu(){
+        System.out.println("\n--------Sistema de Gestión de Voluntariado--------");
+        System.out.println("1. Iniciar Sesión");
+        System.out.println("2. Registrarse");
+        System.out.println("3. Salir");
+        System.out.print("Seleccione una opción: ");
+    }
+
+
     /**
      * Menú de inicio que pide al usuario lo que quiere hacer
      */
-    public void mostrarMenuPrincipal() {
-        while (true) {
-            System.out.println("\n--------Sistema de Gestión de Voluntariado--------");
-            System.out.println("1. Iniciar Sesión");
-            System.out.println("2. Registrarse");
-            System.out.println("3. Salir");
-            System.out.print("Seleccione una opción: ");
+    public static Usuario mostrarMenuPrincipal(int opcion) {
+        Usuario usuario = null;
+        boolean registro = false;
 
-            int opcion = Utilidades.sc.nextInt();
-            Utilidades.sc.nextLine();
+        while (!registro) {
 
             switch (opcion) {
                 case 1:
                     pideDatosInicioSesion();
+                    registro = true;
                     break;
                 case 2:
-                    pideDatosRegistrarUsuario();
+                    usuario = pideDatosRegistrarUsuario(opcion);
+                    registro = true;
                     break;
                 case 3:
                     System.out.println("¡Gracias por usar el sistema!");
-                    return;
+                    break;
                 default:
                     System.out.println("Opción no válida");
+                    opcion = Utilidades.leeEntero("Introduce de nuevo");
             }
         }
+        return usuario;
     }
 
     /**
      * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
      * @return el usuario con los datos ya registrados.
      */
-    public static Usuario pideDatosRegistrarUsuario() {
-        String nombre = Utilidades.pideString("Introduce el nombre del usuario");
-        String usuario = Utilidades.pideString("Introduce el usuario");
-        String correo = Utilidades.pideString("Introduce el correo");
-        String contrasenna = Utilidades.pideString("Introduce tu contraseña");
-        muestraMenuCreadorOVoluntario();
-        int opcion = Utilidades.leeEntero("Introduce el tipo de usuario");
+    public static Usuario pideDatosRegistrarUsuario(int opcion) {
+        String nombre = Utilidades.pideString("Introduce el nombre del usuario: ");
+        String usuario = Utilidades.pideString("Introduce el usuario: ");
+        String correo = Utilidades.pideString("Introduce el correo: ");
+        String contrasenna = Utilidades.pideString("Introduce tu contraseña: ");
+
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
-                String ong = Utilidades.pideString("Introduce la ong que pertenece");
+                String ong = Utilidades.pideString("Introduce la ong que pertenece: ");
                 usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
                 break;
             case 2:
@@ -72,8 +79,8 @@ public class MenuVista {
      * Menu que pide los datos en caso de inicio de sesion.
      */
     public static void pideDatosInicioSesion() {
-        String usuario = Utilidades.pideString("Introduce el usuario");
-        String contrasenna = Utilidades.pideString("Introduce la contraseña");
+        String usuario = Utilidades.pideString("Introduce el usuario: ");
+        String contrasenna = Utilidades.pideString("Introduce la contraseña: ");
 
     }
 
@@ -81,10 +88,9 @@ public class MenuVista {
      * Menu para seleccionar el tipo de usuario.
      */
     public static void muestraMenuCreadorOVoluntario() {
-        System.out.println("Elige el tipo de usuario");
+        System.out.println("Elige el tipo de usuario: ");
         muestraMensaje("1. Creador");
         muestraMensaje("2. Voluntario");
-
     }
 
     /**

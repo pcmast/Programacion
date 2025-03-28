@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.util.Objects;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Usuario {
@@ -124,4 +126,6 @@ public class Usuario {
     private String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt(12)); // Rondas de cifrado
     }
+
+
 }
