@@ -1,5 +1,6 @@
 package utils;
 
+import exceptions.ValidacionException;
 import view.MenuVista;
 
 import java.time.LocalDate;
@@ -61,18 +62,27 @@ public class Utilidades {
     }
 
     /**
-     * Valida un correo electrónico asegurándose de que tenga el formato estándar:
-     * - Parte local (antes del '@') con letras, números y ciertos caracteres especiales.
-     * - Parte del dominio (después del '@') con letras, números, guiones y al menos un punto.
-     * - Extensión del dominio de 2 a 7 caracteres alfabéticos.
+     * Valida un correo electrónico asegurándose de que tenga el formato estándar.
      *
      * @param correo El correo a validar.
-     * @return true si el correo es válido, false si no lo es.
+     * @return true si el correo es válido, false en caso contrario.
      */
     public static boolean validarCorreo(String correo) {
-        // Expresión regular que valida el formato del correo electrónico.
-        return correo.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        boolean correoValido = false;
+        try {
+            if (!correo.matches(regex)) {
+                throw new ValidacionException("El correo proporcionado (" + correo + ") no tiene un formato válido.");
+            }
+            correoValido = true;
+            return correoValido;
+        } catch (ValidacionException e) {
+            // Se captura la excepción y se muestra el mensaje de error
+            System.out.println("Error de validación: " + e.getMessage());
+            return correoValido;
+        }
     }
+
 
     /**
      * Valida un número de teléfono con el formato estándar.
@@ -82,23 +92,35 @@ public class Utilidades {
      * - El número debe tener entre 10 y 15 dígitos en total.
      *
      * @param telefono El número de teléfono a validar.
-     * @return true si el número de teléfono es válido según el formato, false en caso contrario.
+     * @return true si el número de teléfono es válido, false en caso contrario.
      */
     public static boolean validarTelefono(String telefono) {
-        return telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$");
+        try {
+            if (!telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$")) {
+                throw new ValidacionException("El número de teléfono (" + telefono + ") no tiene un formato válido.");
+            }
+            return true;
+        } catch (ValidacionException e) {
+            System.out.println("Error de validación: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
      * Pide una cadena de texto al usuario.
      *
-     * @param msn : el mensaje que se muestra al usuario.
-     * @return la cadena introducida por el usuario.
+     * @param msn el mensaje que se muestra al usuario.
+     * @return la cadena introducida por el usuario, o una cadena vacía si ocurre algún error.
      */
     public static String pideString(String msn) {
-        MenuVista.muestraMensaje(msn);
-        String cadena = null;
-        cadena = sc.next(); // Lee una palabra
-        sc.nextLine(); // Consume el salto de línea pendiente
+        String cadena = "";
+        try {
+            MenuVista.muestraMensaje(msn);
+            cadena = sc.next(); // Lee una palabra
+            sc.nextLine(); // Consume el salto de línea pendiente
+        } catch (Exception e) {
+            System.out.println("Error al leer la cadena: " + e.getMessage());
+        }
         return cadena;
     }
 
