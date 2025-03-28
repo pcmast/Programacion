@@ -77,6 +77,13 @@ public class IniciativaController {
         MenuIniciativaActividad.muestraObjeto(iniciativa);
         }
     }
+    public void muestraIniciativasNombre(){
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+        ArrayList<Iniciativa> list = creador.verIniciativas();
+        for (Iniciativa iniciativa:list){
+            MenuVista.muestraMensaje(iniciativa.getNombre());
+        }
+    }
 
 
 

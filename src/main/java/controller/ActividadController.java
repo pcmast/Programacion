@@ -74,9 +74,13 @@ public class ActividadController {
         Creador creador = (Creador) usuarioActualController.getUsuario();
         for (Iniciativa iniciativa:creador.verIniciativas()){
             for (Actividad actividad: iniciativa.obtenerTodos()){
-                Utilidades.mostrarMensaje(actividad.getNombre());
+                MenuVista.muestraMensaje(actividad.getNombre());
             }
         }
+    }
+
+    public void actualizarEstado(){
+        Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
     }
 
 
