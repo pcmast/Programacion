@@ -1,5 +1,7 @@
 package utils;
 
+import exceptions.ValidacionException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,7 +9,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Utilidades {
-    // Instancia del Scanner para leer la entrada del usuario
+    /**
+     * Instancia del Scanner para leer la entrada del usuario
+     */
     public static Scanner sc = new Scanner(System.in);
 
     /**
@@ -59,17 +63,22 @@ public class Utilidades {
     }
 
     /**
-     * Valida un correo electrónico asegurándose de que tenga el formato estándar:
-     * - Parte local (antes del '@') con letras, números y ciertos caracteres especiales.
-     * - Parte del dominio (después del '@') con letras, números, guiones y al menos un punto.
-     * - Extensión del dominio de 2 a 7 caracteres alfabéticos.
-     *
+     * Valida un correo electrónico asegurándose de que tenga el formato estándar.
+     *  Con control de errores, si no coincide, se lanza una excepción de validación
      * @param correo El correo a validar.
-     * @return true si el correo es válido, false si no lo es.
+     * @return true si el correo es válido, false en caso contrario.
      */
     public static boolean validarCorreo(String correo) {
-        // Expresión regular que valida el formato del correo electrónico.
-        return correo.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        try {
+            if (!correo.matches(regex)) {
+                throw new ValidacionException("El correo proporcionado (" + correo + ") no tiene un formato válido.");
+            }
+            return true;
+        } catch (ValidacionException e) {
+            System.out.println("Error de validación: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -80,10 +89,18 @@ public class Utilidades {
      * - El número debe tener entre 10 y 15 dígitos en total.
      *
      * @param telefono El número de teléfono a validar.
-     * @return true si el número de teléfono es válido según el formato, false en caso contrario.
+     * @return true si el número de teléfono es válido, false en caso contrario.
      */
     public static boolean validarTelefono(String telefono) {
-        return telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$");
+        try {
+            if (!telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$")) {
+                throw new ValidacionException("El número de teléfono (" + telefono + ") no tiene un formato válido.");
+            }
+            return true;
+        } catch (ValidacionException e) {
+            System.out.println("Error de validación: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
@@ -98,14 +115,18 @@ public class Utilidades {
     /**
      * Pide una cadena de texto al usuario.
      *
-     * @param msn : el mensaje que se muestra al usuario.
-     * @return la cadena introducida por el usuario.
+     * @param msn el mensaje que se muestra al usuario.
+     * @return la cadena introducida por el usuario, o una cadena vacía si ocurre algún error.
      */
     public static String pideString(String msn) {
-        mostrarMensaje(msn);
-        String cadena = null;
-        cadena = sc.next(); // Lee una palabra
-        sc.nextLine(); // Consume el salto de línea pendiente
+        String cadena = "";
+        try {
+            mostrarMensaje(msn);
+            cadena = sc.next(); // Lee una palabra
+            sc.nextLine(); // Consume el salto de línea pendiente
+        } catch (Exception e) {
+            System.out.println("Error al leer la cadena: " + e.getMessage());
+        }
         return cadena;
     }
 
@@ -122,13 +143,12 @@ public class Utilidades {
         while (!fechaCorrecta) {
             mostrarMensaje(msn);
             String fechaString = sc.nextLine();
-
             try {
                 fecha = LocalDate.parse(fechaString, formatoFecha);
                 fechaCorrecta = true;
-                mostrarMensaje("fecha introducida: "+fecha);
+                mostrarMensaje("Fecha introducida: (" +fecha+" )");
             } catch (DateTimeParseException e) {
-                mostrarMensaje("Formato de fecha incorrecto. Debe ser dd/MM/yyyy");
+                mostrarMensaje("Formato de fecha incorrecto. Debe ser Día/Mes/Año");
             }
         }
     return fecha;
