@@ -1,5 +1,6 @@
 package controller;
 
+import exceptions.AutenticacionException;
 import model.Usuario;
 import utils.Utilidades;
 import view.MenuVista;
@@ -17,28 +18,36 @@ public class UsuarioController {
      */
     public void registrarUsuario(Usuario usuarioNuevo) {
 
-        if(list.contains(usuarioNuevo)){
+        if (list.contains(usuarioNuevo)) {
             MenuVista.muestraMensaje("El usuario ya existe");
-        }else if(list.add(usuarioNuevo)){
+        } else if (list.add(usuarioNuevo)) {
             MenuVista.muestraMensaje("El usuario se ha registrado correctamente");
-        }else {
+        } else {
             MenuVista.muestraMensaje("El usuario no ha sido registrado.");
         }
 
     }
+
     /**
-     * Método que muestra en pantalla el menú de inicio de sesión, y comprueba si el usuario existe en la lista y si la contraseña introducida es correcta. Si es así se establece ese usuario como el actual.
+     * * Método que muestra en pantalla el menú de inicio de sesión, y comprueba si
+     * el usuario existe en la lista y si la contraseña introducida es correcta.
+     * Si es así se establece ese usuario como el actual.
      */
     public void iniciarSesion() {
         UsuarioActualController usuarioActualController = new UsuarioActualController();
         Usuario usuario = usuarioActualController.getUsuario();
-        if(usuario!=null && list.contains(usuario)){
-            Usuario usuarioInicioSesion= null;
-            usuarioActualController.setUsuario(usuarioInicioSesion);
-        }else {
-            MenuVista.muestraMensaje("Usuario o contraseña incorrectos.");
+        try {
+            if (usuario == null) {
+                throw new AutenticacionException("No se han ingresado las credenciales.");
+            }
+            if (!list.contains(usuario)) {
+                throw new AutenticacionException("Usuario o contraseña incorrectos.");
+            }
+            MenuVista.muestraMensaje("Inicio de sesión exitoso.");
+        } catch (AutenticacionException e) {
+            MenuVista.muestraMensaje("Error de autenticación: " + e.getMessage());
+            usuarioActualController.setUsuario(null);
         }
-
     }
 
     public int tipoUsuario() {
@@ -56,7 +65,6 @@ public class UsuarioController {
         }
         return opcion;
     }
-
 
 
 }
