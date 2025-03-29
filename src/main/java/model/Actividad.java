@@ -34,7 +34,9 @@ public class  Actividad implements CRUDGenerico {
     @XmlElement(name = "usuario", type = Usuario.class)
     private ArrayList<Usuario> list = new ArrayList<>();
 
-
+    /**
+     * Constructor vacío
+     */
     public Actividad() {
     }
 
