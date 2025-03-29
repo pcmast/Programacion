@@ -29,8 +29,8 @@ public class UsuarioController {
     /**
      * Método que muestra en pantalla el menú de inicio de sesión, y comprueba si el usuario existe en la lista y si la contraseña introducida es correcta. Si es así se establece ese usuario como el actual.
      */
-    public void iniciarSesion() {
-        UsuarioActualController usuarioActualController = new UsuarioActualController();
+    public void iniciarSesion(String correo, String contrasenna) {
+        UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
         Usuario usuario = usuarioActualController.getUsuario();
         if(usuario!=null && list.contains(usuario)){
             Usuario usuarioInicioSesion= null;
