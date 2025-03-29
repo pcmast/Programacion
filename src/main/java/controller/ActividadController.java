@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class ActividadController {
 
-    private UsuarioActualController usuarioActualController = new UsuarioActualController();
+    private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
     /**
      * Metodo que crea una actividad nueva y la añade a la lista de actividades del usuario actual
      *

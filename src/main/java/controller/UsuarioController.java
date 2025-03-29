@@ -29,14 +29,17 @@ public class UsuarioController {
     /**
      * Método que muestra en pantalla el menú de inicio de sesión, y comprueba si el usuario existe en la lista y si la contraseña introducida es correcta. Si es así se establece ese usuario como el actual.
      */
-    public void iniciarSesion() {
-        UsuarioActualController usuarioActualController = new UsuarioActualController();
-        Usuario usuario = usuarioActualController.getUsuario();
-        if(usuario!=null && list.contains(usuario)){
-            Usuario usuarioInicioSesion= null;
-            usuarioActualController.setUsuario(usuarioInicioSesion);
-        }else {
-            MenuVista.muestraMensaje("Usuario o contraseña incorrectos.");
+    public void iniciarSesion(String correo, String contrasenna) {
+        UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
+
+
+        for (Usuario usuario1: list){
+            if (usuario1.getCorreo().equals(correo) && usuario1.getContrasenna().equals(contrasenna)){
+                usuarioActualController.setUsuario(usuario1);
+            }else {
+                MenuVista.muestraMensaje("Usuario o contraseña incorrectos.");
+            }
+
         }
 
     }
