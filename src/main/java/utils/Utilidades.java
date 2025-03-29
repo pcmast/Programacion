@@ -95,10 +95,10 @@ public class Utilidades {
      * @return la cadena introducida por el usuario.
      */
     public static String pideString(String msn) {
+        Scanner teclado = new Scanner(System.in);
         MenuVista.muestraMensaje(msn);
         String cadena = null;
-        cadena = sc.next(); // Lee una palabra
-        sc.nextLine(); // Consume el salto de línea pendiente
+        cadena = teclado.nextLine();
         return cadena;
     }
 
