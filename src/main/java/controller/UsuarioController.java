@@ -12,6 +12,10 @@ import static view.MenuVista.menuVoluntarios;
 public class UsuarioController {
     private ArrayList<Usuario> list = new ArrayList<>();
 
+    public ArrayList<Usuario> getList() {
+        return list;
+    }
+
     /**
      * Método que muestra en pantalla el menú de registro de usuario,crea el usuario con los datos del registro y lo añade a la lista de usuarios registrados.
      */
