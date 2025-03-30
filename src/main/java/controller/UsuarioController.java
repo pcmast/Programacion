@@ -18,7 +18,7 @@ public class UsuarioController {
      */
     public void registrarUsuario(Usuario usuarioNuevo) {
         if (list.contains(usuarioNuevo)) {
-            MenuVista.muestraMensaje(">> ❌ ¡El usuario ya existe!");
+            MenuVista.muestraMensaje("¡El usuario ya existe!");
         } else if (list.add(usuarioNuevo)) {
             MenuVista.muestraMensaje(">> ✅ ¡El usuario se ha registrado correctamente!");
             try {
