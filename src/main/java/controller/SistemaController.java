@@ -50,9 +50,11 @@ public class SistemaController {
 
             if (creador != null && terminar != 6) {
                 terminar = controlarCreador(creador);
+                creador = null;
             }
             if (voluntario != null && terminar != 6) {
                 terminar = controlarVoluntario();
+                voluntario = null;
             }
 
 

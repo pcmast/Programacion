@@ -1,5 +1,6 @@
 package utils;
 
+import exceptions.ValidacionException;
 import view.MenuVista;
 
 import java.time.LocalDate;
@@ -24,16 +25,16 @@ public class Utilidades {
         int numero = 0;
         boolean valido = false;
 
-        while (!valido) {  // Repite hasta que se introduzca un número válido.
+        while (!valido) {
             try {
-                System.out.print(mensaje);  // Muestra el mensaje al usuario.
+                System.out.print(mensaje);
                 numero = Integer.parseInt(scanner.nextLine());  // Intenta convertir la entrada en un número entero.
-                valido = true;  // Si no hay error, se marca como válido.
+                valido = true;
             } catch (NumberFormatException e) {
-                System.out.println("Error: Ingresa un número entero válido.");  // Muestra mensaje de error si la entrada no es un número entero.
+                System.out.println("Error: Ingresa un número entero válido.");
             }
         }
-        return numero;  // Devuelve el número entero introducido.
+        return numero;
     }
 
     /**
@@ -69,9 +70,14 @@ public class Utilidades {
      * @param correo El correo a validar.
      * @return true si el correo es válido, false si no lo es.
      */
-    public static boolean validarCorreo(String correo) {
-        // Expresión regular que valida el formato del correo electrónico.
-        return correo.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
+    public static boolean validarCorreo(String correo) throws ValidacionException {
+        boolean valido = false;
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        if (!correo.matches(regex)) {
+            throw new ValidacionException("El correo proporcionado (" + correo + ") no tiene un formato válido.");
+        }
+        valido = true;
+        return valido;
     }
 
     /**
@@ -85,7 +91,17 @@ public class Utilidades {
      * @return true si el número de teléfono es válido según el formato, false en caso contrario.
      */
     public static boolean validarTelefono(String telefono) {
-        return telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$");
+        boolean valido = false;
+        try {
+            if (!telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$")) {
+                throw new ValidacionException("El número de teléfono (" + telefono + ") no tiene un formato válido.");
+            }
+            valido = true;
+        } catch (ValidacionException e) {
+            System.out.println("Error de validación: " + e.getMessage());
+            valido = false;
+        }
+        return valido;
     }
 
     /**

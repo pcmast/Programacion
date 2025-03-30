@@ -16,6 +16,10 @@ public class Creador extends Usuario {
     @XmlElement(name = "iniciativa", type = Iniciativa.class) // Lista de iniciativas asociadas a este creador
     private ArrayList<Iniciativa> list = new ArrayList<>();
 
+    public Creador() {
+
+    }
+
     // Constructor con todos los parámetros para inicializar los datos del creador
     public Creador(String nombre, String usuario, String contrasenna, String correo, String ong) {
         super(nombre, usuario, contrasenna, correo); // Llama al constructor de la clase padre (Usuario)
