@@ -31,12 +31,15 @@ public class UsuarioController {
      */
     public void iniciarSesion(String correo, String contrasenna) {
         UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
-        Usuario usuario = usuarioActualController.getUsuario();
-        if(usuario!=null && list.contains(usuario)){
-            Usuario usuarioInicioSesion= null;
-            usuarioActualController.setUsuario(usuarioInicioSesion);
-        }else {
-            MenuVista.muestraMensaje("Usuario o contraseña incorrectos.");
+
+
+        for (Usuario usuario1: list){
+            if (usuario1.getCorreo().equals(correo) && usuario1.getContrasenna().equals(contrasenna)){
+                usuarioActualController.setUsuario(usuario1);
+            }else {
+                MenuVista.muestraMensaje("Usuario o contraseña incorrectos.");
+            }
+
         }
 
     }

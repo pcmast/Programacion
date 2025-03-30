@@ -33,6 +33,9 @@ public class Usuario {
         this.correo = correo;
     }
 
+    public String getContrasenna() {
+        return contrasenna;
+    }
 
     public String getNombre() {
         return nombre;
@@ -75,5 +78,15 @@ public class Usuario {
                                                                         // va a repetir el proceso de cifrado interno
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(contrasenna, usuario.contrasenna) && Objects.equals(correo, usuario.correo);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(contrasenna, correo);
+    }
 }
