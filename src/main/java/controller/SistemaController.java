@@ -7,14 +7,14 @@ import utils.Utilidades;
 import view.MenuVista;
 
 public class SistemaController {
-    private UsuarioActualController usuarioActualController = new UsuarioActualController();
+    private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
     private UsuarioController usuarioController = new UsuarioController();
     private ActividadController actividadController = new ActividadController();
     private IniciativaController iniciativaController = new IniciativaController();
 
     public void sistemaControllerEmpezar() {
 
-        Creador creador =null;
+        Creador creador = null;
         Voluntario voluntario =null;
         int opcion = 0;
         int numero = 0;
@@ -26,32 +26,36 @@ public class SistemaController {
 
                 switch (opcion) {
                     case 1:
-                        usuarioController.iniciarSesion();
+                        String correo = Utilidades.pideString("Introduce el correo de la cuenta: ");
+                        String contrasenna = Utilidades.pideString("Introduce la contraseña: ");
+                        usuarioController.iniciarSesion(correo,contrasenna);
                         break;
                     case 2:
                        MenuVista.muestraMenuCreadorOVoluntario();
-                        numero = Utilidades.leeEntero("Introduce la opcion");
+                        numero = Utilidades.leeEntero("Introduce la opcion: ");
                         if (numero == 1){
-                        creador = (Creador) MenuVista.mostrarMenuPrincipal(opcion);
+                        creador = (Creador) MenuVista.pideDatosRegistrarUsuario(numero);
+                            usuarioActualController.setUsuario(creador);
                             usuarioController.registrarUsuario(creador);
                         }else {
-                            voluntario = (Voluntario) MenuVista.mostrarMenuPrincipal(opcion);
+                            voluntario = (Voluntario) MenuVista.pideDatosRegistrarUsuario(numero);
+                            usuarioActualController.setUsuario(voluntario);
                             usuarioController.registrarUsuario(voluntario);
                         }
                         break;
-                    default:
-                        MenuVista.muestraMensaje("Introduce 1|2|3");
+                    case 4:
+                        terminar = 6;
                 }
             } while (opcion != 3);
-            if (creador != null){
+            if (creador != null && terminar != 6){
                terminar= controlarCreador(creador);
             }
-            if (voluntario != null){
+            if (voluntario != null && terminar != 6){
               terminar = controlarVoluntario();
             }
 
 
-        }while (terminar != 6 && terminar !=4);
+        }while (terminar == 6 || terminar ==4);
     }
 
     public int controlarCreador(Creador creador){
