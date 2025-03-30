@@ -1,5 +1,6 @@
 package controller;
 
+import dataAcces.XMLManager;
 import model.*;
 import utils.Utilidades;
 import view.*;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 public class ActividadController {
 
     private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
+    private  UsuarioController usuarioController = new UsuarioController();
     /**
      * Metodo que crea una actividad nueva y la añade a la lista de actividades del usuario actual
      *
@@ -81,6 +83,43 @@ public class ActividadController {
 
     public void actualizarEstado(){
         Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
+    }
+
+    public void annadirUsuario(){
+        boolean annadirUsuario = false;
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+        String nombreVoluntario = Utilidades.pideString("Introduce el nombre del voluntario");
+        String nombreIniciativa = Utilidades.pideString("Introduce el nombre la iniciativa");
+        String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
+        ArrayList<Iniciativa> list = creador.getList();
+        if (list != null){
+        for (Iniciativa iniciativa :list){
+            if (iniciativa.getNombre().equals(nombreIniciativa)){
+                ArrayList<Actividad> list1 = iniciativa.getList();
+                if (list1 != null){
+                for (Actividad actividad:list1){
+                    if (actividad.getNombre().equals(nombreActividad)){
+                        ArrayList<Usuario> list2 = usuarioController.getList();
+                        if (list2 != null){
+                        for (Usuario usuario:list2){
+                            if (usuario.getUsuario().equals(nombreVoluntario)){
+                              annadirUsuario = actividad.annadirList(usuario);
+                            }
+                        }
+                        }
+                    }
+
+                }
+                }
+            }
+
+        }
+        }
+        if (!annadirUsuario){
+            MenuVista.muestraMensaje("No se a podido añadir el usuario");
+        }
+
+
     }
 
 

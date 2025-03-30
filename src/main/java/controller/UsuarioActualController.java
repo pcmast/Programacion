@@ -6,6 +6,7 @@ public class UsuarioActualController {
 
     private Usuario usuario = null;
     private static UsuarioActualController instancia;
+
     private UsuarioActualController() {
 
     }
