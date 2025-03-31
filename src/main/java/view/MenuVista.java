@@ -69,7 +69,7 @@ public class MenuVista {
      * Menu que pide la contraseña
      * @return la contraseña.
      */
-    public static String pideContraseña(){
+    public static String pideContrasenna(){
         String contrasenna = Utilidades.pideString("Introduce la contraseña");
         return contrasenna;
     }
