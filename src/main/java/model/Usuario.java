@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Objects;
@@ -32,16 +33,26 @@ public class Usuario {
     /**
      * Constructor con parámetros.
      *
-     * @param nombre Nombre del usuario.
-     * @param usuario Nombre de usuario.
+     * @param nombre      Nombre del usuario.
+     * @param usuario     Nombre de usuario.
      * @param contrasenna Contraseña en texto plano que será cifrada.
-     * @param correo Correo electrónico del usuario.
+     * @param correo      Correo electrónico del usuario.
      */
     public Usuario(String nombre, String usuario, String contrasenna, String correo) {
         this.nombre = nombre;
         this.usuario = usuario;
         this.contrasenna = hashPassword(contrasenna); // Se almacena el hash
         this.correo = correo;
+    }
+
+    /**
+     * Constructor para inicio de sesion
+     * @param usuario     Nombre de usuario.
+     * @param contrasenna Contraseña en texto plano que será cifrada.
+     */
+    public Usuario (String usuario, String contrasenna){
+        this.usuario = usuario;
+        this.contrasenna = contrasenna;
     }
 
     /**

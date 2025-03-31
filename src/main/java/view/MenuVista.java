@@ -12,7 +12,7 @@ public class MenuVista {
         System.out.println(mensaje);
     }
 
-    public static void mostrarMenu(){
+    public static void mostrarMenu() {
         System.out.println("\n--------Sistema de Gestión de Voluntariado--------");
         System.out.println("1. Iniciar Sesión");
         System.out.println("2. Registrarse");
@@ -52,6 +52,7 @@ public class MenuVista {
 
     /**
      * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
+     *
      * @return el usuario con los datos ya registrados.
      */
     public static Usuario pideDatosRegistrarUsuario(int opcion) {
@@ -64,7 +65,7 @@ public class MenuVista {
         switch (opcion) {
             case 1:
                 String ong = Utilidades.pideString("Introduce la ong que pertenece: ");
-                usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
+                usuario1 = new Creador(nombre, usuario, contrasenna, correo, ong);
                 break;
             case 2:
                 usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
@@ -81,7 +82,24 @@ public class MenuVista {
     public static void pideDatosInicioSesion() {
         String usuario = Utilidades.pideString("Introduce el usuario: ");
         String contrasenna = Utilidades.pideString("Introduce la contraseña: ");
+    }
 
+    /**
+     * Menu que pide el usuario
+     * @return el nombre de usuario.
+     */
+    public static String pideUsuario() {
+        String usuario = Utilidades.pideString("Introduce el usuario: ");
+        return usuario;
+    }
+
+    /**
+     * Menu que pide la contraseña
+     * @return la contraseña.
+     */
+    public static String pideContraseña(){
+        String contrasenna = Utilidades.pideString("Introduce la contraseña");
+        return contrasenna;
     }
 
     /**
