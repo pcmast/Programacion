@@ -15,7 +15,7 @@ public class IniciativaController {
      */
     public void creaIniciativa() {
         Creador creador = (Creador) usuarioActualController.getUsuario();
-        Iniciativa iniciativa = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
+        Iniciativa iniciativa = menuIniciativaActividad.pideDatosCrearIniciativa(creador);
         boolean creado = creador.crearIniciativa(iniciativa);
         if (creado){
             MenuVista.muestraMensaje("Se ha creado correctamente");
@@ -51,7 +51,7 @@ public class IniciativaController {
         boolean actualizado = false;
         Creador creador = (Creador) usuarioActualController.getUsuario();
         ArrayList<Iniciativa> list = creador.verIniciativas();
-        Iniciativa iniciativa = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
+        Iniciativa iniciativa = menuIniciativaActividad.pideDatosCrearIniciativa(creador);
         for (Iniciativa iniciativa1:list){
          actualizado = iniciativa1.modificar(iniciativa);
         }
@@ -73,10 +73,10 @@ public class IniciativaController {
         ArrayList<Iniciativa> list = creador.verIniciativas();
 
         for (Iniciativa iniciativa:list){
-        MenuIniciativaActividad.muestraObjeto(iniciativa);
+        menuIniciativaActividad.muestraObjeto(iniciativa);
         ArrayList<Actividad> list1 =  iniciativa.getList();
         for (Actividad actividad: list1){
-            MenuIniciativaActividad.muestraObjeto(actividad);
+            menuIniciativaActividad.muestraObjeto(actividad);
         }
         }
     }
@@ -92,7 +92,7 @@ public class IniciativaController {
         Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
         ArrayList<Actividad> list = voluntario.getList();
         for (Actividad actividad:list){
-            MenuIniciativaActividad.muestraObjeto(actividad);
+            menuIniciativaActividad.muestraObjeto(actividad);
         }
 
     }

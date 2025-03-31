@@ -18,7 +18,7 @@ public class ActividadController {
      */
     public void creaActividad() {
         Creador creador = (Creador) usuarioActualController.getUsuario();
-        Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
+        Actividad actividad = menuIniciativaActividad.pideDatosCrearActividad();
         boolean creado = creador.crearActividad(actividad, actividad.getIniciativa());
         if (creado){
             MenuVista.muestraMensaje("Se ha creado correctamente");
@@ -57,7 +57,7 @@ public class ActividadController {
         boolean actualizado = false;
         Creador creador = (Creador) usuarioActualController.getUsuario();
         ArrayList<Iniciativa> list = creador.verIniciativas();
-        Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
+        Actividad actividad = menuIniciativaActividad.pideDatosCrearActividad();
         for (Iniciativa iniciativa:list){
             actualizado=iniciativa.modificar(actividad);
 
