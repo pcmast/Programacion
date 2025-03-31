@@ -34,7 +34,9 @@ public class  Actividad implements CRUDGenerico {
     @XmlElement(name = "usuario", type = Usuario.class)
     private ArrayList<Usuario> list = new ArrayList<>();
 
-
+    /**
+     * Constructor vacío
+     */
     public Actividad() {
     }
 
@@ -186,13 +188,12 @@ public class  Actividad implements CRUDGenerico {
 
     @Override
     public String toString() {
-        return "Actividad{" +
-                "nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", fechaInicio=" + fechaInicio +
-                ", fechaFin='" + fechaFin + '\'' +
-                ", voluntario=" + voluntario +
-                ", estado=" + estado +
-                '}';
+        return "Actividad \n" +
+                "nombre= " + nombre + '\n' +
+                "descripcion= " + descripcion + '\n' +
+                "fechaInicio= " + fechaInicio + '\n'+
+                "fechaFin= " + fechaFin + '\n' +
+                "voluntario= " + voluntario +'\n' +
+                "estado= " + estado + '\n';
     }
 }

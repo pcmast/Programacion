@@ -12,6 +12,10 @@ import static view.MenuVista.menuVoluntarios;
 public class UsuarioController {
     private ArrayList<Usuario> list = new ArrayList<>();
 
+    public ArrayList<Usuario> getList() {
+        return list;
+    }
+
     /**
      * Método que muestra en pantalla el menú de registro de usuario,crea el usuario con los datos del registro y lo añade a la lista de usuarios registrados.
      */
@@ -29,17 +33,19 @@ public class UsuarioController {
     /**
      * Método que muestra en pantalla el menú de inicio de sesión, y comprueba si el usuario existe en la lista y si la contraseña introducida es correcta. Si es así se establece ese usuario como el actual.
      */
-    public void iniciarSesion() {
-        String usuarioN = MenuVista.pideUsuario();
-        String contrasenna = MenuVista.pideContraseña();
-        for (Usuario usuario : list) {
-            if (usuario.getNombre().equals(usuarioN) && usuario.verificarContrasenna(contrasenna)) {
-                UsuarioActualController.getInstance().setUsuario(usuario);
-                MenuVista.muestraMensaje("Inicio de sesión exitoso");
-                return;
+    public void iniciarSesion(String correo, String contrasenna) {
+        UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
+
+
+        for (Usuario usuario1: list){
+            if (usuario1.getCorreo().equals(correo) && usuario1.getContrasenna().equals(contrasenna)){
+                usuarioActualController.setUsuario(usuario1);
+            }else {
+                MenuVista.muestraMensaje("Usuario o contraseña incorrectos.");
             }
+
         }
-        MenuVista.muestraMensaje("Usuario o contraseña incorrectos.");
+
     }
 
     public int tipoUsuario() {

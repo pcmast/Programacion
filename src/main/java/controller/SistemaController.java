@@ -7,15 +7,15 @@ import utils.Utilidades;
 import view.MenuVista;
 
 public class SistemaController {
-    private UsuarioActualController usuarioActualController = new UsuarioActualController();
+    private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
     private UsuarioController usuarioController = new UsuarioController();
     private ActividadController actividadController = new ActividadController();
     private IniciativaController iniciativaController = new IniciativaController();
 
     public void sistemaControllerEmpezar() {
 
-        Creador creador =null;
-        Voluntario voluntario =null;
+        Creador creador = null;
+        Voluntario voluntario = null;
         int opcion = 0;
         int numero = 0;
         int terminar = 0;
@@ -26,75 +26,85 @@ public class SistemaController {
 
                 switch (opcion) {
                     case 1:
-                        usuarioController.iniciarSesion();
+                        String correo = Utilidades.pideString("Introduce el correo de la cuenta: ");
+                        String contrasenna = Utilidades.pideString("Introduce la contraseña: ");
+                        usuarioController.iniciarSesion(correo, contrasenna);
                         break;
                     case 2:
-                       MenuVista.muestraMenuCreadorOVoluntario();
-                        numero = Utilidades.leeEntero("Introduce la opcion");
-                        if (numero == 1){
-                        creador = (Creador) MenuVista.mostrarMenuPrincipal(opcion);
+                        MenuVista.muestraMenuCreadorOVoluntario();
+                        numero = Utilidades.leeEntero("Introduce la opcion: ");
+                        if (numero == 1) {
+                            creador = (Creador) MenuVista.pideDatosRegistrarUsuario(numero);
+                            usuarioActualController.setUsuario(creador);
                             usuarioController.registrarUsuario(creador);
-                        }else {
-                            voluntario = (Voluntario) MenuVista.mostrarMenuPrincipal(opcion);
+                        } else {
+                            voluntario = (Voluntario) MenuVista.pideDatosRegistrarUsuario(numero);
+                            usuarioActualController.setUsuario(voluntario);
                             usuarioController.registrarUsuario(voluntario);
                         }
                         break;
-                    default:
-                        MenuVista.muestraMensaje("Introduce 1|2|3");
+                    case 4:
+                        terminar = 6;
                 }
             } while (opcion != 3);
-            if (creador != null){
-               terminar= controlarCreador(creador);
+
+            if (creador != null && terminar != 6) {
+                terminar = controlarCreador(creador);
             }
-            if (voluntario != null){
-              terminar = controlarVoluntario();
+            if (voluntario != null && terminar != 6) {
+                terminar = controlarVoluntario();
             }
 
 
-        }while (terminar != 6 && terminar !=4);
+        } while (terminar == 6 || terminar == 4);
     }
 
-    public int controlarCreador(Creador creador){
+    public int controlarCreador(Creador creador) {
         int opcion2 = 0;
         do {
-                MenuVista.menuCreador();
-                opcion2 = Utilidades.leeEntero("Introduce la opcion: ");
-                switch (opcion2){
-                    case 1:
-                        iniciativaController.creaIniciativa();
-                        break;
-                    case 2:
-                        actividadController.creaActividad();
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        iniciativaController.muestraIniciativasNombre();
-                        break;
-                    case 5:
-                        iniciativaController.muestraIniciativas();
-                        break;
-                }
+            MenuVista.menuCreador();
+            opcion2 = Utilidades.leeEntero("Introduce la opcion: ");
+            switch (opcion2) {
+                case 1:
+                    iniciativaController.creaIniciativa();
+                    break;
+                case 2:
+                    actividadController.creaActividad();
+                    break;
+                case 3:
+                    actividadController.annadirUsuario();
+                    break;
+                case 4:
+                    iniciativaController.muestraIniciativasNombre();
+                    break;
+                case 5:
+                    iniciativaController.muestraIniciativas();
+                    break;
+            }
 
-        }while (opcion2 != 6);
+        } while (opcion2 != 6);
         return opcion2;
     }
-    public int controlarVoluntario(){
+
+    public int controlarVoluntario() {
         int opcion3 = 0;
         do {
             MenuVista.menuVoluntarios();
             opcion3 = Utilidades.leeEntero("Introduce la opcion: ");
-            switch (opcion3){
+            switch (opcion3) {
                 case 1:
                     actividadController.verActividades();
                     break;
                 case 2:
                     actividadController.actualizarEstado();
                     break;
+                case 3:
+                    iniciativaController.muestraIniciativasNombre();
+                    break;
 
             }
 
-        }while (opcion3 != 4);
+        } while (opcion3 != 4);
 
         return opcion3;
     }

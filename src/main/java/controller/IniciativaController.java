@@ -1,16 +1,14 @@
 package controller;
 
-import model.Actividad;
-import model.Iniciativa;
-import model.Usuario;
-import model.Creador;
+import model.*;
 import utils.Utilidades;
 import view.*;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class IniciativaController {
-    private UsuarioActualController usuarioActualController = new UsuarioActualController();
+    private UsuarioActualController usuarioActualController =UsuarioActualController.getInstance();
     /**
      * Método que crea una iniciativa para un creador
      *
@@ -73,8 +71,13 @@ public class IniciativaController {
     public void muestraIniciativas() {
         Creador creador = (Creador) usuarioActualController.getUsuario();
         ArrayList<Iniciativa> list = creador.verIniciativas();
+
         for (Iniciativa iniciativa:list){
         MenuIniciativaActividad.muestraObjeto(iniciativa);
+        ArrayList<Actividad> list1 =  iniciativa.getList();
+        for (Actividad actividad: list1){
+            MenuIniciativaActividad.muestraObjeto(actividad);
+        }
         }
     }
     public void muestraIniciativasNombre(){
@@ -83,6 +86,15 @@ public class IniciativaController {
         for (Iniciativa iniciativa:list){
             MenuVista.muestraMensaje(iniciativa.getNombre());
         }
+    }
+
+    public void muestraIniciativasUsuario(){
+        Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
+        ArrayList<Actividad> list = voluntario.getList();
+        for (Actividad actividad:list){
+            MenuIniciativaActividad.muestraObjeto(actividad);
+        }
+
     }
 
 

@@ -4,7 +4,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Objects;
@@ -24,119 +23,70 @@ public class Usuario {
     @XmlElement
     private String correo;
 
-    /**
-     * Constructor vacío
-     */
+    //Constructor vacío
     public Usuario() {
     }
-
-    /**
-     * Constructor con parámetros.
-     *
-     * @param nombre      Nombre del usuario.
-     * @param usuario     Nombre de usuario.
-     * @param contrasenna Contraseña en texto plano que será cifrada.
-     * @param correo      Correo electrónico del usuario.
-     */
     public Usuario(String nombre, String usuario, String contrasenna, String correo) {
         this.nombre = nombre;
         this.usuario = usuario;
-        this.contrasenna = hashPassword(contrasenna); // Se almacena el hash
+        this.contrasenna = hashPassword(contrasenna); // Se almacena el hash;
         this.correo = correo;
     }
 
-    /**
-     * Constructor para inicio de sesion
-     * @param usuario     Nombre de usuario.
-     * @param contrasenna Contraseña en texto plano que será cifrada.
-     */
-    public Usuario (String usuario, String contrasenna){
-        this.usuario = usuario;
-        this.contrasenna = contrasenna;
+    public String getContrasenna() {
+        return contrasenna;
     }
 
-    /**
-     * Obtiene el nombre del usuario.
-     *
-     * @return Nombre del usuario.
-     */
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     * Establece el nombre del usuario.
-     *
-     * @param nombre Nombre del usuario.
-     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    /**
-     * Obtiene el nombre de usuario.
-     *
-     * @return Nombre de usuario.
-     */
     public String getUsuario() {
         return usuario;
     }
 
-    /**
-     * Establece el nombre de usuario.
-     *
-     * @param usuario Nombre de usuario.
-     */
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
-    /**
-     * Establece la contraseña (almacena el hash en la variable interna).
-     *
-     * @param contrasenna Contraseña en texto plano.
-     */
+    // No lleva getter porque BCrypt.hashpw() ya lo devuelve en formato de String
+
+    // Método para establecer la contraseña (almacena el hash)
     public void setContrasenna(String contrasenna) {
         this.contrasenna = hashPassword(contrasenna);
     }
-
-    /**
-     * Obtiene el correo electrónico del usuario.
-     *
-     * @return Correo electrónico.
-     */
     public String getCorreo() {
         return correo;
     }
 
-    /**
-     * Establece el correo electrónico del usuario.
-     *
-     * @param correo Correo electrónico.
-     */
     public void setCorreo(String correo) {
         this.correo = correo;
     }
 
-    /**
-     * Verifica si la contraseña ingresada coincide con la almacenada.
-     *
-     * @param contrasennaIngresada Contraseña en texto plano a verificar.
-     * @return true si la contraseña es correcta, false en caso contrario.
-     */
+    // Método para verificar la contraseña ingresada
     public boolean verificarContrasenna(String contrasennaIngresada) {
         return BCrypt.checkpw(contrasennaIngresada, this.contrasenna);
     }
 
-    /**
-     * Genera un hash de la contraseña utilizando BCrypt.
-     *
-     * @param password Contraseña en texto plano.
-     * @return Hash de la contraseña.
-     */
+    // Método privado para hashear la contraseña con BCrypt
     private String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt(12)); // Rondas de cifrado
+        return BCrypt.hashpw(password, BCrypt.gensalt(12)); // Esto de las rondas es la cantidad de veces que BCrypt
+                                                                        // va a repetir el proceso de cifrado interno
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(contrasenna, usuario.contrasenna) && Objects.equals(correo, usuario.correo);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(contrasenna, correo);
+    }
 }

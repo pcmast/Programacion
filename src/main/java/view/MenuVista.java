@@ -16,39 +16,11 @@ public class MenuVista {
         System.out.println("\n--------Sistema de Gestión de Voluntariado--------");
         System.out.println("1. Iniciar Sesión");
         System.out.println("2. Registrarse");
-        System.out.println("3. Salir");
-        System.out.print("Seleccione una opción: ");
+        System.out.println("3. Entrar");
+        System.out.println("4. Salir");
+
     }
 
-
-    /**
-     * Menú de inicio que pide al usuario lo que quiere hacer
-     */
-    public static Usuario mostrarMenuPrincipal(int opcion) {
-        Usuario usuario = null;
-        boolean registro = false;
-
-        while (!registro) {
-
-            switch (opcion) {
-                case 1:
-                    pideDatosInicioSesion();
-                    registro = true;
-                    break;
-                case 2:
-                    usuario = pideDatosRegistrarUsuario(opcion);
-                    registro = true;
-                    break;
-                case 3:
-                    System.out.println("¡Gracias por usar el sistema!");
-                    break;
-                default:
-                    System.out.println("Opción no válida");
-                    opcion = Utilidades.leeEntero("Introduce de nuevo");
-            }
-        }
-        return usuario;
-    }
 
     /**
      * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
@@ -116,7 +88,7 @@ public class MenuVista {
      */
     public static void menuCreador() {
         System.out.println("1. Crear iniciativa\n" +
-                "2.Crear tareas de una iniciativa\n" +
+                "2. Crear tareas de una iniciativa\n" +
                 "3. Agregar colaboradores a una iniciativa\n" +
                 "4. Ver iniciativas creadas\n" +
                 "5. Ver iniciativas y actividades del usuario\n" +
