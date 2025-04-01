@@ -29,6 +29,7 @@ public class SistemaController {
                         String correo = Utilidades.pideString(" ✉ Introduce el correo de la cuenta: ");
                         String contrasenna = Utilidades.pideString(" \uD83D\uDD11 Introduce la contraseña: ");
                         usuarioController.iniciarSesion(correo, contrasenna);
+                        opcion = 4;
                         break;
                     case 2:
                         MenuVista.muestraMenuCreadorOVoluntario();
@@ -37,6 +38,7 @@ public class SistemaController {
                             creador = (Creador) MenuVista.pideDatosRegistrarUsuario(numero);
                             usuarioActualController.setUsuario(creador);
                             usuarioController.registrarUsuario(creador);
+                            opcion = 4;
                         } else {
                             voluntario = (Voluntario) MenuVista.pideDatosRegistrarUsuario(numero);
                             usuarioActualController.setUsuario(voluntario);
@@ -46,7 +48,7 @@ public class SistemaController {
                     case 3:
                         terminar = 6;
                 }
-            } while (opcion != 3);
+            } while (opcion != 4);
 
             if (creador != null && terminar != 6) {
                 terminar = controlarCreador(creador);
