@@ -18,8 +18,7 @@ public class MenuVista {
         System.out.println("╠═══════════════════════════════════════════╣");
         System.out.println("║  1. Iniciar Sesión                        ║");
         System.out.println("║  2. Registrarse                           ║");
-        System.out.println("║  3. Entrar como Invitado                  ║");
-        System.out.println("║  4. Salir                                 ║");
+        System.out.println("║  3. Salir                                 ║");
         System.out.println("╚═══════════════════════════════════════════╝");
     }
 
@@ -32,7 +31,7 @@ public class MenuVista {
     public static Usuario pideDatosRegistrarUsuario(int opcion) {
         System.out.println("");
         System.out.println("────────────────────────────────────────────");
-        String nombre = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce el nombre del usuario: ");
+        String nombre = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce tu nombre: ");
         String usuario = Utilidades.pideString(" ⮞ Introduce el usuario: ");
         String correo = Utilidades.pideString(" ⮞ ✉ Introduce el correo: ");
         String contrasenna = Utilidades.pideString(" ⮞ \uD83D\uDD11 Introduce tu contraseña: ");

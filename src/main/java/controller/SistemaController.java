@@ -43,7 +43,7 @@ public class SistemaController {
                             usuarioController.registrarUsuario(voluntario);
                         }
                         break;
-                    case 4:
+                    case 3:
                         terminar = 6;
                 }
             } while (opcion != 3);
