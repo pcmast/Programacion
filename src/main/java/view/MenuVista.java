@@ -12,14 +12,17 @@ public class MenuVista {
         System.out.println(mensaje);
     }
 
-    public static void mostrarMenu(){
-        System.out.println("\n--------Sistema de Gestión de Voluntariado--------");
-        System.out.println("1. Iniciar Sesión");
-        System.out.println("2. Registrarse");
-        System.out.println("3. Entrar");
-        System.out.println("4. Salir");
-
+    public static void mostrarMenu() {
+        System.out.println("\n╔═══════════════════════════════════════════╗");
+        System.out.println("║    SISTEMA DE GESTIÓN DE VOLUNTARIADO     ║");
+        System.out.println("╠═══════════════════════════════════════════╣");
+        System.out.println("║  1. Iniciar Sesión                        ║");
+        System.out.println("║  2. Registrarse                           ║");
+        System.out.println("║  3. Entrar como Invitado                  ║");
+        System.out.println("║  4. Salir                                 ║");
+        System.out.println("╚═══════════════════════════════════════════╝");
     }
+
 
 
     /**
@@ -27,22 +30,24 @@ public class MenuVista {
      * @return el usuario con los datos ya registrados.
      */
     public static Usuario pideDatosRegistrarUsuario(int opcion) {
-        String nombre = Utilidades.pideString("Introduce el nombre del usuario: ");
-        String usuario = Utilidades.pideString("Introduce el usuario: ");
-        String correo = Utilidades.pideString("Introduce el correo: ");
-        String contrasenna = Utilidades.pideString("Introduce tu contraseña: ");
+        System.out.println("");
+        System.out.println("────────────────────────────────────────────");
+        String nombre = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce el nombre del usuario: ");
+        String usuario = Utilidades.pideString(" ⮞ Introduce el usuario: ");
+        String correo = Utilidades.pideString(" ⮞ ✉ Introduce el correo: ");
+        String contrasenna = Utilidades.pideString(" ⮞ \uD83D\uDD11 Introduce tu contraseña: ");
 
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
-                String ong = Utilidades.pideString("Introduce la ong que pertenece: ");
+                String ong = Utilidades.pideString(" ⮞ \uD83E\uDD1D Introduce la ONG que pertenece: ");
                 usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
                 break;
             case 2:
                 usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
                 break;
             default:
-                System.out.println("Opción incorrecta, vuelve a intentarlo");
+                System.out.println(" ❌ Opción incorrecta, vuelve a intentarlo");
         }
         return usuario1;
     }
@@ -51,18 +56,18 @@ public class MenuVista {
      * Menu que pide los datos en caso de inicio de sesion.
      */
     public static void pideDatosInicioSesion() {
-        String usuario = Utilidades.pideString("Introduce el usuario: ");
-        String contrasenna = Utilidades.pideString("Introduce la contraseña: ");
-
+        String usuario = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce el usuario: ");
+        String contrasenna = Utilidades.pideString(" ⮞ \uD83D\uDD11 Introduce la contraseña: ");
     }
 
     /**
      * Menu para seleccionar el tipo de usuario.
      */
     public static void muestraMenuCreadorOVoluntario() {
-        System.out.println("Elige el tipo de usuario: ");
-        muestraMensaje("1. Creador");
-        muestraMensaje("2. Voluntario");
+        System.out.println();
+        System.out.println(" ➤ Elige el tipo de usuario: ");
+        muestraMensaje("    1. Creador");
+        muestraMensaje("    2. Voluntario");
     }
 
     /**
