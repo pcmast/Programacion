@@ -22,17 +22,17 @@ public class SistemaController {
         do {
             do {
                 MenuVista.mostrarMenu();
-                opcion = Utilidades.leeEntero("Introduce la opcion que quieras: ");
+                opcion = Utilidades.leeEntero(" >> Introduce la opcion que quieras: ");
 
                 switch (opcion) {
                     case 1:
-                        String correo = Utilidades.pideString("Introduce el correo de la cuenta: ");
-                        String contrasenna = Utilidades.pideString("Introduce la contraseña: ");
+                        String correo = Utilidades.pideString(" ✉ Introduce el correo de la cuenta: ");
+                        String contrasenna = Utilidades.pideString(" \uD83D\uDD11 Introduce la contraseña: ");
                         usuarioController.iniciarSesion(correo, contrasenna);
                         break;
                     case 2:
                         MenuVista.muestraMenuCreadorOVoluntario();
-                        numero = Utilidades.leeEntero("Introduce la opcion: ");
+                        numero = Utilidades.leeEntero(" >> Introduce la opcion: ");
                         if (numero == 1) {
                             creador = (Creador) MenuVista.pideDatosRegistrarUsuario(numero);
                             usuarioActualController.setUsuario(creador);
