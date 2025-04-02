@@ -1,33 +1,30 @@
 package controller;
 
 import dataAcces.IniciativasContenedor;
-import dataAcces.XMLManager;
+import dataAcces.XMLManagerIniciativas;
 import model.*;
 import utils.Utilidades;
 import view.*;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IniciativaController {
     private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
-    private ArrayList<Iniciativa> iniciativas = new ArrayList<>();
+    private ArrayList<Iniciativa> iniciativas;
 
     public IniciativaController() {
-        cargarIniciativas();
+        this.iniciativas = XMLManagerIniciativas.cargarIniciativas();
     }
 
     public void creaIniciativa() {
-        if (!(usuarioActualController.getUsuario() instanceof Creador creador)) {
+        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
             MenuVista.muestraMensaje("Error: Solo creadores pueden crear iniciativas");
             return;
         }
 
+        Creador creador = (Creador) usuarioActualController.getUsuario();
         Iniciativa iniciativa = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
 
         if (iniciativaExiste(iniciativa.getNombre())) {
@@ -46,40 +43,59 @@ public class IniciativaController {
 
     public void eliminaIniciativa() {
         String nombre = Utilidades.pideString("Nombre de la iniciativa a eliminar:");
+
+        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
+            MenuVista.muestraMensaje("Error: Solo creadores pueden eliminar iniciativas");
+            return;
+        }
+
+        Creador creador = (Creador) usuarioActualController.getUsuario();
         boolean eliminada = false;
 
-        if (usuarioActualController.getUsuario() instanceof Creador creador) {
-            eliminada = creador.verIniciativas().removeIf(i -> i.getNombre().equals(nombre));
-
-            if (eliminada) {
-                iniciativas.removeIf(i -> i.getNombre().equals(nombre));
-                guardarIniciativas();
-                MenuVista.muestraMensaje("Iniciativa eliminada");
-            } else {
-                MenuVista.muestraMensaje("Iniciativa no encontrada");
+        // Eliminar de las iniciativas del creador
+        List<Iniciativa> iniciativasCreador = creador.verIniciativas();
+        for (int i = 0; i < iniciativasCreador.size(); i++) {
+            if (iniciativasCreador.get(i).getNombre().equals(nombre)) {
+                iniciativasCreador.remove(i);
+                eliminada = true;
+                break;
             }
+        }
+
+        // Eliminar de la lista general
+        if (eliminada) {
+            for (int i = 0; i < iniciativas.size(); i++) {
+                if (iniciativas.get(i).getNombre().equals(nombre)) {
+                    iniciativas.remove(i);
+                    break;
+                }
+            }
+            guardarIniciativas();
+            MenuVista.muestraMensaje("Iniciativa eliminada");
         } else {
-            MenuVista.muestraMensaje("Error: Solo creadores pueden eliminar iniciativas");
+            MenuVista.muestraMensaje("Iniciativa no encontrada");
         }
     }
 
     public void modificarIniciativa() {
         String nombreActual = Utilidades.pideString("Nombre de la iniciativa a modificar:");
 
-        if (usuarioActualController.getUsuario() instanceof Creador creador) {
-            Iniciativa iniciativa = obtenerIniciativa(nombreActual);
-
-            if (iniciativa != null) {
-                Iniciativa nuevosDatos = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
-                iniciativa.setNombre(nuevosDatos.getNombre());
-                iniciativa.setDescripcion(nuevosDatos.getDescripcion());
-                guardarIniciativas();
-                MenuVista.muestraMensaje("Iniciativa modificada");
-            } else {
-                MenuVista.muestraMensaje("Iniciativa no encontrada");
-            }
-        } else {
+        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
             MenuVista.muestraMensaje("Error: Solo creadores pueden modificar iniciativas");
+            return;
+        }
+
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+        Iniciativa iniciativa = obtenerIniciativa(nombreActual);
+
+        if (iniciativa != null) {
+            Iniciativa nuevosDatos = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
+            iniciativa.setNombre(nuevosDatos.getNombre());
+            iniciativa.setDescripcion(nuevosDatos.getDescripcion());
+            guardarIniciativas();
+            MenuVista.muestraMensaje("Iniciativa modificada");
+        } else {
+            MenuVista.muestraMensaje("Iniciativa no encontrada");
         }
     }
 
@@ -113,12 +129,14 @@ public class IniciativaController {
         Usuario usuario = usuarioActualController.getUsuario();
         List<Iniciativa> iniciativasUsuario = new ArrayList<>();
 
-        if (usuario instanceof Creador creador) {
+        if (usuario instanceof Creador) {
+            Creador creador = (Creador) usuario;
             iniciativasUsuario = creador.verIniciativas();
-        } else if (usuario instanceof Voluntario voluntario) {
+        } else if (usuario instanceof Voluntario) {
+            Voluntario voluntario = (Voluntario) usuario;
             for (Actividad actividad : voluntario.getList()) {
                 Iniciativa iniciativa = obtenerIniciativa(actividad.getIniciativa());
-                if (iniciativa != null && !iniciativasUsuario.contains(iniciativa)) {
+                if (iniciativa != null && !contieneIniciativa(iniciativasUsuario, iniciativa)) {
                     iniciativasUsuario.add(iniciativa);
                 }
             }
@@ -136,46 +154,22 @@ public class IniciativaController {
         MenuVista.muestraMensaje("=======================");
     }
 
-    public void cargarIniciativas() {
+    private void guardarIniciativas() {
         try {
-            File file = new File("iniciativas.xml");
-            if (file.exists()) {
-                JAXBContext context = JAXBContext.newInstance(IniciativasContenedor.class);
-                Unmarshaller unmarshaller = context.createUnmarshaller();
-
-                IniciativasContenedor wrapper = (IniciativasContenedor) unmarshaller.unmarshal(file);
-                this.iniciativas = wrapper.getIniciativas();
-            }
-        } catch (JAXBException e) {
-            System.err.println("Error al cargar iniciativas: " + e.getMessage());
-            this.iniciativas = new ArrayList<>();
-        }
-    }
-
-    public void guardarIniciativas() {
-        try {
-            JAXBContext context = JAXBContext.newInstance(Iniciativa.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            // Guardar cada iniciativa individualmente
-            for (Iniciativa iniciativa : iniciativas) {
-                String filename = "iniciativa_" + iniciativa.getNombre().replace(" ", "_") + ".xml";
-                marshaller.marshal(iniciativa, new File(filename));
-            }
-        } catch (JAXBException e) {
+            XMLManagerIniciativas.guardarIniciativas(iniciativas);
+        } catch (Exception e) {
             System.err.println("Error al guardar iniciativas: " + e.getMessage());
+            MenuVista.muestraMensaje("Error al guardar las iniciativas");
         }
     }
 
     private boolean iniciativaExiste(String nombre) {
-        boolean existe = false;
         for (Iniciativa iniciativa : iniciativas) {
             if (iniciativa.getNombre().equalsIgnoreCase(nombre)) {
-                existe = true;
+                return true;
             }
         }
-        return existe;
+        return false;
     }
 
     private Iniciativa obtenerIniciativa(String nombre) {
@@ -185,5 +179,14 @@ public class IniciativaController {
             }
         }
         return null;
+    }
+
+    private boolean contieneIniciativa(List<Iniciativa> lista, Iniciativa iniciativa) {
+        for (Iniciativa i : lista) {
+            if (i.equals(iniciativa)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
