@@ -85,16 +85,41 @@ public class Creador extends Usuario {
      * @param nombreIniciativa nombre de la iniciativa donde se añadirá la actividad
      * @return devuelve true si la actividad fue añadida correctamente, false si no se pudo añadir
      */
+    /**
+     * Crea una actividad y la añade a la iniciativa especificada
+     * @param actividad La actividad a crear
+     * @param nombreIniciativa Nombre de la iniciativa destino
+     * @return true si se añadió correctamente, false si no
+     */
     public boolean crearActividad(Actividad actividad, String nombreIniciativa) {
-        boolean creada = false;
-        // Busca la iniciativa correspondiente por nombre
-        for (Iniciativa iniciativa : list) {
-            if (iniciativa.getNombre().equals(nombreIniciativa)) {
-                iniciativa.annadirList(actividad); // Añade la actividad a la lista de actividades de la iniciativa
-                creada = true; // Indica que la actividad fue creada
+        boolean resultado = false;
+
+        if (actividad != null && nombreIniciativa != null && !nombreIniciativa.isBlank()) {
+            for (Iniciativa iniciativa : list) {
+                if (iniciativa.getNombre().equalsIgnoreCase(nombreIniciativa)) {
+                    boolean existeDuplicado = false;
+
+                    // Verificar duplicados
+                    for (Actividad actExistente : iniciativa.getList()) {
+                        if (actExistente.getNombre().equalsIgnoreCase(actividad.getNombre())) {
+                            existeDuplicado = true;
+                            break;
+                        }
+                    }
+
+                    // Si no es duplicado, añadir
+                    if (!existeDuplicado) {
+                        if (iniciativa.annadirList(actividad)) {
+                            actividad.setIniciativa(nombreIniciativa);
+                            resultado = true;
+                        }
+                    }
+                    break; // Salir del for al encontrar la iniciativa
+                }
             }
         }
-        return creada;
+
+        return resultado;
     }
 
     /**

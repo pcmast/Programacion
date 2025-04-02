@@ -3,7 +3,7 @@ package controller;
 import dataAcces.XMLManager;
 import model.Creador;
 import model.Usuario;
-import model.UsuariosContenedor;
+import dataAcces.UsuariosContenedor;
 import model.Voluntario;
 import utils.Utilidades;
 import view.MenuVista;

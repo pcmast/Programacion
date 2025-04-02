@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<usuarios>
+    <usuario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Voluntario">
+        <nombre>daniel</nombre>
+        <usuario>daniel</usuario>
+        <contrasenna>$2a$12$rvN9GHLHgJEPcltex75mTuQf2ShEdu82ZClAn3VUSsoTBgE1aghb.</contrasenna>
+        <correo>dani@gmail.com</correo>
+        <tipo>voluntario</tipo>
+        <puntos>0</puntos>
+    </usuario>
+    <usuario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Creador">
+        <nombre>pedro</nombre>
+        <usuario>pedro</usuario>
+        <contrasenna>$2a$12$DRsps0HCeQ7Hu3H.oCLej.JjH.38dAPCTnycahwkXO5DiRNJfcLPu</contrasenna>
+        <correo>pedro@gmail.com</correo>
+        <tipo>creador</tipo>
+        <ongPertenece>Franco</ongPertenece>
+    </usuario>
+</usuarios>
