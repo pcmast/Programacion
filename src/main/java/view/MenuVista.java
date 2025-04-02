@@ -88,7 +88,8 @@ public class MenuVista {
         System.out.println("1. Ver tareas asignadas\n" +
                 "2. Cambiar estado actividad\n" +
                 "3. Ver iniciativas y actividades del usuario\n" +
-                "4. Cerrar sesion");
+                "4. Mostrar Puntos y Premios"+
+                "5. Cerrar sesion");
     }
 
 }
