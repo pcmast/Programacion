@@ -33,7 +33,7 @@ public class MenuVista {
         System.out.println("────────────────────────────────────────────");
         String nombre = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce tu nombre: ");
         String usuario = Utilidades.pideString(" ⮞ Introduce el usuario: ");
-        String correo = Utilidades.pideString(" ⮞ ✉ Introduce el correo: ");
+        String correo = Utilidades.pideCorreo(" ⮞ ✉ Introduce el correo: ");
         String contrasenna = Utilidades.pideString(" ⮞ \uD83D\uDD11 Introduce tu contraseña: ");
 
         Usuario usuario1 = null;

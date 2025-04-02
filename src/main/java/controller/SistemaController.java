@@ -26,7 +26,7 @@ public class SistemaController {
 
                 switch (opcion) {
                     case 1:
-                        String correo = Utilidades.pideString(" ✉ Introduce el correo de la cuenta: ");
+                        String correo = Utilidades.pideCorreo(" ✉ Introduce el correo de la cuenta: ");
                         String contrasenna = Utilidades.pideString(" \uD83D\uDD11 Introduce la contraseña: ");
                         usuarioController.iniciarSesion(correo, contrasenna);
                         opcion = 4;

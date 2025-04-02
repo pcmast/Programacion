@@ -104,6 +104,23 @@ public class Utilidades {
         return valido;
     }
 
+    public static String pideCorreo(String mensaje) {
+        String correo;
+        boolean valido = false;
+        do {
+            correo = pideString(mensaje);
+            try {
+                if (validarCorreo(correo)) {
+                    valido = true;
+                    return correo;
+                }
+            } catch (ValidacionException e) {
+                System.out.println("⚠ " + e.getMessage());
+            }
+        } while (true);
+    }
+
+
     /**
      * Pide una cadena de texto al usuario.
      *
