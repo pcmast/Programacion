@@ -1,4 +1,6 @@
-package model;
+package dataAcces;
+
+import model.Usuario;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
