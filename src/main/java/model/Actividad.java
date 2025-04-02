@@ -188,12 +188,18 @@ public class  Actividad implements CRUDGenerico {
 
     @Override
     public String toString() {
-        return "Actividad \n" +
-                "nombre= " + nombre + '\n' +
-                "descripcion= " + descripcion + '\n' +
-                "fechaInicio= " + fechaInicio + '\n'+
-                "fechaFin= " + fechaFin + '\n' +
-                "voluntario= " + voluntario +'\n' +
-                "estado= " + estado + '\n';
+        StringBuilder sb = new StringBuilder();
+        sb.append("═══════════════════════════════\n");
+        sb.append("         📌 ACTIVIDAD         \n");
+        sb.append("═══════════════════════════════\n");
+        sb.append("📌 Nombre: ").append(nombre != null ? nombre : "N/A").append("\n");
+        sb.append("📝 Descripción: ").append(descripcion != null ? descripcion : "N/A").append("\n");
+        sb.append("📅 Fecha de inicio: ").append(fechaInicio != null ? fechaInicio : "N/A").append("\n");
+        sb.append("📅 Fecha de fin: ").append(fechaFin != null ? fechaFin : "N/A").append("\n");
+        sb.append("🙋 Voluntario asignado: ").append(voluntario ? "Sí" : "No").append("\n");
+        sb.append("📌 Estado: ").append(estado != null ? estado : "N/A").append("\n");
+        sb.append("═══════════════════════════════");
+        return sb.toString();
     }
+
 }
