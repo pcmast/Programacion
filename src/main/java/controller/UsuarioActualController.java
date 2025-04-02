@@ -3,11 +3,17 @@ package controller;
 import model.Usuario;
 
 public class UsuarioActualController {
+    private static UsuarioActualController instance;
+
+    public static UsuarioActualController getInstance(){
+        if (instance == null){
+            instance = new UsuarioActualController();
+        }
+        return instance;
+    }
 
     private Usuario usuario = null;
-
-    public UsuarioActualController() {
-    }
+    private static UsuarioActualController instancia;
 
     public Usuario getUsuario() {
         return usuario;

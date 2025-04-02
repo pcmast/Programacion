@@ -12,58 +12,41 @@ public class MenuVista {
         System.out.println(mensaje);
     }
 
-    /**
-     * Menú de inicio que pide al usuario lo que quiere hacer
-     */
-    public void mostrarMenuPrincipal() {
-        while (true) {
-            System.out.println("\n--------Sistema de Gestión de Voluntariado--------");
-            System.out.println("1. Iniciar Sesión");
-            System.out.println("2. Registrarse");
-            System.out.println("3. Salir");
-            System.out.print("Seleccione una opción: ");
-
-            int opcion = Utilidades.sc.nextInt();
-            Utilidades.sc.nextLine();
-
-            switch (opcion) {
-                case 1:
-                    pideDatosInicioSesion();
-                    break;
-                case 2:
-                    pideDatosRegistrarUsuario();
-                    break;
-                case 3:
-                    System.out.println("¡Gracias por usar el sistema!");
-                    return;
-                default:
-                    System.out.println("Opción no válida");
-            }
-        }
+    public static void mostrarMenu() {
+        System.out.println("\n╔═══════════════════════════════════════════╗");
+        System.out.println("║    SISTEMA DE GESTIÓN DE VOLUNTARIADO     ║");
+        System.out.println("╠═══════════════════════════════════════════╣");
+        System.out.println("║  1. Iniciar Sesión                        ║");
+        System.out.println("║  2. Registrarse                           ║");
+        System.out.println("║  3. Salir                                 ║");
+        System.out.println("╚═══════════════════════════════════════════╝");
     }
+
+
 
     /**
      * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
      * @return el usuario con los datos ya registrados.
      */
-    public static Usuario pideDatosRegistrarUsuario() {
-        String nombre = Utilidades.pideString("Introduce el nombre del usuario");
-        String usuario = Utilidades.pideString("Introduce el usuario");
-        String correo = Utilidades.pideString("Introduce el correo");
-        String contrasenna = Utilidades.pideString("Introduce tu contraseña");
-        muestraMenuCreadorOVoluntario();
-        int opcion = Utilidades.leeEntero("Introduce el tipo de usuario");
+    public static Usuario pideDatosRegistrarUsuario(int opcion) {
+        System.out.println("");
+        System.out.println("────────────────────────────────────────────");
+        String nombre = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce tu nombre: ");
+        String usuario = Utilidades.pideString(" ⮞ Introduce el usuario: ");
+        String correo = Utilidades.pideCorreo(" ⮞ ✉ Introduce el correo: ");
+        String contrasenna = Utilidades.pideString(" ⮞ \uD83D\uDD11 Introduce tu contraseña: ");
+
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
-                String ong = Utilidades.pideString("Introduce la ong que pertenece");
+                String ong = Utilidades.pideString(" ⮞ \uD83E\uDD1D Introduce la ONG que pertenece: ");
                 usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
                 break;
             case 2:
                 usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
                 break;
             default:
-                System.out.println("Opción incorrecta, vuelve a intentarlo");
+                System.out.println(" ❌ Opción incorrecta, vuelve a intentarlo");
         }
         return usuario1;
     }
@@ -71,27 +54,19 @@ public class MenuVista {
     /**
      * Menu que pide los datos en caso de inicio de sesion.
      */
-    public static Usuario pideDatosInicioSesion() {
-        String usuario = Utilidades.pideString("Introduce el usuario");
-        String contrasenna = Utilidades.pideString("Introduce la contraseña");
-        Usuario usuario1 = new Usuario(usuario, contrasenna);
-        boolean contraseñaValida = usuario1.verificarContrasenna(contrasenna);
-        if (contraseñaValida){
-            Utilidades.mostrarMensaje("Sesión iniciada correctamente");
-        }else {
-            Utilidades.mostrarMensaje("Contraseña incorrecta, vuelve a intentarlo");
-        }
-    return usuario1;
+    public static void pideDatosInicioSesion() {
+        String usuario = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce el usuario: ");
+        String contrasenna = Utilidades.pideString(" ⮞ \uD83D\uDD11 Introduce la contraseña: ");
     }
 
     /**
      * Menu para seleccionar el tipo de usuario.
      */
     public static void muestraMenuCreadorOVoluntario() {
-        System.out.println("Elige el tipo de usuario");
-        muestraMensaje("1. Creador");
-        muestraMensaje("2. Voluntario");
-
+        System.out.println();
+        System.out.println(" ➤ Elige el tipo de usuario: ");
+        muestraMensaje("    1. Creador");
+        muestraMensaje("    2. Voluntario");
     }
 
     /**
@@ -99,7 +74,7 @@ public class MenuVista {
      */
     public static void menuCreador() {
         System.out.println("1. Crear iniciativa\n" +
-                "2.Crear tareas de una iniciativa\n" +
+                "2. Crear tareas de una iniciativa\n" +
                 "3. Agregar colaboradores a una iniciativa\n" +
                 "4. Ver iniciativas creadas\n" +
                 "5. Ver iniciativas y actividades del usuario\n" +
@@ -113,7 +88,8 @@ public class MenuVista {
         System.out.println("1. Ver tareas asignadas\n" +
                 "2. Cambiar estado actividad\n" +
                 "3. Ver iniciativas y actividades del usuario\n" +
-                "4. Cerrar sesion");
+                "4. Mostrar Puntos y Premios"+
+                "5. Cerrar sesion");
     }
 
 }

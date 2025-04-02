@@ -16,14 +16,19 @@ public class Creador extends Usuario {
     @XmlElement(name = "iniciativa", type = Iniciativa.class) // Lista de iniciativas asociadas a este creador
     private ArrayList<Iniciativa> list = new ArrayList<>();
 
+    public Creador() {
+
+    }
+
     // Constructor con todos los parámetros para inicializar los datos del creador
     public Creador(String nombre, String usuario, String contrasenna, String correo, String ong) {
         super(nombre, usuario, contrasenna, correo); // Llama al constructor de la clase padre (Usuario)
         this.ongPertenece = ong; // Asigna la ONG a la que pertenece el creador
     }
 
-    // Métodos getter y setter para obtener y establecer los valores de los atributos
-
+    /**
+     * Métodos getter y setter para obtener y establecer los valores de los atributos
+      */
     public String getOngPertenece() {
         return ongPertenece;
     }
@@ -99,15 +104,13 @@ public class Creador extends Usuario {
      */
     public boolean eliminarActividad(String nombreActividad, String nombreIniciativa) {
         boolean eliminada = false;
-        // Busca la iniciativa con el nombre correspondiente
         for (Iniciativa iniciativa : list) {
             if (iniciativa.getNombre().equals(nombreIniciativa)) {
-                ArrayList<Actividad> lista1 = iniciativa.getList(); // Obtiene la lista de actividades de la iniciativa
-                // Recorre la lista de actividades para eliminar la correspondiente
+                ArrayList<Actividad> lista1 = iniciativa.getList();
                 for (Actividad actividad : lista1) {
                     if (actividad.getNombre().equals(nombreActividad)) {
-                        lista1.remove(actividad); // Elimina la actividad
-                        eliminada = true; // Indica que la actividad fue eliminada
+                        lista1.remove(actividad);
+                        eliminada = true;
                     }
                 }
             }
