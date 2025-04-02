@@ -2,14 +2,11 @@ package model;
 
 import interfaces.CRUDGenerico;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-@XmlRootElement(name = "Iniciativa")
+@XmlRootElement(name = "iniciativa")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Iniciativa implements CRUDGenerico {
     @XmlElement
@@ -32,6 +29,10 @@ public class Iniciativa implements CRUDGenerico {
         this.descripcion = descripcion;
         this.creadorIniciativa = creadorIniciativa;
     }
+
+    @XmlElementWrapper(name = "actividades")
+    @XmlElement(name = "actividad")
+    private ArrayList<Actividad> lista = new ArrayList<>();
 
     /**
      * Obtiene el nombre del premio.
@@ -169,29 +170,29 @@ public class Iniciativa implements CRUDGenerico {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("══════════════════════════════════════════\n");
-        sb.append("           🌿 DETALLES DE INICIATIVA     \n");
-        sb.append("══════════════════════════════════════════\n");
-        sb.append("📌 Nombre: ").append(nombre != null ? nombre : "N/A").append("\n");
-        sb.append("📝 Descripción: ").append(descripcion != null ? descripcion : "N/A").append("\n");
-        sb.append("👤 Creador: ").append(creadorIniciativa != null ? creadorIniciativa : "N/A").append("\n");
-        sb.append("══════════════════════════════════════════\n");
-        sb.append("📅 ACTIVIDADES ASOCIADAS (").append(list.size()).append(")\n");
-        sb.append("══════════════════════════════════════════\n");
+        String result = "";
+        result += "══════════════════════════════════════════\n";
+        result += "           🌿 DETALLES DE INICIATIVA     \n";
+        result += "══════════════════════════════════════════\n";
+        result += "📌 Nombre: " + (nombre != null ? nombre : "N/A") + "\n";
+        result += "📝 Descripción: " + (descripcion != null ? descripcion : "N/A") + "\n";
+        result += "👤 Creador: " + (creadorIniciativa != null ? creadorIniciativa : "N/A") + "\n";
+        result += "══════════════════════════════════════════\n";
+        result += "📅 ACTIVIDADES ASOCIADAS (" + list.size() + ")\n";
+        result += "══════════════════════════════════════════\n";
 
         if (list.isEmpty()) {
-            sb.append("No hay actividades registradas en esta iniciativa.\n");
+            result += "No hay actividades registradas en esta iniciativa.\n";
         } else {
             for (Actividad actividad : list) {
-                sb.append("🔹 ").append(actividad.getNombre()).append("\n");
-                sb.append("   📆 Fecha inicio: ").append(actividad.getFechaInicio() != null ? actividad.getFechaInicio() : "Por definir").append("\n");
-                sb.append("   🏁 Estado: ").append(actividad.getEstado() != null ? actividad.getEstado() : "N/A").append("\n");
-                sb.append("   ──────────────────────────────────────\n");
+                result += "🔹 " + actividad.getNombre() + "\n";
+                result += "   📆 Fecha inicio: " + (actividad.getFechaInicio() != null ? actividad.getFechaInicio() : "Por definir") + "\n";
+                result += "   🏁 Estado: " + (actividad.getEstado() != null ? actividad.getEstado() : "N/A") + "\n";
+                result += "   ──────────────────────────────────────\n";
             }
         }
-        sb.append("══════════════════════════════════════════");
-        return sb.toString();
+        result += "══════════════════════════════════════════";
+        return result;
     }
 }
 
