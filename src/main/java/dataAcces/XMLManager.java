@@ -26,6 +26,7 @@ public class XMLManager {
 
     public static <T> T readXML(T objeto, String fileName) {
         T result = null;
+        File file = new File(fileName);
         try {
             JAXBContext context = JAXBContext.newInstance(objeto.getClass());
 
