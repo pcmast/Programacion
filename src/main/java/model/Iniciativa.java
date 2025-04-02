@@ -169,9 +169,29 @@ public class Iniciativa implements CRUDGenerico {
 
     @Override
     public String toString() {
-        return "Iniciativa \n" +
-                "nombre= " + nombre + '\n' +
-                "descripcion= " + descripcion + '\n' +
-                "creador Iniciativa= " + creadorIniciativa +"\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("══════════════════════════════════════════\n");
+        sb.append("           🌿 DETALLES DE INICIATIVA     \n");
+        sb.append("══════════════════════════════════════════\n");
+        sb.append("📌 Nombre: ").append(nombre != null ? nombre : "N/A").append("\n");
+        sb.append("📝 Descripción: ").append(descripcion != null ? descripcion : "N/A").append("\n");
+        sb.append("👤 Creador: ").append(creadorIniciativa != null ? creadorIniciativa : "N/A").append("\n");
+        sb.append("══════════════════════════════════════════\n");
+        sb.append("📅 ACTIVIDADES ASOCIADAS (").append(list.size()).append(")\n");
+        sb.append("══════════════════════════════════════════\n");
+
+        if (list.isEmpty()) {
+            sb.append("No hay actividades registradas en esta iniciativa.\n");
+        } else {
+            for (Actividad actividad : list) {
+                sb.append("🔹 ").append(actividad.getNombre()).append("\n");
+                sb.append("   📆 Fecha inicio: ").append(actividad.getFechaInicio() != null ? actividad.getFechaInicio() : "Por definir").append("\n");
+                sb.append("   🏁 Estado: ").append(actividad.getEstado() != null ? actividad.getEstado() : "N/A").append("\n");
+                sb.append("   ──────────────────────────────────────\n");
+            }
+        }
+        sb.append("══════════════════════════════════════════");
+        return sb.toString();
     }
 }
+

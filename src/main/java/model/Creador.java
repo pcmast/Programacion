@@ -28,7 +28,7 @@ public class Creador extends Usuario {
 
     /**
      * Métodos getter y setter para obtener y establecer los valores de los atributos
-      */
+     */
     public String getOngPertenece() {
         return ongPertenece;
     }
@@ -47,10 +47,11 @@ public class Creador extends Usuario {
 
     /**
      * Crea una iniciativa y si la lista de este creador no contiene esa iniciativa, la añade
+     *
      * @param iniciativa la iniciativa que va a crear
      * @return devuelve true si la pudo añadir, false si ya existe en la lista
      */
-    public boolean crearIniciativa(Iniciativa iniciativa){
+    public boolean crearIniciativa(Iniciativa iniciativa) {
         boolean creada = false;
         if (!list.contains(iniciativa)) { // Verifica si la iniciativa no está en la lista
             list.add(iniciativa); // Añade la nueva iniciativa
@@ -61,11 +62,12 @@ public class Creador extends Usuario {
 
     /**
      * Elimina una iniciativa por su nombre y nombre de creador
-     * @param nombre el nombre de la iniciativa
+     *
+     * @param nombre        el nombre de la iniciativa
      * @param nombreCreador nombre del creador de esa iniciativa
      * @return devuelve true si se ha podido eliminar, false si no se pudo encontrar
      */
-    public boolean eliminarIniciativa(String nombre, String nombreCreador){
+    public boolean eliminarIniciativa(String nombre, String nombreCreador) {
         boolean eliminada = false;
         // Recorre la lista de iniciativas
         for (Iniciativa iniciativa : list) {
@@ -80,7 +82,8 @@ public class Creador extends Usuario {
 
     /**
      * El creador crea una actividad y la añade a una iniciativa específica
-     * @param actividad la actividad que va a crear
+     *
+     * @param actividad        la actividad que va a crear
      * @param nombreIniciativa nombre de la iniciativa donde se añadirá la actividad
      * @return devuelve true si la actividad fue añadida correctamente, false si no se pudo añadir
      */
@@ -98,7 +101,8 @@ public class Creador extends Usuario {
 
     /**
      * El creador elimina una actividad por su nombre y nombre de la iniciativa a la que pertenece
-     * @param nombreActividad nombre de la actividad que quiere eliminar
+     *
+     * @param nombreActividad  nombre de la actividad que quiere eliminar
      * @param nombreIniciativa nombre de la iniciativa que tiene esa actividad
      * @return devuelve true si la actividad fue eliminada, false si no se pudo encontrar
      */
@@ -120,10 +124,41 @@ public class Creador extends Usuario {
 
     /**
      * Devuelve una copia de la lista de iniciativas del creador
+     *
      * @return una lista de las iniciativas del creador
      */
     public ArrayList<Iniciativa> verIniciativas() {
-        return getList(); // Retorna la lista de iniciativas
+        return getList();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("══════════════════════════════════════════\n");
+        sb.append("           🧑💼 PERFIL DE CREADOR       \n");
+        sb.append("══════════════════════════════════════════\n");
+        sb.append("👤 Nombre: ").append(getNombre() != null ? getNombre() : "N/A").append("\n");
+        sb.append("📧 Correo: ").append(getCorreo() != null ? getCorreo() : "N/A").append("\n");
+        sb.append("🏛️ ONG: ").append(ongPertenece != null ? ongPertenece : "N/A").append("\n");
+        sb.append("══════════════════════════════════════════\n");
+        sb.append("🌱 INICIATIVAS (").append(list.size()).append(")\n");
+        sb.append("══════════════════════════════════════════\n");
+
+        if (list.isEmpty()) {
+            sb.append("No hay iniciativas creadas.\n");
+        } else {
+            for (Iniciativa iniciativa : list) {
+                sb.append("🔹 ").append(iniciativa.getNombre()).append("\n");
+                sb.append("   📝 ").append(iniciativa.getDescripcion() != null ?
+                        (iniciativa.getDescripcion().length() > 50 ?
+                                iniciativa.getDescripcion().substring(0, 47) + "..." :
+                                iniciativa.getDescripcion()) :
+                        "Sin descripción").append("\n");
+                sb.append("   📅 Actividades: ").append(iniciativa.getList().size()).append("\n");
+                sb.append("   ──────────────────────────────────────\n");
+            }
+        }
+        sb.append("══════════════════════════════════════════");
+        return sb.toString();
+    }
 }

@@ -158,4 +158,10 @@ public class Voluntario extends Usuario{
     public ArrayList<Premio> verPremiosObtenidos() {
         return premiosObtenidos;
     }
+
+    @Override
+    public String toString() {
+        //return super.getNombre();
+        return "Voluntario: " + super.getNombre() + " (Puntos: " + puntos + ")";
+    }
 }

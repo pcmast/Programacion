@@ -1,11 +1,9 @@
-
 package view;
 
 import model.Creador;
 import model.Usuario;
 import model.Voluntario;
 import utils.Utilidades;
-
 
 public class MenuVista {
     public static void muestraMensaje(String mensaje) {
@@ -22,8 +20,6 @@ public class MenuVista {
         System.out.println("╚═══════════════════════════════════════════╝");
     }
 
-
-
     /**
      * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
      * @return el usuario con los datos ya registrados.
@@ -31,15 +27,15 @@ public class MenuVista {
     public static Usuario pideDatosRegistrarUsuario(int opcion) {
         System.out.println("");
         System.out.println("────────────────────────────────────────────");
-        String nombre = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce tu nombre: ");
+        String nombre = Utilidades.pideString(" ⮞ 👤 Introduce tu nombre: ");
         String usuario = Utilidades.pideString(" ⮞ Introduce el usuario: ");
         String correo = Utilidades.pideCorreo(" ⮞ ✉ Introduce el correo: ");
-        String contrasenna = Utilidades.pideString(" ⮞ \uD83D\uDD11 Introduce tu contraseña: ");
+        String contrasenna = Utilidades.pideString(" ⮞ 🔑 Introduce tu contraseña: ");
 
         Usuario usuario1 = null;
         switch (opcion) {
             case 1:
-                String ong = Utilidades.pideString(" ⮞ \uD83E\uDD1D Introduce la ONG que pertenece: ");
+                String ong = Utilidades.pideString(" ⮞ 🤝 Introduce la ONG que pertenece: ");
                 usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
                 break;
             case 2:
@@ -55,8 +51,9 @@ public class MenuVista {
      * Menu que pide los datos en caso de inicio de sesion.
      */
     public static void pideDatosInicioSesion() {
-        String usuario = Utilidades.pideString(" ⮞ \uD83D\uDC64 Introduce el usuario: ");
-        String contrasenna = Utilidades.pideString(" ⮞ \uD83D\uDD11 Introduce la contraseña: ");
+        System.out.println("────────────────────────────────────────────");
+        String usuario = Utilidades.pideString(" ⮞ 👤 Introduce el usuario: ");
+        String contrasenna = Utilidades.pideString(" ⮞ 🔑 Introduce la contraseña: ");
     }
 
     /**
@@ -73,23 +70,26 @@ public class MenuVista {
      * Menu de los usuarios creadores.
      */
     public static void menuCreador() {
-        System.out.println("1. Crear iniciativa\n" +
-                "2. Crear tareas de una iniciativa\n" +
-                "3. Agregar colaboradores a una iniciativa\n" +
-                "4. Ver iniciativas creadas\n" +
-                "5. Ver iniciativas y actividades del usuario\n" +
-                "6. Cerrar sesion");
+        System.out.println("────────────────────────────────────────────");
+        System.out.println(" ➤ Menú de Creador:");
+        muestraMensaje("    1. Crear iniciativa");
+        muestraMensaje("    2. Crear tareas de una iniciativa");
+        muestraMensaje("    3. Agregar colaboradores a una iniciativa");
+        muestraMensaje("    4. Ver iniciativas creadas");
+        muestraMensaje("    5. Ver iniciativas y actividades del usuario");
+        muestraMensaje("    6. Cerrar sesión");
     }
 
     /**
      * Menu de los usuarios voluntarios.
      */
     public static void menuVoluntarios() {
-        System.out.println("1. Ver tareas asignadas\n" +
-                "2. Cambiar estado actividad\n" +
-                "3. Ver iniciativas y actividades del usuario\n" +
-                "4. Mostrar Puntos y Premios"+
-                "5. Cerrar sesion");
+        System.out.println("────────────────────────────────────────────");
+        System.out.println(" ➤ Menú de Voluntario:");
+        muestraMensaje("    1. Ver tareas asignadas");
+        muestraMensaje("    2. Cambiar estado actividad");
+        muestraMensaje("    3. Ver iniciativas y actividades del usuario");
+        muestraMensaje("    4. Mostrar Puntos y Premios");
+        muestraMensaje("    5. Cerrar sesión");
     }
-
 }
