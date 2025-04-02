@@ -21,17 +21,19 @@ public class Utilidades {
      * @return El número entero introducido por el usuario.
      */
     public static int leeEntero(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in);
         int numero = 0;
         boolean valido = false;
 
         while (!valido) {
             try {
                 System.out.print(mensaje);
-                numero = Integer.parseInt(scanner.nextLine());  // Intenta convertir la entrada en un número entero.
+                numero = teclado.nextInt();  // Intenta convertir la entrada en un número entero.
                 valido = true;
             } catch (NumberFormatException e) {
                 System.out.println("Error: Ingresa un número entero válido.");
+            }catch (InputMismatchException e){
+                System.out.println("Error: Ingresa un número entero");
             }
         }
         return numero;
@@ -45,14 +47,14 @@ public class Utilidades {
      * @return El número decimal (double) introducido por el usuario.
      */
     public static double leeDouble(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in);
         double numero = 0;
         boolean valido = false;
 
         while (!valido) {
             try {
                 System.out.print(mensaje);
-                numero = Double.parseDouble(scanner.nextLine());
+                numero = teclado.nextDouble();
                 valido = true;
             } catch (NumberFormatException e) {
                 System.out.println("Error: Ingresa un número válido.");  // Muestra mensaje de error si la entrada no es un número válido.
@@ -128,10 +130,10 @@ public class Utilidades {
      * @return la cadena introducida por el usuario.
      */
     public static String pideString(String msn) {
+        Scanner teclado = new Scanner(System.in);
         MenuVista.muestraMensaje(msn);
         String cadena = null;
-        cadena = sc.next(); // Lee una palabra
-        sc.nextLine(); // Consume el salto de línea pendiente
+        cadena = teclado.nextLine(); // Lee una palabra
         return cadena;
     }
 
@@ -142,13 +144,14 @@ public class Utilidades {
      * @return fecha introducida por el usuario en formato LocalDate, o null si no se ha introducido una fecha correcta.
      */
     public static LocalDate pideFecha(String msn) {
+        Scanner teclado = new Scanner(System.in);
         LocalDate fecha = null;
         boolean fechaCorrecta = false;
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         while (!fechaCorrecta) {
             MenuVista.muestraMensaje(msn);
-            String fechaString = sc.nextLine();
+            String fechaString = teclado.nextLine();
 
             try {
                 fecha = LocalDate.parse(fechaString, formatoFecha);

@@ -1,6 +1,8 @@
 package controller;
 
+import model.Creador;
 import model.Usuario;
+import model.Voluntario;
 
 public class UsuarioActualController {
     private static UsuarioActualController instance;
@@ -13,6 +15,7 @@ public class UsuarioActualController {
     }
 
     private Usuario usuario = null;
+
     private static UsuarioActualController instancia;
 
     public Usuario getUsuario() {
