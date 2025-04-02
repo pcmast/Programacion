@@ -49,6 +49,11 @@ public class SistemaController {
                         terminar = 6;
                 }
             } while (opcion != 4);
+            if (usuarioActualController.getUsuario().getClass().getSimpleName().equals("Creador")){
+                creador = (Creador) usuarioActualController.getUsuario();
+            }else {
+                voluntario = (Voluntario) usuarioActualController.getUsuario();
+            }
 
             if (creador != null && terminar != 6) {
                 terminar = controlarCreador(creador);

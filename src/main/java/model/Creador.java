@@ -125,4 +125,5 @@ public class Creador extends Usuario {
     public ArrayList<Iniciativa> verIniciativas() {
         return getList(); // Retorna la lista de iniciativas
     }
+
 }
