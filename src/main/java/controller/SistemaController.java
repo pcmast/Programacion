@@ -22,37 +22,41 @@ public class SistemaController {
         do {
             do {
                 MenuVista.mostrarMenu();
-                opcion = Utilidades.leeEntero("Introduce la opcion que quieras: ");
+                opcion = Utilidades.leeEntero(" >> Introduce la opcion que quieras: ");
 
                 switch (opcion) {
                     case 1:
-                        String correo = Utilidades.pideString("Introduce el correo de la cuenta: ");
-                        String contrasenna = Utilidades.pideString("Introduce la contraseña: ");
+                        String correo = Utilidades.pideCorreo(" ✉ Introduce el correo de la cuenta: ");
+                        String contrasenna = Utilidades.pideString(" \uD83D\uDD11 Introduce la contraseña: ");
                         usuarioController.iniciarSesion(correo, contrasenna);
+                        opcion = 4;
                         break;
                     case 2:
                         MenuVista.muestraMenuCreadorOVoluntario();
-                        numero = Utilidades.leeEntero("Introduce la opcion: ");
+                        numero = Utilidades.leeEntero(" >> Introduce la opcion: ");
                         if (numero == 1) {
                             creador = (Creador) MenuVista.pideDatosRegistrarUsuario(numero);
                             usuarioActualController.setUsuario(creador);
                             usuarioController.registrarUsuario(creador);
+                            opcion = 4;
                         } else {
                             voluntario = (Voluntario) MenuVista.pideDatosRegistrarUsuario(numero);
                             usuarioActualController.setUsuario(voluntario);
                             usuarioController.registrarUsuario(voluntario);
                         }
                         break;
-                    case 4:
+                    case 3:
                         terminar = 6;
                 }
-            } while (opcion != 3);
+            } while (opcion != 4);
 
             if (creador != null && terminar != 6) {
                 terminar = controlarCreador(creador);
+                creador = null;
             }
             if (voluntario != null && terminar != 6) {
                 terminar = controlarVoluntario();
+                voluntario = null;
             }
 
 

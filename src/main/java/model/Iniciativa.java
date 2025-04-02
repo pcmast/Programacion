@@ -172,6 +172,6 @@ public class Iniciativa implements CRUDGenerico {
         return "Iniciativa \n" +
                 "nombre= " + nombre + '\n' +
                 "descripcion= " + descripcion + '\n' +
-                "creador Iniciativa= " + creadorIniciativa;
+                "creador Iniciativa= " + creadorIniciativa +"\n";
     }
 }
