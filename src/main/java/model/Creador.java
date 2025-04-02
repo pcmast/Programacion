@@ -1,13 +1,11 @@
 package model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 
-@XmlRootElement(name = "Creadores") // Define el nombre del elemento XML raíz para la clase
-@XmlAccessorType(XmlAccessType.FIELD) // Especifica que los campos de la clase serán utilizados para el mapeo XML
+@XmlRootElement(name = "Creador")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Creador")
 public class Creador extends Usuario {
 
     @XmlElement
@@ -22,7 +20,7 @@ public class Creador extends Usuario {
 
     // Constructor con todos los parámetros para inicializar los datos del creador
     public Creador(String nombre, String usuario, String contrasenna, String correo, String ong) {
-        super(nombre, usuario, contrasenna, correo); // Llama al constructor de la clase padre (Usuario)
+        super(nombre, usuario, contrasenna, correo,"creador"); // Llama al constructor de la clase padre (Usuario)
         this.ongPertenece = ong; // Asigna la ONG a la que pertenece el creador
     }
 

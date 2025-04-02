@@ -13,57 +13,62 @@ public class SistemaController {
     private IniciativaController iniciativaController = new IniciativaController();
 
     public void sistemaControllerEmpezar() {
-
         Creador creador = null;
         Voluntario voluntario = null;
-        int opcion = 0;
-        int numero = 0;
-        int terminar = 0;
+        int opcion, numero, terminar = 0;
+
         do {
             do {
                 MenuVista.mostrarMenu();
-                opcion = Utilidades.leeEntero(" >> Introduce la opcion que quieras: ");
+                opcion = Utilidades.leeEntero(" >> Introduce la opción que quieras: ");
 
                 switch (opcion) {
                     case 1:
                         String correo = Utilidades.pideCorreo(" ✉ Introduce el correo de la cuenta: ");
                         String contrasenna = Utilidades.pideString(" \uD83D\uDD11 Introduce la contraseña: ");
-                        usuarioController.iniciarSesion(correo, contrasenna);
-                        opcion = 4;
-                        break;
-                    case 2:
-                        MenuVista.muestraMenuCreadorOVoluntario();
-                        numero = Utilidades.leeEntero(" >> Introduce la opcion: ");
-                        if (numero == 1) {
-                            creador = (Creador) MenuVista.pideDatosRegistrarUsuario(numero);
-                            usuarioActualController.setUsuario(creador);
-                            usuarioController.registrarUsuario(creador);
+                        Usuario usuario = usuarioController.iniciarSesion(correo, contrasenna);
+
+                        if (usuario != null) {
+                            if (usuario instanceof Creador) {
+                                creador = (Creador) usuario;
+                                terminar = controlarCreador(creador);
+                            } else if (usuario instanceof Voluntario) {
+                                voluntario = (Voluntario) usuario;
+                                terminar = controlarVoluntario();
+                            } else {
+                                MenuVista.muestraMensaje("Error: Tipo de usuario no soportado");
+                            }
                             opcion = 4;
-                        } else {
-                            voluntario = (Voluntario) MenuVista.pideDatosRegistrarUsuario(numero);
-                            usuarioActualController.setUsuario(voluntario);
-                            usuarioController.registrarUsuario(voluntario);
                         }
                         break;
-                    case 3:
+                    case 2: // Registro
+                        MenuVista.muestraMenuCreadorOVoluntario();
+                        numero = Utilidades.leeEntero(" >> Introduce la opción: ");
+                        Usuario nuevoUsuario = MenuVista.pideDatosRegistrarUsuario(numero);
+                        usuarioActualController.setUsuario(nuevoUsuario);
+                        usuarioController.registrarUsuario(nuevoUsuario);
+                        opcion = 4;
+                        break;
+
+                    case 3: // Salir
                         terminar = 6;
+                        break;
                 }
             } while (opcion != 4);
-            if (usuarioActualController.getUsuario().getClass().getSimpleName().equals("Creador")){
-                creador = (Creador) usuarioActualController.getUsuario();
-            }else {
-                voluntario = (Voluntario) usuarioActualController.getUsuario();
-            }
 
-            if (creador != null && terminar != 6) {
+            // Verificación segura del tipo de usuario
+            Usuario usuarioActual = usuarioActualController.getUsuario();
+            if (usuarioActual instanceof Creador) {
+                creador = (Creador) usuarioActual;
                 terminar = controlarCreador(creador);
                 creador = null;
-            }
-            if (voluntario != null && terminar != 6) {
+            } else if (usuarioActual instanceof Voluntario) {
+                voluntario = (Voluntario) usuarioActual;
                 terminar = controlarVoluntario();
                 voluntario = null;
+            } else if (terminar != 6) {
+                System.out.println("Error: Tipo de usuario no reconocido");
             }
-
 
         } while (terminar == 6 || terminar == 4);
     }

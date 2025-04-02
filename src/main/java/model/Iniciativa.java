@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Objects;
 
-@XmlRootElement(name = "Iniciativas")
+@XmlRootElement(name = "Iniciativa")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Iniciativa implements CRUDGenerico {
     @XmlElement

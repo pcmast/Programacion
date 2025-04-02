@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@XmlRootElement(name = "Actividades")
+@XmlRootElement(name = "Actividad")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class  Actividad implements CRUDGenerico {
 

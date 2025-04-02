@@ -1,14 +1,12 @@
 package model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "Voluntarios")
+@XmlRootElement(name = "Voluntario")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Voluntario")
 public class Voluntario extends Usuario{
     @XmlElement
     private int puntos;
@@ -30,7 +28,7 @@ public class Voluntario extends Usuario{
      * @param correo Correo electrónico del voluntario
      */
     public Voluntario(String nombre, String usuario, String contrasenna, String correo) {
-        super(nombre, usuario, contrasenna, correo);
+        super(nombre, usuario, contrasenna, correo, "voluntario");
     }
 
     /**

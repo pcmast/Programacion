@@ -17,8 +17,14 @@ public class ActividadController {
      * Metodo que crea una actividad nueva y la añade a la lista de actividades del usuario actual
      */
     public void creaActividad() {
+        ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
         try {
-            ArrayList<Actividad> actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+            actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+        } catch (RuntimeException e) {
+            // Si el archivo no existe, se creará uno nuevo al guardar
+
+        }
+        try {
             if (actividadesDesdeXML != null) {
                 Creador creador = (Creador) usuarioActualController.getUsuario();
                 for (Iniciativa iniciativa : creador.verIniciativas()) {

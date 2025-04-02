@@ -1,14 +1,18 @@
 package controller;
 
 import dataAcces.XMLManager;
+import model.Creador;
 import model.Usuario;
 import model.UsuariosContenedor;
+import model.Voluntario;
 import utils.Utilidades;
 import view.MenuVista;
 
 import java.util.ArrayList;
 
-
+/**
+ * Clase que controla la lógica de negocio relacionada con los usuarios.
+ */
 public class UsuarioController {
     private ArrayList<Usuario> list = new ArrayList<>();
 
@@ -23,6 +27,13 @@ public class UsuarioController {
      */
     public void registrarUsuario(Usuario usuarioNuevo) {
         cargarUsuariosDesdeXML();
+
+        // Asignar el tipo de usuario
+        if (usuarioNuevo instanceof Creador) {
+            usuarioNuevo.setTipo("creador");
+        } else if (usuarioNuevo instanceof Voluntario) {
+            usuarioNuevo.setTipo("voluntario");
+        }
 
         if (list.contains(usuarioNuevo)) {
             MenuVista.muestraMensaje("¡El usuario ya existe!");
@@ -65,25 +76,43 @@ public class UsuarioController {
     /**
      * Método que muestra en pantalla el menú de inicio de sesión, y comprueba si el usuario existe en la lista y si la contraseña introducida es correcta. Si es así se establece ese usuario como el actual.
      */
-    public void iniciarSesion(String correo, String contrasenna) {
+    public Usuario iniciarSesion(String correo, String contrasenna) {
         cargarUsuariosDesdeXML();
         UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
-        boolean usuarioValido = false;
+
         for (Usuario usuario : list) {
-            if (usuario.getCorreo().equals(correo) && !usuarioValido) {
+            if (usuario.getCorreo().equals(correo)) {
                 if (usuario.verificarContrasenna(contrasenna)) {
-                    usuarioActualController.setUsuario(usuario);
-                    MenuVista.muestraMensaje("Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getNombre() + "!");
-                    usuarioValido = true;
+                    Usuario usuarioFinal;
+
+                    // Convertir el usuario base al tipo correcto
+                    if ("creador".equals(usuario.getTipo())) {
+                        usuarioFinal = new Creador(usuario.getNombre(), usuario.getUsuario(),
+                                usuario.getContrasenna(), usuario.getCorreo(), "");
+                    } else if ("voluntario".equals(usuario.getTipo())) {
+                        usuarioFinal = new Voluntario(usuario.getNombre(), usuario.getUsuario(),
+                                usuario.getContrasenna(), usuario.getCorreo());
+                    } else {
+                        MenuVista.muestraMensaje("Error: Tipo de usuario no reconocido");
+                        return null;
+                    }
+
+                    usuarioActualController.setUsuario(usuarioFinal);
+
+                    // Mensaje personalizado según tipo de usuario
+                    MenuVista.muestraMensaje("Inicio de sesión exitoso. ¡Bienvenido " +
+                            usuario.getTipo() + ", " + usuario.getNombre() + "!");
+
+                    return usuarioFinal;
                 } else {
                     MenuVista.muestraMensaje("La contraseña es incorrecta.");
-                    usuarioValido = true;
+                    return null;
                 }
             }
         }
-        if (!usuarioValido) {
-            MenuVista.muestraMensaje("El correo proporcionado no está registrado.");
-        }
+
+        MenuVista.muestraMensaje("El correo proporcionado no está registrado.");
+        return null;
     }
 
 
