@@ -1,10 +1,13 @@
 package controller;
 
+import com.sun.xml.txw2.output.XMLWriter;
 import dataAcces.XMLManager;
 import model.*;
 import utils.Utilidades;
 import view.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -17,35 +20,21 @@ public class ActividadController {
      * Metodo que crea una actividad nueva y la añade a la lista de actividades del usuario actual
      */
     public void creaActividad() {
+        File archivo = new File("actividades.xml");
         ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
-        try {
+        if (archivo.exists()) {
             actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
-        } catch (RuntimeException e) {
-            // Si el archivo no existe, se creará uno nuevo al guardar
-
-        }
-        try {
-            if (actividadesDesdeXML != null) {
-                Creador creador = (Creador) usuarioActualController.getUsuario();
-                for (Iniciativa iniciativa : creador.verIniciativas()) {
-                    iniciativa.setList(actividadesDesdeXML);
-                }
-            }
-        } catch (RuntimeException e) {
-            e.printStackTrace();
         }
 
         Creador creador = (Creador) usuarioActualController.getUsuario();
         Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
         boolean creado = creador.crearActividad(actividad, actividad.getIniciativa());
 
+
         if (creado) {
+            actividadesDesdeXML.add(actividad);
+            XMLManager.writeXML(actividad, "actividades.xml");
             MenuVista.muestraMensaje("Se ha creado correctamente.");
-            try {
-                XMLManager.writeXML(creador.verIniciativas(), "actividades.xml");
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            }
         } else {
             MenuVista.muestraMensaje("No se ha podido crear la actividad.");
         }
@@ -56,16 +45,12 @@ public class ActividadController {
      * Método que elimina una actividad de la lista de actividades del usuario actual
      */
     public void eliminaActividad() {
-        try {
-            ArrayList<Actividad> actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
-            if (actividadesDesdeXML != null) {
-                Creador creador = (Creador) usuarioActualController.getUsuario();
-                for (Iniciativa iniciativa : creador.verIniciativas()) {
-                    iniciativa.setList(actividadesDesdeXML);
-                }
-            }
-        } catch (RuntimeException e) {
-            e.printStackTrace();
+        File archivo = new File("actividades.xml");
+        ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
+        if (archivo.exists()) {
+            actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+        } else {
+            XMLManager.writeXML(actividadesDesdeXML, "actividades.xml");
         }
 
         boolean eliminado = false;
@@ -76,7 +61,10 @@ public class ActividadController {
             for (Actividad actividad : iniciativa.getList()) {
                 if (actividad.getNombre().equals(nombre)) {
                     eliminado = actividad.eliminarList(nombre);
-                    break;
+                    if (actividad.getNombre().equals(nombre)) {
+                        actividadesDesdeXML.remove(actividad);
+                        break;
+                    }
                 }
             }
         }
@@ -84,7 +72,7 @@ public class ActividadController {
         if (eliminado) {
             MenuVista.muestraMensaje("Se ha eliminado correctamente.");
             try {
-                XMLManager.writeXML(creador.verIniciativas(), "actividades.xml");
+                XMLManager.writeXML(actividadesDesdeXML, "actividades.xml");
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
@@ -98,31 +86,29 @@ public class ActividadController {
      * Método que modifica una actividad de la lista de actividades del usuario actual
      */
     public void modificaActividad() {
-        try {
-            ArrayList<Actividad> actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
-            if (actividadesDesdeXML != null) {
-                Creador creador = (Creador) usuarioActualController.getUsuario();
-                for (Iniciativa iniciativa : creador.verIniciativas()) {
-                    iniciativa.setList(actividadesDesdeXML);
-                }
-            }
-        } catch (RuntimeException e) {
-            e.printStackTrace();
+        File archivo = new File("actividades.xml");
+        ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
+        if (archivo.exists()) {
+            actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+        } else {
+            XMLManager.writeXML(actividadesDesdeXML, "actividades.xml");
         }
-
+        boolean existe = false;
         boolean actualizado = false;
         Creador creador = (Creador) usuarioActualController.getUsuario();
         ArrayList<Iniciativa> list = creador.verIniciativas();
         Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
 
         for (Iniciativa iniciativa : list) {
-            actualizado = iniciativa.modificar(actividad);
+                actualizado = iniciativa.modificar(actividad);
+                existe = actividadesDesdeXML.remove(actividad);
+                actividadesDesdeXML.add(actividad);
         }
 
         if (actualizado) {
             MenuVista.muestraMensaje("Se ha podido modificar correctamente.");
             try {
-                XMLManager.writeXML(creador.verIniciativas(), "actividades.xml");
+                XMLManager.writeXML(actividad, "actividades.xml");
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
@@ -136,16 +122,12 @@ public class ActividadController {
      * Método que muestra las actividades en las que está inscrito un voluntario
      */
     public void verActividades() {
-        try {
-            ArrayList<Actividad> actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
-            if (actividadesDesdeXML != null) {
-                Creador creador = (Creador) usuarioActualController.getUsuario();
-                for (Iniciativa iniciativa : creador.verIniciativas()) {
-                    iniciativa.setList(actividadesDesdeXML);
-                }
-            }
-        } catch (RuntimeException e) {
-            e.printStackTrace();
+        File archivo = new File("actividades.xml");
+        ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
+        if (archivo.exists()) {
+            actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+        } else {
+            MenuVista.muestraMensaje("No existen actividades");
         }
 
         Creador creador = (Creador) usuarioActualController.getUsuario();
@@ -160,6 +142,42 @@ public class ActividadController {
     public void actualizarEstado() {
         Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
     }
+
+    public void eliminarUsuario(){
+        boolean eliminado = false;
+        Creador creador= (Creador) usuarioActualController.getUsuario();
+        String voluntario = Utilidades.pideString("Introduce el nombre del voluntario");
+        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa");
+        String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
+        ArrayList<Iniciativa> list = creador.getList();
+        if (list != null) {
+            for (Iniciativa iniciativa : list) {
+                if (iniciativa.getNombre().equals(nombreIniciativa)) {
+                    ArrayList<Actividad> list1 = iniciativa.getList();
+                    if (list1 != null) {
+                        for (Actividad actividad : list1) {
+                            if (actividad.getNombre().equals(nombreActividad)) {
+                                ArrayList<Usuario> list2 = usuarioController.getList();
+                                if (list2 != null) {
+                                    for (Usuario usuario : list2) {
+                                        if (usuario.getUsuario().equals(voluntario)) {
+                                         eliminado = actividad.eliminarList(usuario.getNombre());
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
+        }
+        if (!eliminado) {
+            MenuVista.muestraMensaje("No se a podido eliminar el voluntario");
+        }
+    }
+
 
     public void annadirUsuario() {
         boolean annadirUsuario = false;
