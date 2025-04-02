@@ -2,14 +2,11 @@ package controller;
 
 import dataAcces.XMLManager;
 import model.Usuario;
+import model.UsuariosContenedor;
 import utils.Utilidades;
 import view.MenuVista;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
-
-import static view.MenuVista.menuCreador;
-import static view.MenuVista.menuVoluntarios;
 
 
 public class UsuarioController {
@@ -25,7 +22,7 @@ public class UsuarioController {
      * @param usuarioNuevo devuelve el usuario nuevo que se ha registrado
      */
     public void registrarUsuario(Usuario usuarioNuevo) {
-        cargarUsuariosDesdeXML(); // Cargar usuarios desde XML
+        cargarUsuariosDesdeXML();
 
         if (list.contains(usuarioNuevo)) {
             MenuVista.muestraMensaje("¡El usuario ya existe!");
@@ -41,9 +38,9 @@ public class UsuarioController {
 
     private void cargarUsuariosDesdeXML() {
         try {
-            ArrayList<Usuario> usuariosDeXML = XMLManager.readXML(new ArrayList<Usuario>(), "usuarios.xml");
-            if (usuariosDeXML != null) {
-                list = usuariosDeXML;
+            UsuariosContenedor wrapper = XMLManager.readXML(new UsuariosContenedor(), "usuarios.xml");
+            if (wrapper!= null) {
+                list = new ArrayList<>(wrapper.getUsuarios());
             }
         } catch (RuntimeException e) {
             MenuVista.muestraMensaje("❌ Error al obtener los usuarios desde XML.");
@@ -52,7 +49,9 @@ public class UsuarioController {
 
     private void guardarUsuariosEnXML() {
         try {
-            boolean exito = XMLManager.writeXML(list, "usuarios.xml");
+            UsuariosContenedor wrapper = new UsuariosContenedor();
+            wrapper.setUsuarios(list);
+            boolean exito = XMLManager.writeXML(wrapper, "usuarios.xml");
             if (exito) {
                 MenuVista.muestraMensaje(">> ✅ Datos guardados correctamente en XML");
             } else {
