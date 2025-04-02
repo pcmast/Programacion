@@ -83,21 +83,24 @@ public class SistemaController {
                     iniciativaController.creaIniciativa();
                     break;
                 case 2:
-                    actividadController.creaActividad();
+                    iniciativaController.eliminaIniciativa();
                     break;
                 case 3:
-                    actividadController.annadirUsuario();
+                    actividadController.creaActividad();
                     break;
                 case 4:
-                    actividadController.eliminarUsuario();
+                    actividadController.annadirUsuario();
                     break;
                 case 5:
-                    iniciativaController.muestraIniciativasNombre();
+                    actividadController.eliminarUsuario();
                     break;
                 case 6:
-                    iniciativaController.muestraIniciativas();
+                    iniciativaController.muestraIniciativasNombre();
                     break;
                 case 7:
+                    iniciativaController.muestraIniciativas();
+                    break;
+                case 8:
                     break;
             }
 

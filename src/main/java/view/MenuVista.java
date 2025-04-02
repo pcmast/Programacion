@@ -73,6 +73,7 @@ public class MenuVista {
         System.out.println("────────────────────────────────────────────");
         System.out.println(" ➤ Menú de Creador:");
         muestraMensaje("    1. Crear iniciativa");
+        muestraMensaje("    2. Eliminar iniciativa");
         muestraMensaje("    2. Crear tareas de una iniciativa");
         muestraMensaje("    3. Agregar colaboradores a una iniciativa");
         muestraMensaje("    4. Eliminar colaboradores de una iniciativa");
