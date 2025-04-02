@@ -5,10 +5,12 @@ import model.Usuario;
 import utils.Utilidades;
 import view.MenuVista;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
 import static view.MenuVista.menuCreador;
 import static view.MenuVista.menuVoluntarios;
+
 
 public class UsuarioController {
     private ArrayList<Usuario> list = new ArrayList<>();
