@@ -1,8 +1,11 @@
 package model;
 
+import controller.UsuarioActualController;
+import dataAcces.XMLManagerActividades;
 import interfaces.CRUDGenerico;
 
 import javax.xml.bind.annotation.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -21,6 +24,7 @@ public class Iniciativa implements CRUDGenerico {
     private ArrayList<Actividad> actividades = new ArrayList<>();
 
     public Iniciativa() {
+
     }
 
     /**
@@ -172,29 +176,37 @@ public class Iniciativa implements CRUDGenerico {
 
     @Override
     public String toString() {
-        String result = "";
-        result += "══════════════════════════════════════════\n";
-        result += "           🌿 DETALLES DE INICIATIVA     \n";
-        result += "══════════════════════════════════════════\n";
-        result += "📌 Nombre: " + (nombre != null ? nombre : "N/A") + "\n";
-        result += "📝 Descripción: " + (descripcion != null ? descripcion : "N/A") + "\n";
-        result += "👤 Creador: " + (creadorIniciativa != null ? creadorIniciativa : "N/A") + "\n";
-        result += "══════════════════════════════════════════\n";
-        result += "📅 ACTIVIDADES ASOCIADAS (" + actividades.size() + ")\n";
-        result += "══════════════════════════════════════════\n";
-
-        if (actividades.isEmpty()) {
-            result += "No hay actividades registradas en esta iniciativa.\n";
-        } else {
-            for (Actividad actividad : actividades) {
-                result += "🔹 " + actividad.getNombre() + "\n";
-                result += "   📆 Fecha inicio: " + (actividad.getFechaInicio() != null ? actividad.getFechaInicio() : "Por definir") + "\n";
-                result += "   🏁 Estado: " + (actividad.getEstado() != null ? actividad.getEstado() : "N/A") + "\n";
-                result += "   ──────────────────────────────────────\n";
+        File file =new File("actividades.xml");
+        if (file.exists()){
+            actividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
+            for (Actividad actividad:actividades){
+                if (!actividad.getIniciativa().equals(getNombre())){
+                    actividades.remove(actividad);
+                }
             }
         }
-        result += "══════════════════════════════════════════";
-        return result;
+        System.out.println("══════════════════════════════════════════");
+        System.out.println("           🌿 DETALLES DE INICIATIVA     ");
+        System.out.println("══════════════════════════════════════════");
+        System.out.println("📌 Nombre: " + (nombre != null ? nombre : "N/A"));
+        System.out.println("📝 Descripción: " + (descripcion != null ? descripcion : "N/A"));
+        System.out.println("👤 Creador: " + (creadorIniciativa != null ? creadorIniciativa : "N/A"));
+        System.out.println("══════════════════════════════════════════");
+        System.out.println("📅 ACTIVIDADES ASOCIADAS (" + actividades.size() + ")");
+        System.out.println("══════════════════════════════════════════");
+
+        if (actividades.isEmpty()) {
+            System.out.println("No hay actividades registradas en esta iniciativa.");
+        } else {
+            for (Actividad actividad : actividades) {
+                    System.out.println("🔹 " + actividad.getNombre());
+                    System.out.println("   📆 Fecha inicio: " + (actividad.getFechaInicio() != null ? actividad.getFechaInicio() : "Por definir"));
+                    System.out.println("   🏁 Estado: " + (actividad.getEstado() != null ? actividad.getEstado() : "N/A"));
+                    System.out.println("   ──────────────────────────────────────");
+            }
+        }
+        System.out.println("══════════════════════════════════════════");
+        return "";
     }
 }
 
