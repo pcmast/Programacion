@@ -103,7 +103,6 @@ public class Creador extends Usuario {
                     for (Actividad actExistente : iniciativa.getList()) {
                         if (actExistente.getNombre().equalsIgnoreCase(actividad.getNombre())) {
                             existeDuplicado = true;
-                            break;
                         }
                     }
 
@@ -114,7 +113,6 @@ public class Creador extends Usuario {
                             resultado = true;
                         }
                     }
-                    break; // Salir del for al encontrar la iniciativa
                 }
             }
         }

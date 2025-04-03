@@ -1,102 +1,197 @@
 package controller;
 
+import dataAcces.IniciativasContenedor;
+import dataAcces.XMLManagerIniciativas;
 import model.*;
 import utils.Utilidades;
 import view.*;
 
+import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
 public class IniciativaController {
-    private UsuarioActualController usuarioActualController =UsuarioActualController.getInstance();
-    /**
-     * Método que crea una iniciativa para un creador
-     *
-     */
+    private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
+    private ArrayList<Iniciativa> iniciativas;
+
+    public IniciativaController() {
+        this.iniciativas = new ArrayList<>(XMLManagerIniciativas.obtenerTodasIniciativas());
+    }
+
     public void creaIniciativa() {
+        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
+            MenuVista.muestraMensaje("Error: Solo creadores pueden crear iniciativas");
+            return;
+        }
+
         Creador creador = (Creador) usuarioActualController.getUsuario();
         Iniciativa iniciativa = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
-        boolean creado = creador.crearIniciativa(iniciativa);
-        if (creado){
-            MenuVista.muestraMensaje("Se ha creado correctamente");
-        }else {
-            MenuVista.muestraMensaje("No se ha podido crear la iniciativa");
+
+        if (iniciativaExiste(iniciativa.getNombre())) {
+            MenuVista.muestraMensaje("Error: Iniciativa ya existe");
+            return;
+        }
+
+        if (creador.crearIniciativa(iniciativa)) {
+            iniciativas.add(iniciativa);
+            guardarIniciativas();
+            MenuVista.muestraMensaje("Iniciativa creada con éxito");
+        } else {
+            MenuVista.muestraMensaje("Error al crear iniciativa");
         }
     }
 
-    /** por corregir
-     * Método que elimina una iniciativa. (por ahora solo la deja en null)
-     * @param
-     */
+
+
     public void eliminaIniciativa() {
-        boolean eliminado = false;
-        Creador creador = (Creador) usuarioActualController.getUsuario();
-        ArrayList<Iniciativa> list = creador.verIniciativas();
-        String nombre = Utilidades.pideString("Introduce el nombre de la iniciativa");
-        for (Iniciativa iniciativa:list){
-          eliminado = iniciativa.eliminarList(nombre);
+        String nombre = Utilidades.pideString("Nombre de la iniciativa a eliminar:");
+
+        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
+            MenuVista.muestraMensaje("Error: Solo creadores pueden eliminar iniciativas");
+            return;
         }
-        if (eliminado){
-            MenuVista.muestraMensaje("Se ha eliminado correctamente");
-        }else {
-            MenuVista.muestraMensaje("No se ha podido eliminar la iniciativa");
+
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+        boolean eliminada = false;
+
+        // Eliminar de las iniciativas del creador
+        List<Iniciativa> iniciativasCreador = creador.verIniciativas();
+        for (int i = 0; i < iniciativasCreador.size(); i++) {
+            if (iniciativasCreador.get(i).getNombre().equals(nombre)) {
+                iniciativasCreador.remove(i);
+                eliminada = true;
+                break;
+            }
+        }
+
+        // Eliminar de la lista general
+        if (eliminada) {
+            for (int i = 0; i < iniciativas.size(); i++) {
+                if (iniciativas.get(i).getNombre().equals(nombre)) {
+                    iniciativas.remove(i);
+                    break;
+                }
+            }
+            guardarIniciativas();
+            MenuVista.muestraMensaje("Iniciativa eliminada");
+        } else {
+            MenuVista.muestraMensaje("Iniciativa no encontrada");
         }
     }
 
-    /**
-     * Método que modifica una iniciativa pidiendo al usuario que cree una nueva con los datos actualizados y eliminando la anterior
-     *
-     */
-    public void modificarIniciativa(){
-        boolean actualizado = false;
+    public void modificarIniciativa() {
+        String nombreActual = Utilidades.pideString("Nombre de la iniciativa a modificar:");
+
+        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
+            MenuVista.muestraMensaje("Error: Solo creadores pueden modificar iniciativas");
+            return;
+        }
+
         Creador creador = (Creador) usuarioActualController.getUsuario();
-        ArrayList<Iniciativa> list = creador.verIniciativas();
-        Iniciativa iniciativa = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
-        for (Iniciativa iniciativa1:list){
-         actualizado = iniciativa1.modificar(iniciativa);
-        }
-        if (actualizado){
-            MenuVista.muestraMensaje("Se ha podido modificar correctamente");
-        }else {
-            MenuVista.muestraMensaje("No se ha podido modificar no existe la iniciativa");
-        }
+        Iniciativa iniciativa = obtenerIniciativa(nombreActual);
 
-
+        if (iniciativa != null) {
+            Iniciativa nuevosDatos = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
+            iniciativa.setNombre(nuevosDatos.getNombre());
+            iniciativa.setDescripcion(nuevosDatos.getDescripcion());
+            guardarIniciativas();
+            MenuVista.muestraMensaje("Iniciativa modificada");
+        } else {
+            MenuVista.muestraMensaje("Iniciativa no encontrada");
+        }
     }
 
-    /**
-     * Método que muestra todas las iniciativas de un creador
-     *
-     */
     public void muestraIniciativas() {
-        Creador creador = (Creador) usuarioActualController.getUsuario();
-        ArrayList<Iniciativa> list = creador.verIniciativas();
+        if (iniciativas.isEmpty()) {
+            MenuVista.muestraMensaje("No hay iniciativas registradas");
+            return;
+        }
 
-        for (Iniciativa iniciativa:list){
-        MenuIniciativaActividad.muestraObjeto(iniciativa);
-        ArrayList<Actividad> list1 =  iniciativa.getList();
-        for (Actividad actividad: list1){
-            MenuIniciativaActividad.muestraObjeto(actividad);
+        MenuVista.muestraMensaje("=== LISTADO DE INICIATIVAS ===");
+        for (Iniciativa iniciativa : iniciativas) {
+            MenuVista.muestraMensaje(iniciativa.toString());
         }
-        }
-    }
-    public void muestraIniciativasNombre(){
-        Creador creador = (Creador) usuarioActualController.getUsuario();
-        ArrayList<Iniciativa> list = creador.verIniciativas();
-        for (Iniciativa iniciativa:list){
-            MenuVista.muestraMensaje(iniciativa.getNombre());
-        }
+        MenuVista.muestraMensaje("=============================");
     }
 
-    public void muestraIniciativasUsuario(){
-        Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
-        ArrayList<Actividad> list = voluntario.getList();
-        for (Actividad actividad:list){
-            MenuIniciativaActividad.muestraObjeto(actividad);
+    public void muestraIniciativasNombre() {
+        if (iniciativas.isEmpty()) {
+            MenuVista.muestraMensaje("No hay iniciativas registradas");
+            return;
         }
 
+        MenuVista.muestraMensaje("=== NOMBRES DE INICIATIVAS ===");
+        for (Iniciativa iniciativa : iniciativas) {
+            MenuVista.muestraMensaje("- " + iniciativa.getNombre());
+        }
+        MenuVista.muestraMensaje("==============================");
     }
 
+    public void muestraIniciativasUsuario() {
+        Usuario usuario = usuarioActualController.getUsuario();
+        List<Iniciativa> iniciativasUsuario = new ArrayList<>();
 
+        if (usuario instanceof Creador) {
+            Creador creador = (Creador) usuario;
+            iniciativasUsuario = creador.verIniciativas();
+        } else if (usuario instanceof Voluntario) {
+            Voluntario voluntario = (Voluntario) usuario;
+            for (Actividad actividad : voluntario.getList()) {
+                Iniciativa iniciativa = obtenerIniciativa(actividad.getIniciativa());
+                if (iniciativa != null && !contieneIniciativa(iniciativasUsuario, iniciativa)) {
+                    iniciativasUsuario.add(iniciativa);
+                }
+            }
+        }
 
+        if (iniciativasUsuario.isEmpty()) {
+            MenuVista.muestraMensaje("No tienes iniciativas asignadas");
+            return;
+        }
+
+        MenuVista.muestraMensaje("=== TUS INICIATIVAS ===");
+        for (Iniciativa iniciativa : iniciativasUsuario) {
+            MenuVista.muestraMensaje(iniciativa.toString());
+        }
+        MenuVista.muestraMensaje("=======================");
+    }
+
+    public void guardarIniciativas() {
+        try {
+            // Guardar las iniciativas en el XML
+            XMLManagerIniciativas.guardarIniciativas(iniciativas);
+
+            MenuVista.muestraMensaje("✅ Iniciativas guardadas correctamente.");
+        } catch (Exception e) {
+            System.err.println("Error al guardar iniciativas: " + e.getMessage());
+            MenuVista.muestraMensaje("❌ Error al guardar las iniciativas.");
+        }
+    }
+
+    private boolean iniciativaExiste(String nombre) {
+        for (Iniciativa iniciativa : iniciativas) {
+            if (iniciativa.getNombre().equalsIgnoreCase(nombre)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Iniciativa obtenerIniciativa(String nombre) {
+        for (Iniciativa iniciativa : iniciativas) {
+            if (iniciativa.getNombre().equalsIgnoreCase(nombre)) {
+                return iniciativa;
+            }
+        }
+        return null;
+    }
+
+    private boolean contieneIniciativa(List<Iniciativa> lista, Iniciativa iniciativa) {
+        for (Iniciativa i : lista) {
+            if (i.equals(iniciativa)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

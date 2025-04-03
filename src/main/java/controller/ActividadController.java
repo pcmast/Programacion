@@ -1,14 +1,11 @@
 package controller;
 
-import com.sun.xml.txw2.output.XMLWriter;
 import dataAcces.XMLManager;
 import model.*;
 import utils.Utilidades;
 import view.*;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ActividadController {
@@ -20,23 +17,40 @@ public class ActividadController {
      * Metodo que crea una actividad nueva y la añade a la lista de actividades del usuario actual
      */
     public void creaActividad() {
-        File archivo = new File("actividades.xml");
-        ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
-        if (archivo.exists()) {
-            actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+        // 1. Mostrar iniciativas disponibles para seleccionar
+        IniciativaController iniciativaController = new IniciativaController();
+        iniciativaController.muestraIniciativasNombre();
+
+        // 2. Pedir iniciativa a la que pertenecerá la actividad
+        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
+        Iniciativa iniciativa = iniciativaController.obtenerIniciativa(nombreIniciativa);
+
+        if (iniciativa == null) {
+            MenuVista.muestraMensaje("❌ Iniciativa no encontrada");
+            return;
         }
 
-        Creador creador = (Creador) usuarioActualController.getUsuario();
+        // 3. Crear la actividad
         Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
-        boolean creado = creador.crearActividad(actividad, actividad.getIniciativa());
+        actividad.setIniciativa(iniciativa.getNombre()); // Establecer relación
 
+        // 4. Añadir a la iniciativa
+        if (iniciativa.annadirList(actividad)) {
+            // Actualizar el archivo de iniciativas
+            iniciativaController.guardarIniciativas();
 
-        if (creado) {
-            actividadesDesdeXML.add(actividad);
-            XMLManager.writeXML(actividad, "actividades.xml");
-            MenuVista.muestraMensaje("Se ha creado correctamente.");
+            // Actualizar el archivo de actividades (opcional, si lo necesitas)
+            ArrayList<Actividad> todasActividades = new ArrayList<>();
+            File archivo = new File("actividades.xml");
+            if (archivo.exists()) {
+                todasActividades = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+            }
+            todasActividades.add(actividad);
+            XMLManager.writeXML(todasActividades, "actividades.xml");
+
+            MenuVista.muestraMensaje("✅ Actividad creada correctamente en: " + iniciativa.getNombre());
         } else {
-            MenuVista.muestraMensaje("No se ha podido crear la actividad.");
+            MenuVista.muestraMensaje("❌ No se pudo crear la actividad (¿ya existe?)");
         }
     }
 
