@@ -91,10 +91,12 @@ public class IniciativaController {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
         }
-
+        Creador creador = (Creador) usuarioActualController.getUsuario();
         MenuVista.muestraMensaje("=== LISTADO DE INICIATIVAS ===");
         for (Iniciativa iniciativa : iniciativas) {
-            MenuVista.muestraMensaje(iniciativa.toString());
+            if(iniciativa.getCreadorIniciativa().equals(creador.getNombre())){
+                MenuVista.muestraMensaje(iniciativa.toString());
+            }
         }
         MenuVista.muestraMensaje("=============================");
     }
@@ -105,9 +107,13 @@ public class IniciativaController {
             return;
         }
 
+        Creador creador = (Creador) usuarioActualController.getUsuario();
+
         MenuVista.muestraMensaje("=== NOMBRES DE INICIATIVAS ===");
         for (Iniciativa iniciativa : iniciativas) {
-             MenuVista.muestraMensaje("- " + iniciativa.getNombre());
+            if(iniciativa.getCreadorIniciativa().equals(creador.getNombre())){
+                MenuVista.muestraMensaje("- " + iniciativa.getNombre());
+            }
 
         }
         MenuVista.muestraMensaje("==============================");
