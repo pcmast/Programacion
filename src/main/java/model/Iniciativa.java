@@ -15,8 +15,10 @@ public class Iniciativa implements CRUDGenerico {
     private String descripcion;
     @XmlElement
     private String creadorIniciativa;
-    @XmlElement(name = "iniciativa", type = Iniciativa.class)
-    private ArrayList<Actividad> list = new ArrayList<>();
+
+    @XmlElementWrapper(name = "actividades")
+    @XmlElement(name = "actividad")
+    private ArrayList<Actividad> actividades = new ArrayList<>();
 
     public Iniciativa() {
     }
@@ -94,7 +96,7 @@ public class Iniciativa implements CRUDGenerico {
      * @return La lista actual de actividades almacenada en la variable.
      */
     public ArrayList<Actividad> getList() {
-        return list;
+        return actividades;
     }
 
     /**
@@ -103,7 +105,7 @@ public class Iniciativa implements CRUDGenerico {
      * @param list La lista de actividades que se asignará al premio.
      */
     public void setList(ArrayList<Actividad> list) {
-        this.list = list;
+        this.actividades = actividades;
     }
 
 
@@ -126,8 +128,8 @@ public class Iniciativa implements CRUDGenerico {
      * @return true si se pudo añadir, false en caso contrario.
      */
     public boolean annadirList(Object o) {
-        if (!list.contains(o)) {
-            list.add((Actividad) o);
+        if (!actividades.contains(o)) {
+            actividades.add((Actividad) o);
             return true;
         }
         return false;
@@ -140,7 +142,7 @@ public class Iniciativa implements CRUDGenerico {
      * @return true si se pudo eliminar, false en caso contrario.
      */
     public boolean eliminarList(String nombre) {
-        return list.removeIf(actividad -> actividad.getNombre().equals(nombre));
+        return actividades.removeIf(actividad -> actividad.getNombre().equals(nombre));
     }
 
     /**
@@ -151,9 +153,9 @@ public class Iniciativa implements CRUDGenerico {
      * @return true si se pudo modificar, false en caso contrario.
      */
     public boolean modificar(Object o) {
-        if (list.contains(o)) {
-            list.remove(o);
-            list.add((Actividad) o);
+        if (actividades.contains(o)) {
+            actividades.remove(o);
+            actividades.add((Actividad) o);
             return true;
         }
         return false;
@@ -165,7 +167,7 @@ public class Iniciativa implements CRUDGenerico {
      * @return una copia de la lista de actividades.
      */
     public ArrayList<Actividad> obtenerTodos() {
-        return new ArrayList<>(list);
+        return new ArrayList<>(actividades);
     }
 
     @Override
@@ -178,13 +180,13 @@ public class Iniciativa implements CRUDGenerico {
         result += "📝 Descripción: " + (descripcion != null ? descripcion : "N/A") + "\n";
         result += "👤 Creador: " + (creadorIniciativa != null ? creadorIniciativa : "N/A") + "\n";
         result += "══════════════════════════════════════════\n";
-        result += "📅 ACTIVIDADES ASOCIADAS (" + list.size() + ")\n";
+        result += "📅 ACTIVIDADES ASOCIADAS (" + actividades.size() + ")\n";
         result += "══════════════════════════════════════════\n";
 
-        if (list.isEmpty()) {
+        if (actividades.isEmpty()) {
             result += "No hay actividades registradas en esta iniciativa.\n";
         } else {
-            for (Actividad actividad : list) {
+            for (Actividad actividad : actividades) {
                 result += "🔹 " + actividad.getNombre() + "\n";
                 result += "   📆 Fecha inicio: " + (actividad.getFechaInicio() != null ? actividad.getFechaInicio() : "Por definir") + "\n";
                 result += "   🏁 Estado: " + (actividad.getEstado() != null ? actividad.getEstado() : "N/A") + "\n";
