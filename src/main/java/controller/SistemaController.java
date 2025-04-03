@@ -69,7 +69,7 @@ public class SistemaController {
                 voluntario = null;
             }
 
-        } while (salir != 1 ||terminar == 8 || terminar == 4);
+        } while (salir != 1 || terminar == 8 || terminar == 4);
     }
 
     public int controlarCreador(Creador creador) {
@@ -125,11 +125,15 @@ public class SistemaController {
                 case 4:
                     actividadController.mostrarPremios();
                     break;
-
+                case 5:
+                    actividadController.annadirUsuario();
+                    break;
+                case 6:
+                    actividadController.mostrarVoluntariosAsignados();
 
             }
 
-        } while (opcion3 != 5);
+        } while (opcion3 != 7);
 
         return opcion3;
     }

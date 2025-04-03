@@ -26,7 +26,7 @@ public class  Actividad implements CRUDGenerico {
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaFin;
     @XmlElement
-    private boolean voluntario;
+    private ArrayList<String> voluntario;
     @XmlElement
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
     @XmlElement
@@ -46,7 +46,7 @@ public class  Actividad implements CRUDGenerico {
      * Constructor con parámetros (útil para inicializar fácilmente)
      */
     public Actividad(String nombre, String descripcion, LocalDate fechaInicio,
-                     LocalDate fechaFin, boolean voluntario, EstadoActividad estado,String iniciativa) {
+                     LocalDate fechaFin, ArrayList<String> voluntario, EstadoActividad estado,String iniciativa) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -88,11 +88,11 @@ public class  Actividad implements CRUDGenerico {
         this.fechaFin = fechaFin;
     }
 
-    public boolean esVoluntario() {
+    public ArrayList<String> getVoluntario() {
         return voluntario;
     }
 
-    public void setVoluntario(boolean voluntario) {
+    public void setVoluntario(ArrayList<String> voluntario) {
         this.voluntario = voluntario;
     }
 
@@ -198,7 +198,7 @@ public class  Actividad implements CRUDGenerico {
         sb.append("📝 Descripción: ").append(descripcion != null ? descripcion : "N/A").append("\n");
         sb.append("📅 Fecha de inicio: ").append(fechaInicio != null ? fechaInicio : "N/A").append("\n");
         sb.append("📅 Fecha de fin: ").append(fechaFin != null ? fechaFin : "N/A").append("\n");
-        sb.append("🙋 Voluntario asignado: ").append(voluntario ? "Sí" : "No").append("\n");
+        sb.append("🙋 Voluntario asignado: ").append(voluntario.size() ).append("\n");
         sb.append("📌 Estado: ").append(estado != null ? estado : "N/A").append("\n");
         sb.append("═══════════════════════════════");
         return sb.toString();
