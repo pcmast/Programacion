@@ -15,7 +15,7 @@ public class SistemaController {
     public void sistemaControllerEmpezar() {
         Creador creador = null;
         Voluntario voluntario = null;
-        int opcion, numero, terminar = 0;
+        int opcion, numero, terminar = 0, salir = 0;
 
         do {
             do {
@@ -47,11 +47,12 @@ public class SistemaController {
                         Usuario nuevoUsuario = MenuVista.pideDatosRegistrarUsuario(numero);
                         usuarioActualController.setUsuario(nuevoUsuario);
                         usuarioController.registrarUsuario(nuevoUsuario);
-                        opcion = 4;
+                        opcion = 3;
                         break;
 
                     case 3: // Salir
                         terminar = 8;
+                        salir = 1;
                         break;
                 }
             } while (opcion != 3);
@@ -68,7 +69,7 @@ public class SistemaController {
                 voluntario = null;
             }
 
-        } while (terminar != 8 && terminar != 4);
+        } while (salir != 1 ||terminar == 8 || terminar == 4);
     }
 
     public int controlarCreador(Creador creador) {
