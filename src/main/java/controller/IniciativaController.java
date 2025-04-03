@@ -1,12 +1,10 @@
 package controller;
 
-import dataAcces.IniciativasContenedor;
 import dataAcces.XMLManagerIniciativas;
 import model.*;
 import utils.Utilidades;
 import view.*;
 
-import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,23 +46,23 @@ public class IniciativaController {
         boolean eliminada = false;
 
         // Eliminar de las iniciativas del creador
-        List<Iniciativa> iniciativasCreador = creador.verIniciativas();
-        for (int i = 0; i < iniciativasCreador.size(); i++) {
-            if (iniciativasCreador.get(i).getNombre().equals(nombre)) {
-                iniciativasCreador.remove(i);
+        ArrayList<Iniciativa> iniciativasCreador = creador.verIniciativas();
+        for (Iniciativa iniciativa:iniciativasCreador){
+            if (iniciativa.getNombre().equals(nombre)){
+                iniciativasCreador.remove(iniciativa);
                 eliminada = true;
-                break;
             }
         }
 
         // Eliminar de la lista general
         if (eliminada) {
-            for (int i = 0; i < iniciativas.size(); i++) {
-                if (iniciativas.get(i).getNombre().equals(nombre)) {
-                    iniciativas.remove(i);
+            for (Iniciativa iniciativa: iniciativas) {
+                if (iniciativa.getNombre().equals(nombre)) {
+                    iniciativas.remove(iniciativa);
                     break;
                 }
             }
+
             guardarIniciativas();
             MenuVista.muestraMensaje("Iniciativa eliminada");
         } else {
@@ -92,8 +90,6 @@ public class IniciativaController {
         if (iniciativas.isEmpty()) {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
-        }else {
-            iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
         }
 
         MenuVista.muestraMensaje("=== LISTADO DE INICIATIVAS ===");
@@ -107,8 +103,6 @@ public class IniciativaController {
         if (iniciativas.isEmpty()) {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
-        }else {
-            iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
         }
 
         MenuVista.muestraMensaje("=== NOMBRES DE INICIATIVAS ===");

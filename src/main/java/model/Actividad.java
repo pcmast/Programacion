@@ -1,6 +1,6 @@
 package model;
 
-import dataAcces.LocalDateAdapter;
+import utils.LocalDateAdapter;
 import interfaces.CRUDGenerico;
 
 import javax.xml.bind.annotation.XmlAccessType;

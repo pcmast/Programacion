@@ -38,7 +38,7 @@ public class SistemaController {
                             } else {
                                 MenuVista.muestraMensaje("Error: Tipo de usuario no soportado");
                             }
-                            opcion = 4;
+                            opcion = 3;
                         }
                         break;
                     case 2: // Registro
@@ -54,7 +54,7 @@ public class SistemaController {
                         terminar = 8;
                         break;
                 }
-            } while (opcion != 4);
+            } while (opcion != 3);
 
             // Verificación segura del tipo de usuario
             Usuario usuarioActual = usuarioActualController.getUsuario();
@@ -68,7 +68,7 @@ public class SistemaController {
                 voluntario = null;
             }
 
-        } while (terminar == 8 || terminar == 4);
+        } while (terminar != 8 && terminar != 4);
     }
 
     public int controlarCreador(Creador creador) {

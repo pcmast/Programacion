@@ -2,6 +2,7 @@ package dataAcces;
 
 import model.Actividad;
 import model.Iniciativa;
+import utils.IniciativasContenedor;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

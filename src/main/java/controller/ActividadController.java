@@ -19,6 +19,7 @@ public class ActividadController {
     public ActividadController() {
         actividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
     }
+
     /**
      * Metodo que crea una actividad nueva y la añade a la lista de actividades del usuario actual
      */
@@ -36,9 +37,9 @@ public class ActividadController {
 
         // 3. Crear la actividad
         Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
-        if (iniciativa != null){
+        if (iniciativa != null) {
             actividad.setIniciativa(iniciativa.getNombre()); // Establecer relación
-        }else {
+        } else {
             return; //Como parar AQUI sin el uso de return
         }
 
@@ -51,12 +52,12 @@ public class ActividadController {
             guardarActividadesCrear(actividades);
 
 
-
             MenuVista.muestraMensaje("✅ Actividad creada correctamente en: " + iniciativa.getNombre());
         } else {
             MenuVista.muestraMensaje("❌ No se pudo crear la actividad (¿ya existe?)");
         }
     }
+
     public void guardarActividades() {
         try {
             // Guardar las iniciativas en el XML
@@ -140,9 +141,9 @@ public class ActividadController {
         Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
 
         for (Iniciativa iniciativa : list) {
-                actualizado = iniciativa.modificar(actividad);
-                existe = actividadesDesdeXML.remove(actividad);
-                actividadesDesdeXML.add(actividad);
+            actualizado = iniciativa.modificar(actividad);
+            existe = actividadesDesdeXML.remove(actividad);
+            actividadesDesdeXML.add(actividad);
         }
 
         if (actualizado) {
@@ -176,20 +177,20 @@ public class ActividadController {
                 MenuVista.muestraMensaje(actividad.getNombre());
             }
         }
-        if (actividadesDesdeXML != null){
-            for (Actividad actividad:actividadesDesdeXML){
+        if (actividadesDesdeXML != null) {
+            for (Actividad actividad : actividadesDesdeXML) {
                 MenuIniciativaActividad.muestraObjeto(actividad);
             }
         }
     }
 
-    public void mostrarPremios(){
+    public void mostrarPremios() {
         Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
         ArrayList<Premio> listaPremios = voluntario.verPremiosObtenidos();
-        for (Premio premio: listaPremios){
+        for (Premio premio : listaPremios) {
             MenuIniciativaActividad.muestraObjeto(premio);
         }
-            MenuVista.muestraEntero(voluntario.getPuntos());
+        MenuVista.muestraEntero(voluntario.getPuntos());
 
     }
 
@@ -198,18 +199,18 @@ public class ActividadController {
         String nombre = Utilidades.pideString("Introdce el nombre de la actividad");
         EstadoActividad estadoActividad = EstadoActividad.valueOf(Utilidades.pideString("Introduce el estado de la actividad"));
         String comentario = Utilidades.pideString("Introduce un comentario");
-        ArrayList<Actividad> list = XMLManager.readXML(new ArrayList<>(),"actividad.xml");
-        for (Actividad actividad:list){
-            if (actividad.getNombre().equals(nombre)){
-                actividad.actualizarEstado(estadoActividad,comentario);
+        ArrayList<Actividad> list = XMLManager.readXML(new ArrayList<>(), "actividad.xml");
+        for (Actividad actividad : list) {
+            if (actividad.getNombre().equals(nombre)) {
+                actividad.actualizarEstado(estadoActividad, comentario);
             }
         }
 
     }
 
-    public void eliminarUsuario(){
+    public void eliminarUsuario() {
         boolean eliminado = false;
-        Creador creador= (Creador) usuarioActualController.getUsuario();
+        Creador creador = (Creador) usuarioActualController.getUsuario();
         String voluntario = Utilidades.pideString("Introduce el nombre del voluntario");
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa");
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
@@ -225,7 +226,7 @@ public class ActividadController {
                                 if (list2 != null) {
                                     for (Usuario usuario : list2) {
                                         if (usuario.getUsuario().equals(voluntario)) {
-                                         eliminado = actividad.eliminarList(usuario.getNombre());
+                                            eliminado = actividad.eliminarList(usuario.getNombre());
                                         }
                                     }
                                 }
@@ -247,32 +248,24 @@ public class ActividadController {
         boolean annadirUsuario = false;
         Creador creador = (Creador) usuarioActualController.getUsuario();
         String nombreVoluntario = Utilidades.pideString("Introduce el nombre del voluntario");
-        String nombreIniciativa = Utilidades.pideString("Introduce el nombre la iniciativa");
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
-        ArrayList<Iniciativa> list = creador.getList();
+        ArrayList<Usuario> usuarios = usuarioController.getList();
+        ArrayList<Actividad> list = actividades;
         if (list != null) {
-            for (Iniciativa iniciativa : list) {
-                if (iniciativa.getNombre().equals(nombreIniciativa)) {
-                    ArrayList<Actividad> list1 = iniciativa.getList();
-                    if (list1 != null) {
-                        for (Actividad actividad : list1) {
-                            if (actividad.getNombre().equals(nombreActividad)) {
-                                ArrayList<Usuario> list2 = usuarioController.getList();
-                                if (list2 != null) {
-                                    for (Usuario usuario : list2) {
-                                        if (usuario.getUsuario().equals(nombreVoluntario)) {
-                                            annadirUsuario = actividad.annadirList(usuario);
-                                        }
-                                    }
-                                }
-                            }
-
+            for (Actividad actividad : list) {
+                if (actividad.getNombre().equals(nombreActividad)) {
+                    ArrayList<Usuario> list1 = actividad.getList();
+                    for (Usuario usuario : usuarios) {
+                        if (usuario.getNombre().equals(nombreVoluntario)) {
+                            list1.add(usuario);
                         }
                     }
                 }
-
             }
         }
+        guardarActividades();
+
+
         if (!annadirUsuario) {
             MenuVista.muestraMensaje("No se a podido añadir el usuario");
         }

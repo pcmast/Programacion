@@ -1,6 +1,7 @@
 package dataAcces;
 
 import model.Actividad;
+import utils.ActividadesContenedor;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
