@@ -46,14 +46,10 @@ public class ActividadController {
         if (iniciativa.annadirList(actividad)) {
             // Actualizar el archivo de iniciativas
             iniciativaController.guardarIniciativas();
-
-            // Actualizar el archivo de actividades (opcional, si lo necesitas)
-
-            File archivo = new File("actividades.xml");
+            // Actualizar actividades
             actividades.add(actividad);
-            if (archivo.exists()) {
-              guardarActividadesCrear(actividades);
-            }
+            guardarActividadesCrear(actividades);
+
 
 
             MenuVista.muestraMensaje("✅ Actividad creada correctamente en: " + iniciativa.getNombre());
@@ -77,7 +73,6 @@ public class ActividadController {
         try {
             // Guardar las iniciativas en el XML
             XMLManagerActividades.guardarActividades(list);
-
             MenuVista.muestraMensaje("✅ Actividades guardadas correctamente.");
         } catch (Exception e) {
             System.err.println("Error al guardar actividades: " + e.getMessage());
