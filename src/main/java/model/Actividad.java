@@ -1,11 +1,13 @@
 package model;
 
+import dataAcces.LocalDateAdapter;
 import interfaces.CRUDGenerico;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +21,9 @@ public class  Actividad implements CRUDGenerico {
     private String nombre;
     @XmlElement
     private String descripcion;
-    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaInicio;
-    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaFin;
     @XmlElement
     private boolean voluntario;

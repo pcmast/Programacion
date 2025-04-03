@@ -51,14 +51,14 @@ public class SistemaController {
                         break;
 
                     case 3: // Salir
-                        terminar = 7;
+                        terminar = 8;
                         break;
                 }
             } while (opcion != 4);
 
             // Verificación segura del tipo de usuario
             Usuario usuarioActual = usuarioActualController.getUsuario();
-            if (usuarioActual instanceof Creador && terminar != 7) {
+            if (usuarioActual instanceof Creador && terminar != 8) {
                 creador = (Creador) usuarioActual;
                 terminar = controlarCreador(creador);
                 creador = null;
@@ -66,11 +66,9 @@ public class SistemaController {
                 voluntario = (Voluntario) usuarioActual;
                 terminar = controlarVoluntario();
                 voluntario = null;
-            } else if (terminar != 7) {
-                System.out.println("Error: Tipo de usuario no reconocido");
             }
 
-        } while (terminar == 7 || terminar == 4);
+        } while (terminar == 8 || terminar == 4);
     }
 
     public int controlarCreador(Creador creador) {
@@ -104,7 +102,7 @@ public class SistemaController {
                     break;
             }
 
-        } while (opcion2 != 7);
+        } while (opcion2 != 8);
         return opcion2;
     }
 
@@ -123,11 +121,14 @@ public class SistemaController {
                 case 3:
                     iniciativaController.muestraIniciativasNombre();
                     break;
+                case 4:
+                    actividadController.mostrarPremios();
+                    break;
 
 
             }
 
-        } while (opcion3 != 4);
+        } while (opcion3 != 5);
 
         return opcion3;
     }

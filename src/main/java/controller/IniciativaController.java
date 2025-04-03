@@ -15,15 +15,10 @@ public class IniciativaController {
     private ArrayList<Iniciativa> iniciativas;
 
     public IniciativaController() {
-        this.iniciativas = new ArrayList<>(XMLManagerIniciativas.obtenerTodasIniciativas());
+        this.iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
     }
 
     public void creaIniciativa() {
-        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
-            MenuVista.muestraMensaje("Error: Solo creadores pueden crear iniciativas");
-            return;
-        }
-
         Creador creador = (Creador) usuarioActualController.getUsuario();
         Iniciativa iniciativa = MenuIniciativaActividad.pideDatosCrearIniciativa(creador);
 
@@ -42,15 +37,13 @@ public class IniciativaController {
     }
 
 
-
+    /**
+     * Elimina una iniciativa por su nombre y hace la comprobacion de que existe y la elimina de la lista de creador
+     * y luego de la lista donde
+     * estan todas las iniciativas
+     */
     public void eliminaIniciativa() {
         String nombre = Utilidades.pideString("Nombre de la iniciativa a eliminar:");
-
-        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
-            MenuVista.muestraMensaje("Error: Solo creadores pueden eliminar iniciativas");
-            return;
-        }
-
         Creador creador = (Creador) usuarioActualController.getUsuario();
         boolean eliminada = false;
 
@@ -81,12 +74,6 @@ public class IniciativaController {
 
     public void modificarIniciativa() {
         String nombreActual = Utilidades.pideString("Nombre de la iniciativa a modificar:");
-
-        if (!(usuarioActualController.getUsuario() instanceof Creador)) {
-            MenuVista.muestraMensaje("Error: Solo creadores pueden modificar iniciativas");
-            return;
-        }
-
         Creador creador = (Creador) usuarioActualController.getUsuario();
         Iniciativa iniciativa = obtenerIniciativa(nombreActual);
 
@@ -105,6 +92,8 @@ public class IniciativaController {
         if (iniciativas.isEmpty()) {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
+        }else {
+            iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
         }
 
         MenuVista.muestraMensaje("=== LISTADO DE INICIATIVAS ===");
@@ -118,11 +107,14 @@ public class IniciativaController {
         if (iniciativas.isEmpty()) {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
+        }else {
+            iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
         }
 
         MenuVista.muestraMensaje("=== NOMBRES DE INICIATIVAS ===");
         for (Iniciativa iniciativa : iniciativas) {
-            MenuVista.muestraMensaje("- " + iniciativa.getNombre());
+             MenuVista.muestraMensaje("- " + iniciativa.getNombre());
+
         }
         MenuVista.muestraMensaje("==============================");
     }

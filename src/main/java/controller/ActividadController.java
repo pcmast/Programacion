@@ -1,6 +1,8 @@
 package controller;
 
 import dataAcces.XMLManager;
+import dataAcces.XMLManagerActividades;
+import dataAcces.XMLManagerIniciativas;
 import model.*;
 import utils.Utilidades;
 import view.*;
@@ -12,27 +14,33 @@ public class ActividadController {
 
     private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
     private UsuarioController usuarioController = new UsuarioController();
+    private ArrayList<Actividad> actividades;
 
+    public ActividadController() {
+        actividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
+    }
     /**
      * Metodo que crea una actividad nueva y la añade a la lista de actividades del usuario actual
      */
     public void creaActividad() {
-        // 1. Mostrar iniciativas disponibles para seleccionar
         IniciativaController iniciativaController = new IniciativaController();
         iniciativaController.muestraIniciativasNombre();
 
-        // 2. Pedir iniciativa a la que pertenecerá la actividad
         String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa:");
         Iniciativa iniciativa = iniciativaController.obtenerIniciativa(nombreIniciativa);
 
         if (iniciativa == null) {
             MenuVista.muestraMensaje("❌ Iniciativa no encontrada");
-            return;
+            //Como parar AQUI sin el uso de return
         }
 
         // 3. Crear la actividad
         Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
-        actividad.setIniciativa(iniciativa.getNombre()); // Establecer relación
+        if (iniciativa != null){
+            actividad.setIniciativa(iniciativa.getNombre()); // Establecer relación
+        }else {
+            return; //Como parar AQUI sin el uso de return
+        }
 
         // 4. Añadir a la iniciativa
         if (iniciativa.annadirList(actividad)) {
@@ -40,17 +48,40 @@ public class ActividadController {
             iniciativaController.guardarIniciativas();
 
             // Actualizar el archivo de actividades (opcional, si lo necesitas)
-            ArrayList<Actividad> todasActividades = new ArrayList<>();
+
             File archivo = new File("actividades.xml");
+            actividades.add(actividad);
             if (archivo.exists()) {
-                todasActividades = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+              guardarActividadesCrear(actividades);
             }
-            todasActividades.add(actividad);
-            XMLManager.writeXML(todasActividades, "actividades.xml");
+
 
             MenuVista.muestraMensaje("✅ Actividad creada correctamente en: " + iniciativa.getNombre());
         } else {
             MenuVista.muestraMensaje("❌ No se pudo crear la actividad (¿ya existe?)");
+        }
+    }
+    public void guardarActividades() {
+        try {
+            // Guardar las iniciativas en el XML
+            XMLManagerActividades.guardarActividades(actividades);
+
+            MenuVista.muestraMensaje("✅ Actividades guardadas correctamente.");
+        } catch (Exception e) {
+            System.err.println("Error al guardar actividades: " + e.getMessage());
+            MenuVista.muestraMensaje("❌ Error al guardar las actividades.");
+        }
+    }
+
+    public void guardarActividadesCrear(ArrayList<Actividad> list) {
+        try {
+            // Guardar las iniciativas en el XML
+            XMLManagerActividades.guardarActividades(list);
+
+            MenuVista.muestraMensaje("✅ Actividades guardadas correctamente.");
+        } catch (Exception e) {
+            System.err.println("Error al guardar actividades: " + e.getMessage());
+            MenuVista.muestraMensaje("❌ Error al guardar las actividades.");
         }
     }
 
@@ -64,7 +95,7 @@ public class ActividadController {
         if (archivo.exists()) {
             actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
         } else {
-            XMLManager.writeXML(actividadesDesdeXML, "actividades.xml");
+            guardarActividades();
         }
 
         boolean eliminado = false;
@@ -122,7 +153,7 @@ public class ActividadController {
         if (actualizado) {
             MenuVista.muestraMensaje("Se ha podido modificar correctamente.");
             try {
-                XMLManager.writeXML(actividad, "actividades.xml");
+                guardarActividades();
             } catch (RuntimeException e) {
                 e.printStackTrace();
             }
@@ -150,11 +181,35 @@ public class ActividadController {
                 MenuVista.muestraMensaje(actividad.getNombre());
             }
         }
+        if (actividadesDesdeXML != null){
+            for (Actividad actividad:actividadesDesdeXML){
+                MenuIniciativaActividad.muestraObjeto(actividad);
+            }
+        }
     }
 
+    public void mostrarPremios(){
+        Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
+        ArrayList<Premio> listaPremios = voluntario.verPremiosObtenidos();
+        for (Premio premio: listaPremios){
+            MenuIniciativaActividad.muestraObjeto(premio);
+        }
+            MenuVista.muestraEntero(voluntario.getPuntos());
+
+    }
 
     public void actualizarEstado() {
         Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
+        String nombre = Utilidades.pideString("Introdce el nombre de la actividad");
+        EstadoActividad estadoActividad = EstadoActividad.valueOf(Utilidades.pideString("Introduce el estado de la actividad"));
+        String comentario = Utilidades.pideString("Introduce un comentario");
+        ArrayList<Actividad> list = XMLManager.readXML(new ArrayList<>(),"actividad.xml");
+        for (Actividad actividad:list){
+            if (actividad.getNombre().equals(nombre)){
+                actividad.actualizarEstado(estadoActividad,comentario);
+            }
+        }
+
     }
 
     public void eliminarUsuario(){
