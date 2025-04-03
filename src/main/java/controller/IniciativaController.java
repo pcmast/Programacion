@@ -15,7 +15,7 @@ public class IniciativaController {
     private ArrayList<Iniciativa> iniciativas;
 
     public IniciativaController() {
-        this.iniciativas = XMLManagerIniciativas.cargarIniciativas();
+        this.iniciativas = new ArrayList<>(XMLManagerIniciativas.obtenerTodasIniciativas());
     }
 
     public void creaIniciativa() {
@@ -40,6 +40,8 @@ public class IniciativaController {
             MenuVista.muestraMensaje("Error al crear iniciativa");
         }
     }
+
+
 
     public void eliminaIniciativa() {
         String nombre = Utilidades.pideString("Nombre de la iniciativa a eliminar:");
@@ -154,12 +156,15 @@ public class IniciativaController {
         MenuVista.muestraMensaje("=======================");
     }
 
-    private void guardarIniciativas() {
+    public void guardarIniciativas() {
         try {
+            // Guardar las iniciativas en el XML
             XMLManagerIniciativas.guardarIniciativas(iniciativas);
+
+            MenuVista.muestraMensaje("✅ Iniciativas guardadas correctamente.");
         } catch (Exception e) {
             System.err.println("Error al guardar iniciativas: " + e.getMessage());
-            MenuVista.muestraMensaje("Error al guardar las iniciativas");
+            MenuVista.muestraMensaje("❌ Error al guardar las iniciativas.");
         }
     }
 
@@ -172,7 +177,7 @@ public class IniciativaController {
         return false;
     }
 
-    private Iniciativa obtenerIniciativa(String nombre) {
+    public Iniciativa obtenerIniciativa(String nombre) {
         for (Iniciativa iniciativa : iniciativas) {
             if (iniciativa.getNombre().equalsIgnoreCase(nombre)) {
                 return iniciativa;

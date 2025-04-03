@@ -9,12 +9,13 @@ import utils.Utilidades;
 import java.time.LocalDate;
 
 public class MenuIniciativaActividad {
-    public static void muestraObjeto(Object o){
+    public static void muestraObjeto(Object o) {
         System.out.println(o);
     }
 
     /**
      * Metodo que pide los datos necesarios para crear una iniciativa.
+     *
      * @param usuario El usuario el cual crea la iniciativa del que cojemos su nombre.
      * @return la iniciativa nueva.
      */
@@ -29,20 +30,61 @@ public class MenuIniciativaActividad {
     }
 
     /**
-     * Metodo que pide los datos necesarios para crear una actividad.
-     * @return la actividad nueva.
+     * Método que pide los datos para crear una actividad con selección numérica de estado
+     *
+     * @return Actividad creada con los datos introducidos
      */
     public static Actividad pideDatosCrearActividad() {
-        String nombre = Utilidades.pideString("Introduce el nombre de la actividad");
-        String descripcion = Utilidades.pideString("Introduce una descripcion a la actividad");
-        LocalDate fechaInicio = Utilidades.pideFecha("Introduce la fecha de inicio de la actividad");
-        LocalDate fechaFin = Utilidades.pideFecha("Introduce la fecha de fin de la activiad");
-        boolean voluntario = false;
-        String iniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa a la que pertenece");
-        EstadoActividad estado = EstadoActividad.valueOf(Utilidades.pideString("Introduce el estado de la actividad (NO_INICIADA, EN_PROCESO, COMPLETADA)"));
+        Actividad actividad = new Actividad();
 
-        Actividad actividadNueva = new Actividad(nombre, descripcion, fechaInicio, fechaFin, voluntario, estado,iniciativa);
+        actividad.setNombre(Utilidades.pideString("Nombre de la actividad:"));
+        actividad.setDescripcion(Utilidades.pideString("Descripción:"));
+        actividad.setFechaInicio(Utilidades.pideFecha("Fecha inicio (dd/mm/aaaa):"));
+        actividad.setFechaFin(Utilidades.pideFecha("Fecha fin (dd/mm/aaaa):"));
 
-        return actividadNueva;
+        // Menú de selección de estado
+        actividad.setEstado(seleccionarEstado());
+
+        return actividad;
+    }
+
+    /**
+     * Método para seleccionar el estado de una actividad mediante opciones numéricas
+     * @return EstadoActividad seleccionado
+     */
+    private static EstadoActividad seleccionarEstado() {
+        System.out.println("\n══════════════════════════════");
+        System.out.println("  SELECCIÓN DE ESTADO DE ACTIVIDAD");
+        System.out.println("══════════════════════════════");
+        System.out.println("1. No iniciada (por defecto)");
+        System.out.println("2. En progreso");
+        System.out.println("3. Completada");
+        System.out.println("══════════════════════════════");
+
+        int opcion;
+        do {
+            opcion = Utilidades.leeEntero("Seleccione el estado (1-3): ");
+            if (opcion < 1 || opcion > 3) {
+                System.out.println("❌ Opción inválida. Por favor ingrese 1, 2 o 3");
+            }
+        } while (opcion < 1 || opcion > 3);
+
+        EstadoActividad estadoSeleccionado;
+        switch(opcion) {
+            case 1:
+                estadoSeleccionado = EstadoActividad.NO_INICIADA;
+                break;
+            case 2:
+                estadoSeleccionado = EstadoActividad.EN_PROCESO;
+                break;
+            case 3:
+                estadoSeleccionado = EstadoActividad.COMPLETADA;
+                break;
+            default:
+                estadoSeleccionado = EstadoActividad.NO_INICIADA;
+        }
+
+        System.out.printf("\n✅ Estado seleccionado: %s\n", estadoSeleccionado.getDescripcion());
+        return estadoSeleccionado;
     }
 }
