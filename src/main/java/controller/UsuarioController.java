@@ -1,6 +1,7 @@
 package controller;
 
 import dataAcces.XMLManager;
+import exceptions.AutenticacionException;
 import model.Creador;
 import model.Usuario;
 import utils.UsuariosContenedor;
@@ -74,9 +75,13 @@ public class UsuarioController {
     }
 
     /**
-     * Método que muestra en pantalla el menú de inicio de sesión, y comprueba si el usuario existe en la lista y si la contraseña introducida es correcta. Si es así se establece ese usuario como el actual.
+     * Metodo que pide a los usuarios los datos de acceso para iniciar sesión.
+     * @param correo correo previamente preguntado al registrarse
+     * @param contrasenna contraseña previamente preguntada al registrarse (Encriptada)
+     * @return devuelve el usuario que ha iniciado sesión. O null si no se ha podido iniciar sesión.
+     * @throws AutenticacionException si ocurre un error de autenticación
      */
-    public Usuario iniciarSesion(String correo, String contrasenna) {
+    public Usuario iniciarSesion(String correo, String contrasenna) throws AutenticacionException {
         cargarUsuariosDesdeXML();
         UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
 
@@ -85,7 +90,6 @@ public class UsuarioController {
                 if (usuario.verificarContrasenna(contrasenna)) {
                     Usuario usuarioFinal;
 
-                    // Convertir el usuario base al tipo correcto
                     if ("creador".equals(usuario.getTipo())) {
                         usuarioFinal = new Creador(usuario.getNombre(), usuario.getUsuario(),
                                 usuario.getContrasenna(), usuario.getCorreo(), "");
@@ -93,26 +97,22 @@ public class UsuarioController {
                         usuarioFinal = new Voluntario(usuario.getNombre(), usuario.getUsuario(),
                                 usuario.getContrasenna(), usuario.getCorreo());
                     } else {
-                        MenuVista.muestraMensaje("Error: Tipo de usuario no reconocido");
-                        return null;
+                        throw new AutenticacionException("Error: Tipo de usuario no reconocido");
                     }
 
                     usuarioActualController.setUsuario(usuarioFinal);
 
-                    // Mensaje personalizado según tipo de usuario
                     MenuVista.muestraMensaje("Inicio de sesión exitoso. ¡Bienvenido " +
                             usuario.getTipo() + ", " + usuario.getNombre() + "!");
 
                     return usuarioFinal;
                 } else {
-                    MenuVista.muestraMensaje("La contraseña es incorrecta.");
-                    return null;
+                    throw new AutenticacionException("La contraseña es incorrecta.");
                 }
             }
         }
 
-        MenuVista.muestraMensaje("El correo proporcionado no está registrado.");
-        return null;
+        throw new AutenticacionException("El correo proporcionado no está registrado.");
     }
 
 

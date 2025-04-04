@@ -1,5 +1,6 @@
 package controller;
 
+import exceptions.AutenticacionException;
 import model.Creador;
 import model.Usuario;
 import model.Voluntario;
@@ -27,7 +28,13 @@ public class SistemaController {
                     case 1:
                         String correo = Utilidades.pideCorreo(" ✉ Introduce el correo de la cuenta: ");
                         String contrasenna = Utilidades.pideString(" \uD83D\uDD11 Introduce la contraseña: ");
-                        Usuario usuario = usuarioController.iniciarSesion(correo, contrasenna);
+                        Usuario usuario = null;
+
+                        try {
+                            usuario = usuarioController.iniciarSesion(correo, contrasenna);
+                        } catch (AutenticacionException e) {
+                            MenuVista.muestraMensaje(e.getMessage());
+                        }
 
                         if (usuario != null) {
                             if (usuario instanceof Creador) {
