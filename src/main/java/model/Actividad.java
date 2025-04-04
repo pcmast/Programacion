@@ -168,15 +168,16 @@ public class Actividad implements CRUDGenerico {
     public boolean eliminarList(String cadena) {
         boolean eliminado = false;
         for (Usuario usuario : list) {
-            if (usuario.getNombre().equals(nombre)) {
+            if (usuario.getNombre().equals(cadena)) {
                 list.remove(usuario);
                 eliminado = true;
+                break;
             }
         }
         return eliminado;
     }
 
-    @Override
+
     public boolean modificar(Object o) {
         boolean actualizado = false;
         for (Usuario usuario : list) {

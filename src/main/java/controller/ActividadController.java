@@ -19,8 +19,7 @@ public class ActividadController {
     private ArrayList<Actividad> actividades;
 
     public ActividadController() {
-            actividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
-
+        actividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
     }
 
     /**
@@ -97,18 +96,14 @@ public class ActividadController {
         }
 
         boolean eliminado = false;
-        Creador creador = (Creador) usuarioActualController.getUsuario();
-        String nombre = Utilidades.pideString("Introduce el nombre de la actividad");
+        String nombreIniciativa = Utilidades.pideString("Introduce el nobre de la iniciativa");
+        String nombre = Utilidades.pideString("Introduce el nombre de la actividad a borrar");
 
-        for (Iniciativa iniciativa : creador.verIniciativas()) {
-            for (Actividad actividad : iniciativa.getList()) {
-                if (actividad.getNombre().equals(nombre)) {
-                    eliminado = actividad.eliminarList(nombre);
-                    if (actividad.getNombre().equals(nombre)) {
-                        actividadesDesdeXML.remove(actividad);
-                        break;
-                    }
-                }
+        for (Actividad actividad : actividadesDesdeXML) {
+            if (actividad.getNombre().equals(nombre)) {
+                actividadesDesdeXML.remove(actividad);
+                eliminado = iniciativaController.eliminarActividad(actividad,nombreIniciativa);
+                break;
             }
         }
 
@@ -207,37 +202,30 @@ public class ActividadController {
     }
 
     public void eliminarUsuario() {
-        boolean eliminado = false;
-        Creador creador = (Creador) usuarioActualController.getUsuario();
-        String voluntario = Utilidades.pideString("Introduce el nombre del voluntario");
-        String nombreIniciativa = Utilidades.pideString("Introduce el nombre de la iniciativa");
-        String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
-        ArrayList<Iniciativa> list = creador.getList();
-        if (list != null) {
-            for (Iniciativa iniciativa : list) {
-                if (iniciativa.getNombre().equals(nombreIniciativa)) {
-                    ArrayList<Actividad> list1 = iniciativa.getList();
-                    if (list1 != null) {
-                        for (Actividad actividad : list1) {
-                            if (actividad.getNombre().equals(nombreActividad)) {
-                                ArrayList<Usuario> list2 = usuarioController.getList();
-                                if (list2 != null) {
-                                    for (Usuario usuario : list2) {
-                                        if (usuario.getUsuario().equals(voluntario)) {
-                                            eliminado = actividad.eliminarList(usuario.getNombre());
-                                        }
-                                    }
-                                }
-                            }
+        boolean eliminarUsuario = false;
 
+        String nombreVoluntario = Utilidades.pideString("Introduce el nombre del voluntario");
+        String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
+        ArrayList<Usuario> usuarios = usuarioController.getList();
+        ArrayList<Actividad> list = actividades;
+        if (list != null) {
+            for (Actividad actividad : list) {
+                if (actividad.getNombre().equals(nombreActividad)) {
+                    for (Usuario usuario : usuarios) {
+                        if (usuario.getNombre().equals(nombreVoluntario)) {
+                            actividad.eliminarList(usuario.getNombre());
+                            ArrayList<String> listaVoluntarios = actividad.getVoluntario();
+                            listaVoluntarios.remove(usuario.getNombre());
+                            eliminarUsuario = true;
                         }
                     }
                 }
-
             }
         }
-        if (!eliminado) {
-            MenuVista.muestraMensaje("No se a podido eliminar el voluntario");
+        guardarActividades();
+
+        if (!eliminarUsuario) {
+            MenuVista.muestraMensaje("No se ha podido eliminar el usuario");
         }
     }
 
@@ -266,7 +254,7 @@ public class ActividadController {
                 if (actividad.getNombre().equals(nombreActividad)) {
                     for (Usuario usuario : usuarios) {
                         if (usuario.getNombre().equals(nombreVoluntario)) {
-                            actividad.annadirList(usuario);
+                            annadirUsuario = actividad.annadirList(usuario);
                             ArrayList<String> listaVoluntarios = actividad.getVoluntario();
                             listaVoluntarios.add(usuario.getNombre());
                         }

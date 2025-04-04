@@ -78,11 +78,12 @@ public class MenuVista {
         muestraMensaje("    1. Crear iniciativa");
         muestraMensaje("    2. Eliminar iniciativa");
         muestraMensaje("    3. Crear tareas de una iniciativa");
-        muestraMensaje("    4. Agregar colaboradores a una iniciativa");
-        muestraMensaje("    5. Eliminar colaboradores de una iniciativa");
-        muestraMensaje("    6. Ver iniciativas creadas");
-        muestraMensaje("    7. Ver iniciativas y actividades del usuario");
-        muestraMensaje("    8. Cerrar Sesión");
+        muestraMensaje("    4. Eliminar Actividad");
+        muestraMensaje("    5. Agregar colaboradores a una iniciativa");
+        muestraMensaje("    6. Eliminar colaboradores de una iniciativa");
+        muestraMensaje("    7. Ver iniciativas creadas");
+        muestraMensaje("    8. Ver iniciativas y actividades del usuario");
+        muestraMensaje("    9. Cerrar Sesión");
     }
 
     /**

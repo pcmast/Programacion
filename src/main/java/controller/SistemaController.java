@@ -70,7 +70,7 @@ public class SistemaController {
 
             // Verificación segura del tipo de usuario
             Usuario usuarioActual = usuarioActualController.getUsuario();
-            if (usuarioActual instanceof Creador && terminar != 8) {
+            if (usuarioActual instanceof Creador && terminar != 9) {
                 creador = (Creador) usuarioActual;
                 terminar = controlarCreador(creador);
                 creador = null;
@@ -99,22 +99,25 @@ public class SistemaController {
                     actividadController.creaActividad();
                     break;
                 case 4:
-                    actividadController.annadirUsuario();
+                    actividadController.eliminaActividad();
                     break;
                 case 5:
-                    actividadController.eliminarUsuario();
+                    actividadController.annadirUsuario();
                     break;
                 case 6:
-                    iniciativaController.muestraIniciativasNombre();
+                    actividadController.eliminarUsuario();
                     break;
                 case 7:
-                    iniciativaController.muestraIniciativas();
+                    iniciativaController.muestraIniciativasNombre();
                     break;
                 case 8:
+                    iniciativaController.muestraIniciativas();
+                    break;
+                case 9:
                     break;
             }
 
-        } while (opcion2 != 8);
+        } while (opcion2 != 9);
         return opcion2;
     }
 
