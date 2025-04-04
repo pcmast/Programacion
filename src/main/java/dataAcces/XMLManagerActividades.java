@@ -54,6 +54,7 @@ public class XMLManagerActividades {
             JAXBContext context = JAXBContext.newInstance(ActividadesContenedor.class, Actividad.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             ActividadesContenedor contenedor = (ActividadesContenedor) unmarshaller.unmarshal(file);
+            System.out.println("Número de actividades cargadas: " + contenedor.getActividades().size());
             return contenedor.getActividades();
         } catch (JAXBException e) {
             System.err.println("Error al cargar actividades: " + e.getMessage());

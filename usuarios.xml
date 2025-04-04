@@ -8,4 +8,12 @@
         <tipo>creador</tipo>
         <ongPertenece>Fepamic</ongPertenece>
     </usuario>
+    <usuario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Voluntario">
+        <nombre>antonio</nombre>
+        <usuario>antonio</usuario>
+        <contrasenna>$2a$12$57.DEC0RN8L0455dUWQBQ.DLsRuf9TUcfn632iqt4b197dk9XdjEi</contrasenna>
+        <correo>antonio@gmail.com</correo>
+        <tipo>voluntario</tipo>
+        <puntos>0</puntos>
+    </usuario>
 </usuarios>

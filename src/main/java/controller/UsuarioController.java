@@ -18,6 +18,7 @@ public class UsuarioController {
     private ArrayList<Usuario> list = new ArrayList<>();
 
     public ArrayList<Usuario> getList() {
+        cargarUsuariosDesdeXML();
         return list;
     }
 

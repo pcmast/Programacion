@@ -11,7 +11,7 @@ public class SistemaController {
     private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
     private UsuarioController usuarioController = new UsuarioController();
     private ActividadController actividadController = new ActividadController();
-    private IniciativaController iniciativaController = new IniciativaController();
+    private IniciativaController iniciativaController = IniciativaController.getInstancia();
 
     public void sistemaControllerEmpezar() {
         Creador creador = null;
@@ -128,7 +128,7 @@ public class SistemaController {
                     actividadController.actualizarEstado();
                     break;
                 case 3:
-                    iniciativaController.muestraIniciativasNombre();
+                    iniciativaController.muestraActividadesUsuario();
                     break;
                 case 4:
                     actividadController.mostrarPremios();
