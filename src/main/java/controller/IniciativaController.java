@@ -191,7 +191,7 @@ public class IniciativaController {
             return;
         }
 
-        MenuVista.muestraMensaje("=== TUS INICIATIVAS ===");
+        MenuVista.muestraMensaje("=== TUS ACTIVIDADES ===");
         for (Actividad actividad : listaDeActividadesAnnadidos) {
             MenuVista.muestraMensaje(actividad.toString());
         }

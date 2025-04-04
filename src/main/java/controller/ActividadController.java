@@ -188,13 +188,15 @@ public class ActividadController {
 
     public void actualizarEstado() {
         Voluntario voluntario = (Voluntario) usuarioActualController.getUsuario();
+        verActividades();
         String nombre = Utilidades.pideString("Introdce el nombre de la actividad");
-        EstadoActividad estadoActividad = EstadoActividad.valueOf(Utilidades.pideString("Introduce el estado de la actividad"));
+        EstadoActividad estadoActividad = MenuIniciativaActividad.seleccionarEstado();
         String comentario = Utilidades.pideString("Introduce un comentario");
         ArrayList<Actividad> list = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
         for (Actividad actividad : list) {
             if (actividad.getNombre().equals(nombre)) {
                 actividad.actualizarEstado(estadoActividad, comentario);
+                voluntario.otorgarPuntos();
             }
         }
         guardarActividades();
@@ -244,7 +246,7 @@ public class ActividadController {
 
     public void annadirUsuario() {
         boolean annadirUsuario = false;
-
+        verActividades();
         String nombreVoluntario = Utilidades.pideString("Introduce el nombre del voluntario");
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
         ArrayList<Usuario> usuarios = usuarioController.getList();
