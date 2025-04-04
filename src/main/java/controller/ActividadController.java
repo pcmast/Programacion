@@ -166,17 +166,11 @@ public class ActividadController {
         File archivo = new File("actividades.xml");
         ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
         if (archivo.exists()) {
-            actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
+            actividadesDesdeXML = actividades;
         } else {
             MenuVista.muestraMensaje("No existen actividades");
         }
 
-        Creador creador = (Creador) usuarioActualController.getUsuario();
-        for (Iniciativa iniciativa : creador.verIniciativas()) {
-            for (Actividad actividad : iniciativa.obtenerTodos()) {
-                MenuVista.muestraMensaje(actividad.getNombre());
-            }
-        }
         if (actividadesDesdeXML != null) {
             for (Actividad actividad : actividadesDesdeXML) {
                 MenuIniciativaActividad.muestraObjeto(actividad);
@@ -243,10 +237,23 @@ public class ActividadController {
         }
     }
 
+    public void mostrarVoluntariosAsignados(){
+        String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
+        for (Actividad actividad:actividades){
+            if (actividad.getNombre().equals(nombreActividad)){
+                ArrayList<String> list = actividad.getVoluntario();
+                for (String s: list){
+                    MenuVista.muestraMensaje(s);
+                }
+            }
+        }
+
+    }
 
     public void annadirUsuario() {
         boolean annadirUsuario = false;
-        Creador creador = (Creador) usuarioActualController.getUsuario();
+
+
         String nombreVoluntario = Utilidades.pideString("Introduce el nombre del voluntario");
         String nombreActividad = Utilidades.pideString("Introduce el nombre de la actividad");
         ArrayList<Usuario> usuarios = usuarioController.getList();

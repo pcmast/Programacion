@@ -82,7 +82,7 @@ public class MenuVista {
         muestraMensaje("    5. Eliminar colaboradores de una iniciativa");
         muestraMensaje("    6. Ver iniciativas creadas");
         muestraMensaje("    7. Ver iniciativas y actividades del usuario");
-        muestraMensaje("    8. Cerrar sesión");
+        muestraMensaje("    8. Cerrar Sesión");
     }
 
     /**
@@ -95,6 +95,8 @@ public class MenuVista {
         muestraMensaje("    2. Cambiar estado actividad");
         muestraMensaje("    3. Ver iniciativas y actividades del usuario");
         muestraMensaje("    4. Mostrar Puntos y Premios");
-        muestraMensaje("    5. Cerrar sesión");
+        muestraMensaje("    5. Añadirte a una actividad");
+        muestraMensaje("    6. Mostrar voluntarios asignados a una actividad");
+        muestraMensaje("    7. Cerrar Sesión");
     }
 }
