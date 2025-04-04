@@ -7,6 +7,9 @@ import model.Voluntario;
 import utils.Utilidades;
 import view.MenuVista;
 
+import java.io.File;
+import java.io.IOException;
+
 public class SistemaController {
     private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
     private UsuarioController usuarioController = new UsuarioController();

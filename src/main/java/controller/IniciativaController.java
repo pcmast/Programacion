@@ -6,6 +6,7 @@ import model.*;
 import utils.Utilidades;
 import view.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class IniciativaController {
     public static IniciativaController getInstancia() {
         if (instancia == null) {
             instancia = new IniciativaController();
-            System.out.println("IniciativaController creado: " + instancia);
         }
         return instancia;
     }
+
 
     public void creaIniciativa() {
         Creador creador = (Creador) usuarioActualController.getUsuario();
@@ -37,6 +38,7 @@ public class IniciativaController {
         if (creador.crearIniciativa(iniciativa)) {
             iniciativas.add(iniciativa);
             guardarIniciativas();
+
             MenuVista.muestraMensaje("Iniciativa creada con éxito");
         } else {
             MenuVista.muestraMensaje("Error al crear iniciativa");

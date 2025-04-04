@@ -87,6 +87,7 @@ public class XMLManagerIniciativas {
         return new ArrayList<Actividad>();
     }
 
+
     private static ArrayList<Iniciativa> cargarDesdeXML() {
         try {
             File file = new File(FILE_NAME);

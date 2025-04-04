@@ -19,7 +19,8 @@ public class ActividadController {
     private ArrayList<Actividad> actividades;
 
     public ActividadController() {
-        actividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
+            actividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
+
     }
 
     /**
