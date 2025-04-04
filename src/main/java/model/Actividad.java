@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @XmlRootElement(name = "actividad")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class  Actividad implements CRUDGenerico {
+public class Actividad implements CRUDGenerico {
 
     @XmlElement
     private String nombre;
@@ -26,7 +26,7 @@ public class  Actividad implements CRUDGenerico {
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate fechaFin;
     @XmlElement
-    private ArrayList<String> voluntario;
+    private ArrayList<String> voluntario = new ArrayList<>();
     @XmlElement
     private EstadoActividad estado;           // enum: no_iniciada, en_proceso, completada
     @XmlElement
@@ -46,7 +46,7 @@ public class  Actividad implements CRUDGenerico {
      * Constructor con parámetros (útil para inicializar fácilmente)
      */
     public Actividad(String nombre, String descripcion, LocalDate fechaInicio,
-                     LocalDate fechaFin, ArrayList<String> voluntario, EstadoActividad estado,String iniciativa) {
+                     LocalDate fechaFin, ArrayList<String> voluntario, EstadoActividad estado, String iniciativa) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -58,6 +58,14 @@ public class  Actividad implements CRUDGenerico {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
     }
 
     public void setNombre(String nombre) {
@@ -144,11 +152,10 @@ public class  Actividad implements CRUDGenerico {
     }
 
 
-
     @Override
     public boolean annadirList(Object o) {
         boolean annadido = false;
-        if (!list.contains(o)){
+        if (!list.contains(o)) {
             list.add((Usuario) o);
             annadido = true;
         }
@@ -160,20 +167,21 @@ public class  Actividad implements CRUDGenerico {
     @Override
     public boolean eliminarList(String cadena) {
         boolean eliminado = false;
-        for (Usuario usuario:list){
-            if (usuario.getNombre().equals(nombre)){
+        for (Usuario usuario : list) {
+            if (usuario.getNombre().equals(cadena)) {
                 list.remove(usuario);
                 eliminado = true;
+                break;
             }
         }
         return eliminado;
     }
 
-    @Override
+
     public boolean modificar(Object o) {
         boolean actualizado = false;
-        for (Usuario usuario:list){
-            if (usuario.equals(o)){
+        for (Usuario usuario : list) {
+            if (usuario.equals(o)) {
                 list.remove(usuario);
                 list.add((Usuario) o);
                 actualizado = true;
@@ -190,18 +198,18 @@ public class  Actividad implements CRUDGenerico {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("═══════════════════════════════\n");
-        sb.append("         📌 ACTIVIDAD         \n");
-        sb.append("═══════════════════════════════\n");
-        sb.append("📌 Nombre: ").append(nombre != null ? nombre : "N/A").append("\n");
-        sb.append("📝 Descripción: ").append(descripcion != null ? descripcion : "N/A").append("\n");
-        sb.append("📅 Fecha de inicio: ").append(fechaInicio != null ? fechaInicio : "N/A").append("\n");
-        sb.append("📅 Fecha de fin: ").append(fechaFin != null ? fechaFin : "N/A").append("\n");
-        sb.append("🙋 Voluntario asignado: ").append(voluntario.size() ).append("\n");
-        sb.append("📌 Estado: ").append(estado != null ? estado : "N/A").append("\n");
-        sb.append("═══════════════════════════════");
-        return sb.toString();
-    }
+        System.out.println("═══════════════════════════════");
+        System.out.println("         📌 ACTIVIDAD         ");
+        System.out.println("═══════════════════════════════");
+        System.out.println("📌 Nombre: " + (nombre == null ? "N/A" : nombre));
+        System.out.println("📝 Descripción: " + (descripcion == null ? "N/A" : descripcion));
+        System.out.println("📅 Fecha de inicio: " + (fechaInicio == null ? "N/A" : fechaInicio));
+        System.out.println("📅 Fecha de fin: " + (fechaFin == null ? "N/A" : fechaFin));
+        System.out.println("🙋 Voluntarios asignados: " + (voluntario != null ? list.size() : 0));
+        System.out.println("📌 Estado: " + (estado == null ? "N/A" : estado));
+        System.out.println("📝 Comentario: "+(comentario == null ? "N/A":comentario));
 
+        System.out.println("═══════════════════════════════");
+        return "";
+    }
 }
