@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<usuarios>
+    <usuario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Creador">
+        <nombre>Pedro</nombre>
+        <usuario>pedro</usuario>
+        <contrasenna>$2a$12$Oayz3DtYseAp6AWeVpwd3Oh0BnsP5pTSs6/0udQ43ev6nUgksezPW</contrasenna>
+        <correo>pedro@gmail.com</correo>
+        <tipo>creador</tipo>
+        <ongPertenece>Fepamic</ongPertenece>
+    </usuario>
+</usuarios>
