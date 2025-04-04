@@ -1,5 +1,6 @@
 package controller;
 
+import dataAcces.XMLManagerActividades;
 import dataAcces.XMLManagerIniciativas;
 import model.*;
 import utils.Utilidades;
@@ -11,9 +12,17 @@ import java.util.List;
 public class IniciativaController {
     private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
     private ArrayList<Iniciativa> iniciativas;
+    private static IniciativaController instancia;
 
-    public IniciativaController() {
+    private IniciativaController() {
         this.iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
+    }
+    public static IniciativaController getInstancia() {
+        if (instancia == null) {
+            instancia = new IniciativaController();
+            System.out.println("IniciativaController creado: " + instancia);
+        }
+        return instancia;
     }
 
     public void creaIniciativa() {
@@ -69,7 +78,7 @@ public class IniciativaController {
             MenuVista.muestraMensaje("Iniciativa no encontrada");
         }
     }
-
+    //borrar
     public void modificarIniciativa() {
         String nombreActual = Utilidades.pideString("Nombre de la iniciativa a modificar:");
         Creador creador = (Creador) usuarioActualController.getUsuario();
@@ -91,6 +100,8 @@ public class IniciativaController {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
         }
+
+        iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
         Creador creador = (Creador) usuarioActualController.getUsuario();
         MenuVista.muestraMensaje("=== LISTADO DE INICIATIVAS ===");
         for (Iniciativa iniciativa : iniciativas) {
@@ -102,6 +113,7 @@ public class IniciativaController {
     }
 
     public void muestraIniciativasNombre() {
+
         if (iniciativas.isEmpty()) {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
@@ -117,33 +129,29 @@ public class IniciativaController {
 
         }
         MenuVista.muestraMensaje("==============================");
+
     }
-
-    public void muestraIniciativasUsuario() {
+    //borrar
+    public void muestraActividadesUsuario() {
         Usuario usuario = usuarioActualController.getUsuario();
-        List<Iniciativa> iniciativasUsuario = new ArrayList<>();
-
-        if (usuario instanceof Creador) {
-            Creador creador = (Creador) usuario;
-            iniciativasUsuario = creador.verIniciativas();
-        } else if (usuario instanceof Voluntario) {
-            Voluntario voluntario = (Voluntario) usuario;
-            for (Actividad actividad : voluntario.getList()) {
-                Iniciativa iniciativa = obtenerIniciativa(actividad.getIniciativa());
-                if (iniciativa != null && !contieneIniciativa(iniciativasUsuario, iniciativa)) {
-                    iniciativasUsuario.add(iniciativa);
+        ArrayList<Actividad> listaActividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
+        ArrayList<Actividad> listaDeActividadesAnnadidos = new ArrayList<>();
+        for (Actividad actividad:listaActividades){
+            ArrayList<String> listaNombreUsuarios = actividad.getVoluntario();
+            for (String nombre: listaNombreUsuarios){
+                if (nombre.equals(usuario.getNombre())){
+                listaDeActividadesAnnadidos.add(actividad);
                 }
             }
         }
-
-        if (iniciativasUsuario.isEmpty()) {
+        if (listaActividades.isEmpty()) {
             MenuVista.muestraMensaje("No tienes iniciativas asignadas");
             return;
         }
 
         MenuVista.muestraMensaje("=== TUS INICIATIVAS ===");
-        for (Iniciativa iniciativa : iniciativasUsuario) {
-            MenuVista.muestraMensaje(iniciativa.toString());
+        for (Actividad actividad : listaDeActividadesAnnadidos) {
+            MenuVista.muestraMensaje(actividad.toString());
         }
         MenuVista.muestraMensaje("=======================");
     }

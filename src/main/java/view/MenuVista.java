@@ -91,7 +91,7 @@ public class MenuVista {
     public static void menuVoluntarios() {
         System.out.println("────────────────────────────────────────────");
         System.out.println(" ➤ Menú de Voluntario:");
-        muestraMensaje("    1. Ver tareas asignadas");
+        muestraMensaje("    1. Ver tareas");
         muestraMensaje("    2. Cambiar estado actividad");
         muestraMensaje("    3. Ver iniciativas y actividades del usuario");
         muestraMensaje("    4. Mostrar Puntos y Premios");
