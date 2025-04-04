@@ -1,9 +1,12 @@
 package model;
 
+import dataAcces.XMLManagerActividades;
 import interfaces.CRUDGenerico;
 
 import javax.xml.bind.annotation.*;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 @XmlRootElement(name = "iniciativa")
@@ -172,6 +175,17 @@ public class Iniciativa implements CRUDGenerico {
 
     @Override
     public String toString() {
+        File file =new File("actividades.xml");
+        if (file.exists()){
+            actividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
+            Iterator<Actividad> iterator = actividades.iterator();
+            while (iterator.hasNext()) {
+                Actividad actividad = iterator.next();
+                if (!actividad.getIniciativa().equals(getNombre())) {
+                    iterator.remove();
+                }
+            }
+        }
         String result = "";
         result += "══════════════════════════════════════════\n";
         result += "           🌿 DETALLES DE INICIATIVA     \n";

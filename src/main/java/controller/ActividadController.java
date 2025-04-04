@@ -72,7 +72,7 @@ public class ActividadController {
 
     public void guardarActividadesCrear(ArrayList<Actividad> list) {
         try {
-            // Guardar las iniciativas en el XML
+            // Guardar las actividades en el XML
             XMLManagerActividades.guardarActividades(list);
             MenuVista.muestraMensaje("✅ Actividades guardadas correctamente.");
         } catch (Exception e) {
