@@ -190,18 +190,16 @@ public class  Actividad implements CRUDGenerico {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("═══════════════════════════════\n");
-        sb.append("         📌 ACTIVIDAD         \n");
-        sb.append("═══════════════════════════════\n");
-        sb.append("📌 Nombre: ").append(nombre != null ? nombre : "N/A").append("\n");
-        sb.append("📝 Descripción: ").append(descripcion != null ? descripcion : "N/A").append("\n");
-        sb.append("📅 Fecha de inicio: ").append(fechaInicio != null ? fechaInicio : "N/A").append("\n");
-        sb.append("📅 Fecha de fin: ").append(fechaFin != null ? fechaFin : "N/A").append("\n");
-        sb.append("🙋 Voluntario asignado: ").append(voluntario.size() ).append("\n");
-        sb.append("📌 Estado: ").append(estado != null ? estado : "N/A").append("\n");
-        sb.append("═══════════════════════════════");
-        return sb.toString();
+        System.out.println("═══════════════════════════════");
+        System.out.println("         📌 ACTIVIDAD         ");
+        System.out.println("═══════════════════════════════");
+        System.out.println("📌 Nombre: " + (nombre == null ? "N/A" : nombre));
+        System.out.println("📝 Descripción: " + (descripcion == null ? "N/A" : descripcion));
+        System.out.println("📅 Fecha de inicio: " + (fechaInicio == null ? "N/A" : fechaInicio));
+        System.out.println("📅 Fecha de fin: " + (fechaFin == null ? "N/A" : fechaFin));
+        System.out.println("🙋 Voluntarios asignados: " + (voluntario != null ? voluntario.size() : 0));
+        System.out.println("📌 Estado: " + (estado == null ? "N/A" : estado));
+        System.out.println("═══════════════════════════════");
+        return "";
     }
-
 }
