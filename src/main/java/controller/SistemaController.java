@@ -16,6 +16,7 @@ public class SistemaController {
         Creador creador = null;
         Voluntario voluntario = null;
         int opcion, numero, terminar = 0, salir = 0;
+        boolean continuar = true;
 
         do {
             do {
@@ -51,11 +52,11 @@ public class SistemaController {
                         break;
 
                     case 3: // Salir
-                        terminar = 8;
-                        salir = 1;
+                        MenuVista.muestraMensaje("Saliendo del programa...");
+                        continuar = false; // Cambiar la variable de control
                         break;
                 }
-            } while (opcion != 3);
+            } while (opcion != 3 && continuar);
 
             // Verificación segura del tipo de usuario
             Usuario usuarioActual = usuarioActualController.getUsuario();
@@ -69,7 +70,7 @@ public class SistemaController {
                 voluntario = null;
             }
 
-        } while (salir != 1 ||terminar == 8 || terminar == 4);
+        } while (salir != 1 && continuar);
     }
 
     public int controlarCreador(Creador creador) {
@@ -125,14 +126,19 @@ public class SistemaController {
                 case 4:
                     actividadController.mostrarPremios();
                     break;
-
+                case 5:
+                    actividadController.annadirUsuario();
+                    break;
+                case 6:
+                    actividadController.mostrarVoluntariosAsignados();
 
             }
 
-        } while (opcion3 != 5);
+        } while (opcion3 != 7);
 
         return opcion3;
     }
 
 
 }
+
