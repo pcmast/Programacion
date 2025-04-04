@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<iniciativas>
+    <iniciativa>
+        <nombre>Prueba</nombre>
+        <descripcion>Descripción de la iniciativa</descripcion>
+        <creadorIniciativa>Pedro</creadorIniciativa>
+        <actividades/>
+        <actividades/>
+    </iniciativa>
+    <iniciativa>
+        <nombre>Pruebaa</nombre>
+        <descripcion>Descripción de la iniciatica</descripcion>
+        <creadorIniciativa>Pedro</creadorIniciativa>
+        <actividades/>
+        <actividades/>
+    </iniciativa>
+</iniciativas>

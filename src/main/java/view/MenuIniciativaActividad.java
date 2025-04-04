@@ -20,8 +20,8 @@ public class MenuIniciativaActividad {
      * @return la iniciativa nueva.
      */
     public static Iniciativa pideDatosCrearIniciativa(Usuario usuario) {
-        String nombre = Utilidades.pideString("Introduce el nombre de la iniciativa");
-        String descripcion = Utilidades.pideString("Introduce una descripcion a la iniciativa");
+        String nombre = Utilidades.pideString("Introduce el nombre de la iniciativa: ");
+        String descripcion = Utilidades.pideString("Introduce una descripcion a la iniciativa: ");
         String creadorIniciativa = usuario.getNombre();
 
         Iniciativa iniciativaNueva = new Iniciativa(nombre, descripcion, creadorIniciativa);
@@ -37,10 +37,10 @@ public class MenuIniciativaActividad {
     public static Actividad pideDatosCrearActividad() {
         Actividad actividad = new Actividad();
 
-        actividad.setNombre(Utilidades.pideString("Nombre de la actividad:"));
-        actividad.setDescripcion(Utilidades.pideString("Descripción:"));
-        actividad.setFechaInicio(Utilidades.pideFecha("Fecha inicio (dd/mm/aaaa):"));
-        actividad.setFechaFin(Utilidades.pideFecha("Fecha fin (dd/mm/aaaa):"));
+        actividad.setNombre(Utilidades.pideString("Nombre de la actividad: "));
+        actividad.setDescripcion(Utilidades.pideString("Descripción: "));
+        actividad.setFechaInicio(Utilidades.pideFecha("Fecha inicio (dd/mm/aaaa): "));
+        actividad.setFechaFin(Utilidades.pideFecha("Fecha fin (dd/mm/aaaa): "));
 
         // Menú de selección de estado
         actividad.setEstado(seleccionarEstado());
@@ -56,7 +56,7 @@ public class MenuIniciativaActividad {
         System.out.println("\n══════════════════════════════");
         System.out.println("  SELECCIÓN DE ESTADO DE ACTIVIDAD");
         System.out.println("══════════════════════════════");
-        System.out.println("1. No iniciada (por defecto)");
+        System.out.println("1. No iniciada");
         System.out.println("2. En progreso");
         System.out.println("3. Completada");
         System.out.println("══════════════════════════════");

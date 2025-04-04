@@ -154,32 +154,38 @@ public class Creador extends Usuario {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("══════════════════════════════════════════\n");
-        sb.append("           🧑💼 PERFIL DE CREADOR       \n");
-        sb.append("══════════════════════════════════════════\n");
-        sb.append("👤 Nombre: ").append(getNombre() != null ? getNombre() : "N/A").append("\n");
-        sb.append("📧 Correo: ").append(getCorreo() != null ? getCorreo() : "N/A").append("\n");
-        sb.append("🏛️ ONG: ").append(ongPertenece != null ? ongPertenece : "N/A").append("\n");
-        sb.append("══════════════════════════════════════════\n");
-        sb.append("🌱 INICIATIVAS (").append(list.size()).append(")\n");
-        sb.append("══════════════════════════════════════════\n");
+        System.out.println("══════════════════════════════════════════");
+        System.out.println("           🧑💼 PERFIL DE CREADOR       ");
+        System.out.println("══════════════════════════════════════════");
+
+        System.out.println("👤 Nombre: " + (getNombre() == null ? "N/A" : getNombre()));
+        System.out.println("📧 Correo: " + (getCorreo() == null ? "N/A" : getCorreo()));
+        System.out.println("🏛️ ONG: " + (ongPertenece == null ? "N/A" : ongPertenece));
+
+        System.out.println("══════════════════════════════════════════");
+        System.out.println("🌱 INICIATIVAS (" + list.size() + ")");
+        System.out.println("══════════════════════════════════════════");
 
         if (list.isEmpty()) {
-            sb.append("No hay iniciativas creadas.\n");
+            System.out.println("No hay iniciativas creadas.");
         } else {
             for (Iniciativa iniciativa : list) {
-                sb.append("🔹 ").append(iniciativa.getNombre()).append("\n");
-                sb.append("   📝 ").append(iniciativa.getDescripcion() != null ?
-                        (iniciativa.getDescripcion().length() > 50 ?
-                                iniciativa.getDescripcion().substring(0, 47) + "..." :
-                                iniciativa.getDescripcion()) :
-                        "Sin descripción").append("\n");
-                sb.append("   📅 Actividades: ").append(iniciativa.getList().size()).append("\n");
-                sb.append("   ──────────────────────────────────────\n");
+                System.out.println("🔹 " + iniciativa.getNombre());
+                String descripcion = iniciativa.getDescripcion();
+                if (descripcion == null) {
+                    System.out.println("   📝 Sin descripción");
+                } else if (descripcion.length() > 50) {
+                    System.out.println("   📝 " + descripcion.substring(0, 47) + "...");
+                } else {
+                    System.out.println("   📝 " + descripcion);
+                }
+                System.out.println("   📅 Actividades: " + iniciativa.getList().size());
+                System.out.println("   ──────────────────────────────────────");
             }
         }
-        sb.append("══════════════════════════════════════════");
-        return sb.toString();
+
+        System.out.println("══════════════════════════════════════════");
+        return "";
     }
+
 }
