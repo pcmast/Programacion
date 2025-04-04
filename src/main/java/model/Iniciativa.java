@@ -178,7 +178,6 @@ public class Iniciativa implements CRUDGenerico {
         ArrayList<Actividad> actividadesFiltradas = new ArrayList<>();
         File file = new File("actividades.xml");
         if (file.exists()){
-            XMLManagerActividades.guardarActividades(actividades);
             ArrayList<Actividad> todas = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
             for (Actividad actividad : todas) {
                 if (actividad.getIniciativa().equals(getNombre())) {

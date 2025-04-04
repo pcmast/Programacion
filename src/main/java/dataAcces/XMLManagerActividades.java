@@ -43,7 +43,8 @@ public class XMLManagerActividades {
     }
 
     public static List<Actividad> obtenerTodasActividades() {
-        return new ArrayList<>(obtenerActividades());
+        List<Actividad> list = obtenerActividades();
+        return list;
     }
 
     private static ArrayList<Actividad> cargarDesdeXML() {

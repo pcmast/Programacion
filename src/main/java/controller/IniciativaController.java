@@ -101,7 +101,7 @@ public class IniciativaController {
             return;
         }
 
-        iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
+
         Creador creador = (Creador) usuarioActualController.getUsuario();
         MenuVista.muestraMensaje("=== LISTADO DE INICIATIVAS ===");
         for (Iniciativa iniciativa : iniciativas) {
