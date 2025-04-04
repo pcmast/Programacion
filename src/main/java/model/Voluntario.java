@@ -37,7 +37,7 @@ public class Voluntario extends Usuario{
      */
     public void verificarPremios() {
         ArrayList<Premio> premiosDisponibles = new ArrayList<>();
-        premiosDisponibles.add(new Premio(">> Palmadita en la espalda", 500));
+        premiosDisponibles.add(new Premio(">> Palmadita en la espalda", 200));
         premiosDisponibles.add(new Premio(">> Palmadita de regalo", 1000));
         premiosDisponibles.add(new Premio(">> Rango Superior", 2000));
 
