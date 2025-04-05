@@ -52,7 +52,7 @@ public class MenuIniciativaActividad {
      * Método para seleccionar el estado de una actividad mediante opciones numéricas
      * @return EstadoActividad seleccionado
      */
-    private static EstadoActividad seleccionarEstado() {
+    public static EstadoActividad seleccionarEstado() {
         System.out.println("\n══════════════════════════════");
         System.out.println("  SELECCIÓN DE ESTADO DE ACTIVIDAD");
         System.out.println("══════════════════════════════");

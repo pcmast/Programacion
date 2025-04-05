@@ -1,20 +1,31 @@
 package controller;
 
+import dataAcces.XMLManagerActividades;
 import dataAcces.XMLManagerIniciativas;
 import model.*;
 import utils.Utilidades;
 import view.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IniciativaController {
     private UsuarioActualController usuarioActualController = UsuarioActualController.getInstance();
     private ArrayList<Iniciativa> iniciativas;
+    private static IniciativaController instancia;
 
-    public IniciativaController() {
+
+    private IniciativaController() {
         this.iniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
     }
+    public static IniciativaController getInstancia() {
+        if (instancia == null) {
+            instancia = new IniciativaController();
+        }
+        return instancia;
+    }
+
 
     public void creaIniciativa() {
         Creador creador = (Creador) usuarioActualController.getUsuario();
@@ -28,6 +39,7 @@ public class IniciativaController {
         if (creador.crearIniciativa(iniciativa)) {
             iniciativas.add(iniciativa);
             guardarIniciativas();
+
             MenuVista.muestraMensaje("Iniciativa creada con éxito");
         } else {
             MenuVista.muestraMensaje("Error al crear iniciativa");
@@ -45,31 +57,70 @@ public class IniciativaController {
         Creador creador = (Creador) usuarioActualController.getUsuario();
         boolean eliminada = false;
 
-        // Eliminar de las iniciativas del creador
-        ArrayList<Iniciativa> iniciativasCreador = creador.verIniciativas();
-        for (Iniciativa iniciativa:iniciativasCreador){
-            if (iniciativa.getNombre().equals(nombre)){
-                iniciativasCreador.remove(iniciativa);
-                eliminada = true;
-            }
-        }
-
         // Eliminar de la lista general
-        if (eliminada) {
-            for (Iniciativa iniciativa: iniciativas) {
-                if (iniciativa.getNombre().equals(nombre)) {
-                    iniciativas.remove(iniciativa);
-                    break;
-                }
+        for (Iniciativa iniciativa: iniciativas) {
+            if (iniciativa.getNombre().equals(nombre)) {
+                iniciativas.remove(iniciativa);
+                eliminada = true;
+                break;
             }
-
-            guardarIniciativas();
-            MenuVista.muestraMensaje("Iniciativa eliminada");
-        } else {
-            MenuVista.muestraMensaje("Iniciativa no encontrada");
         }
+        if (eliminada){
+            eliminaActividad(nombre);
+        }
+
+        guardarIniciativas();
+        MenuVista.muestraMensaje("Iniciativa eliminada");
     }
 
+    public boolean eliminarActividad(Actividad actividad, String nombreIniciativa){
+        boolean eliminado = false;
+        ArrayList<Iniciativa> listaIniciativas = (ArrayList<Iniciativa>) XMLManagerIniciativas.obtenerTodasIniciativas();
+        ArrayList<Actividad> listaTemporal = new ArrayList<>();
+        for (Iniciativa iniciativa : listaIniciativas) {
+            if (iniciativa.getNombre().equals(nombreIniciativa)) {
+                listaTemporal = iniciativa.getList();
+                listaTemporal.remove(actividad);
+                eliminado = true;
+                iniciativa.setList(listaTemporal);
+                break;
+            }
+        }
+        if (eliminado){
+            iniciativas = listaIniciativas;
+        }
+        guardarIniciativas();
+        return eliminado;
+    }
+
+    public void eliminaActividad(String nombreIniciativa) {
+        File archivo = new File("actividades.xml");
+        ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
+        if (archivo.exists()) {
+            actividadesDesdeXML = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
+        }
+
+        boolean eliminado = false;
+
+        for (Actividad actividad : actividadesDesdeXML) {
+            if (actividad.getIniciativa().equals(nombreIniciativa)) {
+                actividadesDesdeXML.remove(actividad);
+                eliminarActividad(actividad,nombreIniciativa);
+                break;
+            }
+        }
+            MenuVista.muestraMensaje("Se ha eliminado correctamente.");
+            try {
+                XMLManagerActividades.guardarActividades(actividadesDesdeXML);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+
+    }
+
+
+
+    //borrar
     public void modificarIniciativa() {
         String nombreActual = Utilidades.pideString("Nombre de la iniciativa a modificar:");
         Creador creador = (Creador) usuarioActualController.getUsuario();
@@ -91,6 +142,8 @@ public class IniciativaController {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
         }
+
+
         Creador creador = (Creador) usuarioActualController.getUsuario();
         MenuVista.muestraMensaje("=== LISTADO DE INICIATIVAS ===");
         for (Iniciativa iniciativa : iniciativas) {
@@ -102,6 +155,7 @@ public class IniciativaController {
     }
 
     public void muestraIniciativasNombre() {
+
         if (iniciativas.isEmpty()) {
             MenuVista.muestraMensaje("No hay iniciativas registradas");
             return;
@@ -117,36 +171,34 @@ public class IniciativaController {
 
         }
         MenuVista.muestraMensaje("==============================");
+
     }
-
-    public void muestraIniciativasUsuario() {
+    //borrar
+    public void muestraActividadesUsuario() {
         Usuario usuario = usuarioActualController.getUsuario();
-        List<Iniciativa> iniciativasUsuario = new ArrayList<>();
-
-        if (usuario instanceof Creador) {
-            Creador creador = (Creador) usuario;
-            iniciativasUsuario = creador.verIniciativas();
-        } else if (usuario instanceof Voluntario) {
-            Voluntario voluntario = (Voluntario) usuario;
-            for (Actividad actividad : voluntario.getList()) {
-                Iniciativa iniciativa = obtenerIniciativa(actividad.getIniciativa());
-                if (iniciativa != null && !contieneIniciativa(iniciativasUsuario, iniciativa)) {
-                    iniciativasUsuario.add(iniciativa);
+        ArrayList<Actividad> listaActividades = (ArrayList<Actividad>) XMLManagerActividades.obtenerTodasActividades();
+        ArrayList<Actividad> listaDeActividadesAnnadidos = new ArrayList<>();
+        for (Actividad actividad:listaActividades){
+            ArrayList<String> listaNombreUsuarios = actividad.getVoluntario();
+            for (String nombre: listaNombreUsuarios){
+                if (nombre.equals(usuario.getNombre())){
+                listaDeActividadesAnnadidos.add(actividad);
                 }
             }
         }
-
-        if (iniciativasUsuario.isEmpty()) {
+        if (listaActividades.isEmpty()) {
             MenuVista.muestraMensaje("No tienes iniciativas asignadas");
             return;
         }
 
-        MenuVista.muestraMensaje("=== TUS INICIATIVAS ===");
-        for (Iniciativa iniciativa : iniciativasUsuario) {
-            MenuVista.muestraMensaje(iniciativa.toString());
+        MenuVista.muestraMensaje("=== TUS ACTIVIDADES ===");
+        for (Actividad actividad : listaDeActividadesAnnadidos) {
+            MenuVista.muestraMensaje(actividad.toString());
         }
         MenuVista.muestraMensaje("=======================");
     }
+
+
 
     public void guardarIniciativas() {
         try {
