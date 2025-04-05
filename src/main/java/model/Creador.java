@@ -9,87 +9,94 @@ import java.util.ArrayList;
 public class Creador extends Usuario {
 
     @XmlElement
-    private String ongPertenece; // ONG a la que pertenece el creador
+    private String ongPertenece;
 
-    @XmlElement(name = "iniciativa", type = Iniciativa.class) // Lista de iniciativas asociadas a este creador
+    @XmlElement(name = "iniciativa", type = Iniciativa.class)
     private ArrayList<Iniciativa> list = new ArrayList<>();
 
     public Creador() {
-
     }
 
-    // Constructor con todos los parámetros para inicializar los datos del creador
     public Creador(String nombre, String usuario, String contrasenna, String correo, String ong) {
-        super(nombre, usuario, contrasenna, correo,"creador"); // Llama al constructor de la clase padre (Usuario)
-        this.ongPertenece = ong; // Asigna la ONG a la que pertenece el creador
+        super(nombre, usuario, contrasenna, correo, "creador");
+        this.ongPertenece = ong;
     }
 
     /**
-     * Métodos getter y setter para obtener y establecer los valores de los atributos
+     * Obtiene la ONG a la que pertenece el creador.
+     *
+     * @return El nombre de la ONG.
      */
     public String getOngPertenece() {
         return ongPertenece;
     }
 
+    /**
+     * Establece la ONG a la que pertenece el creador.
+     *
+     * @param ongPertenece El nombre de la ONG.
+     */
     public void setOngPertenece(String ongPertenece) {
         this.ongPertenece = ongPertenece;
     }
 
+    /**
+     * Obtiene la lista de iniciativas asociadas al creador.
+     *
+     * @return La lista de iniciativas.
+     */
     public ArrayList<Iniciativa> getList() {
         return list;
     }
 
+    /**
+     * Establece la lista de iniciativas asociadas al creador.
+     *
+     * @param list La lista de iniciativas.
+     */
     public void setList(ArrayList<Iniciativa> list) {
         this.list = list;
     }
 
     /**
-     * Crea una iniciativa y si la lista de este creador no contiene esa iniciativa, la añade
+     * Crea una nueva iniciativa y la añade a la lista de iniciativas del creador si no existe.
      *
-     * @param iniciativa la iniciativa que va a crear
-     * @return devuelve true si la pudo añadir, false si ya existe en la lista
+     * @param iniciativa La iniciativa a añadir.
+     * @return true si la iniciativa fue añadida con éxito, false si ya existía en la lista.
      */
     public boolean crearIniciativa(Iniciativa iniciativa) {
         boolean creada = false;
-        if (!list.contains(iniciativa)) { // Verifica si la iniciativa no está en la lista
-            list.add(iniciativa); // Añade la nueva iniciativa
-            creada = true; // Indica que la iniciativa fue creada
+        if (!list.contains(iniciativa)) {
+            list.add(iniciativa);
+            creada = true;
         }
         return creada;
     }
 
     /**
-     * Elimina una iniciativa por su nombre y nombre de creador
+     * Elimina una iniciativa de la lista del creador usando el nombre y el nombre del creador.
      *
-     * @param nombre        el nombre de la iniciativa
-     * @param nombreCreador nombre del creador de esa iniciativa
-     * @return devuelve true si se ha podido eliminar, false si no se pudo encontrar
+     * @param nombre        El nombre de la iniciativa.
+     * @param nombreCreador El nombre del creador de la iniciativa.
+     * @return true si la iniciativa fue eliminada correctamente, false si no se encontró.
      */
     public boolean eliminarIniciativa(String nombre, String nombreCreador) {
         boolean eliminada = false;
-        // Recorre la lista de iniciativas
         for (Iniciativa iniciativa : list) {
-            // Si encuentra la iniciativa con el nombre y creador correctos, la elimina
             if (iniciativa.getNombre().equals(nombre) && iniciativa.getCreadorIniciativa().equals(nombreCreador)) {
-                list.remove(iniciativa); // Elimina la iniciativa de la lista
-                eliminada = true; // Indica que la iniciativa fue eliminada
+                list.remove(iniciativa);
+                eliminada = true;
             }
         }
         return eliminada;
     }
 
     /**
-     * El creador crea una actividad y la añade a una iniciativa específica
+     * Crea una actividad y la añade a una iniciativa específica.
      *
-     * @param actividad        la actividad que va a crear
-     * @param nombreIniciativa nombre de la iniciativa donde se añadirá la actividad
-     * @return devuelve true si la actividad fue añadida correctamente, false si no se pudo añadir
-     */
-    /**
-     * Crea una actividad y la añade a la iniciativa especificada
-     * @param actividad La actividad a crear
-     * @param nombreIniciativa Nombre de la iniciativa destino
-     * @return true si se añadió correctamente, false si no
+     * @param actividad        La actividad a crear.
+     * @param nombreIniciativa El nombre de la iniciativa a la que se añadirá la actividad.
+     * @return true si la actividad fue añadida correctamente, false si ya existe.
      */
     public boolean crearActividad(Actividad actividad, String nombreIniciativa) {
         boolean resultado = false;
@@ -121,11 +128,11 @@ public class Creador extends Usuario {
     }
 
     /**
-     * El creador elimina una actividad por su nombre y nombre de la iniciativa a la que pertenece
+     * Elimina una actividad de una iniciativa específica.
      *
-     * @param nombreActividad  nombre de la actividad que quiere eliminar
-     * @param nombreIniciativa nombre de la iniciativa que tiene esa actividad
-     * @return devuelve true si la actividad fue eliminada, false si no se pudo encontrar
+     * @param nombreActividad  El nombre de la actividad a eliminar.
+     * @param nombreIniciativa El nombre de la iniciativa a la que pertenece la actividad.
+     * @return true si la actividad fue eliminada, false si no se pudo encontrar.
      */
     public boolean eliminarActividad(String nombreActividad, String nombreIniciativa) {
         boolean eliminada = false;
@@ -134,7 +141,7 @@ public class Creador extends Usuario {
                 ArrayList<Actividad> lista1 = iniciativa.getList();
                 for (Actividad actividad : lista1) {
                     if (actividad.getNombre().equals(nombreActividad)) {
-                        lista1.remove(actividad);
+                        lista1.remove(actividad); // Elimina la actividad
                         eliminada = true;
                     }
                 }
@@ -144,14 +151,19 @@ public class Creador extends Usuario {
     }
 
     /**
-     * Devuelve una copia de la lista de iniciativas del creador
+     * Devuelve la lista de iniciativas del creador.
      *
-     * @return una lista de las iniciativas del creador
+     * @return Una lista con las iniciativas del creador.
      */
     public ArrayList<Iniciativa> verIniciativas() {
         return getList();
     }
 
+    /**
+     * Método toString que muestra el perfil del creador con sus iniciativas.
+     *
+     * @return Una cadena con el perfil del creador.
+     */
     @Override
     public String toString() {
         System.out.println("══════════════════════════════════════════");
@@ -188,4 +200,6 @@ public class Creador extends Usuario {
         return "";
     }
 
+    //Aquí hemos implementado una nueva metodología para los toStrings, para poder jugar con ellos, es decir, código más limpio, y una salida más limpia.
+    //Sabemos perfectamente lo que quiere decir la interrogación y para que se utiliza. Y en que casos.
 }

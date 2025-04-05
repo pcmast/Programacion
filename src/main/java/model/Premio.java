@@ -16,7 +16,7 @@ public class Premio {
     private int puntosRequeridos;
 
     /**
-     * Constructor vacío
+     * Constructor vacío para la serialización XML.
      */
     public Premio() {}
 

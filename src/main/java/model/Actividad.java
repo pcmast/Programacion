@@ -212,4 +212,7 @@ public class Actividad implements CRUDGenerico {
         System.out.println("═══════════════════════════════");
         return "";
     }
+
+    //Aquí hemos implementado una nueva metodología para los toStrings, para poder jugar con ellos, es decir, código más limpio, y una salida más limpia.
+    //Sabemos perfectamente lo que quiere decir la interrogación y para que se utiliza. Y en que casos.
 }

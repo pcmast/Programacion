@@ -17,15 +17,20 @@ import java.util.ArrayList;
 public class UsuarioController {
     private ArrayList<Usuario> list = new ArrayList<>();
 
+    /**
+     * Obtiene la lista de usuarios cargados desde el archivo XML.
+     *
+     * @return Lista de usuarios registrados.
+     */
     public ArrayList<Usuario> getList() {
         cargarUsuariosDesdeXML();
         return list;
     }
 
     /**
-     * Método que muestra en pantalla el menú de registro de usuario,crea el usuario con los datos del registro y lo añade a la lista de usuarios registrados.
+     * Muestra el menú de registro de usuario, crea un nuevo usuario y lo añade a la lista de usuarios registrados.
      *
-     * @param usuarioNuevo devuelve el usuario nuevo que se ha registrado
+     * @param usuarioNuevo Usuario que se va a registrar.
      */
     public void registrarUsuario(Usuario usuarioNuevo) {
         cargarUsuariosDesdeXML();
@@ -37,37 +42,43 @@ public class UsuarioController {
             usuarioNuevo.setTipo("voluntario");
         }
 
+        // Verificar si el usuario ya está registrado
         if (list.contains(usuarioNuevo)) {
             MenuVista.muestraMensaje("¡El usuario ya existe!");
         } else {
+            // Añadir usuario a la lista
             if (list.add(usuarioNuevo)) {
                 MenuVista.muestraMensaje(">> ✅ ¡El usuario se ha registrado correctamente!");
-                guardarUsuariosEnXML(); // Guardar en XML
+                guardarUsuariosEnXML(); // Guardar los usuarios en el archivo XML
             } else {
                 MenuVista.muestraMensaje(">> ❌ ¡El usuario no ha sido registrado!");
             }
         }
     }
 
+    /**
+     * Carga los usuarios desde el archivo XML y los almacena en la lista.
+     */
     private void cargarUsuariosDesdeXML() {
         try {
             UsuariosContenedor wrapper = XMLManager.readXML(new UsuariosContenedor(), "usuarios.xml");
-            if (wrapper!= null) {
+            if (wrapper != null) {
                 list = new ArrayList<>(wrapper.getUsuarios());
             }
         } catch (RuntimeException e) {
-            MenuVista.muestraMensaje("❌ Error al obtener los usuarios desde XML.");
+            // Aquí se podría meter un log para capturar el error
         }
     }
 
+    /**
+     * Guarda la lista de usuarios en el archivo XML.
+     */
     private void guardarUsuariosEnXML() {
         try {
             UsuariosContenedor wrapper = new UsuariosContenedor();
             wrapper.setUsuarios(list);
             boolean exito = XMLManager.writeXML(wrapper, "usuarios.xml");
-            if (exito) {
-                MenuVista.muestraMensaje(">> ✅ Datos guardados correctamente en XML");
-            } else {
+            if (!exito) {
                 MenuVista.muestraMensaje(">> ❌ Ocurrió un error al guardar los datos en XML.");
             }
         } catch (RuntimeException e) {
@@ -76,11 +87,12 @@ public class UsuarioController {
     }
 
     /**
-     * Metodo que pide a los usuarios los datos de acceso para iniciar sesión.
-     * @param correo correo previamente preguntado al registrarse
-     * @param contrasenna contraseña previamente preguntada al registrarse (Encriptada)
-     * @return devuelve el usuario que ha iniciado sesión. O null si no se ha podido iniciar sesión.
-     * @throws AutenticacionException si ocurre un error de autenticación
+     * Solicita los datos de acceso al usuario e inicia sesión si las credenciales son correctas.
+     *
+     * @param correo Correo electrónico del usuario registrado.
+     * @param contrasenna Contraseña del usuario registrada (encriptada).
+     * @return El usuario que ha iniciado sesión correctamente.
+     * @throws AutenticacionException Si ocurre un error de autenticación.
      */
     public Usuario iniciarSesion(String correo, String contrasenna) throws AutenticacionException {
         cargarUsuariosDesdeXML();
@@ -91,6 +103,7 @@ public class UsuarioController {
                 if (usuario.verificarContrasenna(contrasenna)) {
                     Usuario usuarioFinal;
 
+                    // Crear un nuevo usuario basado en el tipo de usuario (Creador o Voluntario)
                     if ("creador".equals(usuario.getTipo())) {
                         usuarioFinal = new Creador(usuario.getNombre(), usuario.getUsuario(),
                                 usuario.getContrasenna(), usuario.getCorreo(), "");
@@ -101,6 +114,7 @@ public class UsuarioController {
                         throw new AutenticacionException("Error: Tipo de usuario no reconocido");
                     }
 
+                    // Establecer el usuario actual
                     usuarioActualController.setUsuario(usuarioFinal);
 
                     MenuVista.muestraMensaje("Inicio de sesión exitoso. ¡Bienvenido " +
@@ -116,7 +130,11 @@ public class UsuarioController {
         throw new AutenticacionException("El correo proporcionado no está registrado.");
     }
 
-
+    /**
+     * Muestra el menú de selección para el tipo de usuario (Creador o Voluntario).
+     *
+     * @return La opción seleccionada por el usuario.
+     */
     public int tipoUsuario() {
         MenuVista.muestraMenuCreadorOVoluntario();
         int opcion = Utilidades.leeEntero("Opción:");
@@ -132,6 +150,4 @@ public class UsuarioController {
         }
         return opcion;
     }
-
-
 }

@@ -8,6 +8,7 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso({Creador.class, Voluntario.class})
 public class Usuario {
+    // Atributos del usuario
     @XmlElement
     private String nombre;
 
@@ -23,16 +24,30 @@ public class Usuario {
     @XmlElement
     private String tipo;  // "creador" o "voluntario"
 
-    //Constructor vacío
+    /**
+     * Constructor vacío para la serialización XML.
+      */
     public Usuario() {
     }
+
+    /**
+     * Constructor que inicializa el usuario con los datos proporcionados y almacena el hash de la contraseña.
+     *
+     * @param nombre El nombre del usuario.
+     * @param usuario El nombre de usuario.
+     * @param contrasenna La contraseña del usuario.
+     * @param correo El correo electrónico del usuario.
+     * @param tipo El tipo de usuario, puede ser "creador" o "voluntario".
+     */
     public Usuario(String nombre, String usuario, String contrasenna, String correo, String tipo) {
         this.nombre = nombre;
         this.usuario = usuario;
-        this.contrasenna = hashPassword(contrasenna); // Se almacena el hash;
+        this.contrasenna = hashPassword(contrasenna); // Se almacena el hash de la contraseña
         this.correo = correo;
         this.tipo = tipo;
     }
+
+    // Métodos de acceso (getters y setters)
 
     public String getContrasenna() {
         return contrasenna;
@@ -54,12 +69,17 @@ public class Usuario {
         this.usuario = usuario;
     }
 
-    // No lleva getter porque BCrypt.hashpw() ya lo devuelve en formato de String
+    // El getter para la contraseña no es necesario, porque va haseada y encriptada.
 
-    // Método para establecer la contraseña (almacena el hash)
+    /**
+     * Establece la contraseña del usuario, almacenando su hash.
+     *
+     * @param contrasenna La contraseña en texto plano que será hasheada.
+     */
     public void setContrasenna(String contrasenna) {
         this.contrasenna = hashPassword(contrasenna);
     }
+
     public String getCorreo() {
         return correo;
     }
@@ -76,15 +96,24 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    // Método para verificar la contraseña ingresada
+    /**
+     * Verifica si la contraseña ingresada coincide con la almacenada (hasheada).
+     *
+     * @param contrasennaIngresada La contraseña ingresada por el usuario para verificar.
+     * @return true si las contraseñas coinciden, false en caso contrario.
+     */
     public boolean verificarContrasenna(String contrasennaIngresada) {
         return BCrypt.checkpw(contrasennaIngresada, this.contrasenna);
     }
 
-    // Método privado para hashear la contraseña con BCrypt
+    /**
+     * Hashea la contraseña usando el algoritmo BCrypt.
+     *
+     * @param password La contraseña en texto plano que se quiere hashear.
+     * @return La contraseña hasheada.
+     */
     private String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt(12)); // Esto de las rondas es la cantidad de veces que BCrypt
-        // va a repetir el proceso de cifrado interno
+        return BCrypt.hashpw(password, BCrypt.gensalt(12)); // El número de rondas (12) define la complejidad del hash
     }
 
     @Override
