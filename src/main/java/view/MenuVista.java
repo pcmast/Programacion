@@ -6,13 +6,28 @@ import model.Voluntario;
 import utils.Utilidades;
 
 public class MenuVista {
+
+    /**
+     * Muestra un mensaje en consola.
+     *
+     * @param mensaje El mensaje a mostrar.
+     */
     public static void muestraMensaje(String mensaje) {
         System.out.println(mensaje);
     }
+
+    /**
+     * Muestra un número entero en consola.
+     *
+     * @param numero El número a mostrar.
+     */
     public static void muestraEntero(int numero){
         System.out.println(numero);
     }
 
+    /**
+     * Muestra el menú principal del sistema.
+     */
     public static void mostrarMenu() {
         System.out.println("\n╔═══════════════════════════════════════════╗");
         System.out.println("║    SISTEMA DE GESTIÓN DE VOLUNTARIADO     ║");
@@ -24,8 +39,11 @@ public class MenuVista {
     }
 
     /**
-     * Menu que pide los datos para registrar un usuario, crearlo, sea creador o colaborador
-     * @return el usuario con los datos ya registrados.
+     * Menú que pide los datos para registrar un usuario y crea el usuario
+     * ya sea como creador o voluntario, según la opción seleccionada.
+     *
+     * @param opcion Opción seleccionada por el usuario (1 para creador, 2 para voluntario).
+     * @return El usuario creado con los datos registrados.
      */
     public static Usuario pideDatosRegistrarUsuario(int opcion) {
         System.out.println("");
@@ -39,7 +57,7 @@ public class MenuVista {
         switch (opcion) {
             case 1:
                 String ong = Utilidades.pideString(" ⮞ 🤝 Introduce la ONG que pertenece: ");
-                usuario1 = new Creador(nombre, usuario, contrasenna, correo,ong);
+                usuario1 = new Creador(nombre, usuario, contrasenna, correo, ong);
                 break;
             case 2:
                 usuario1 = new Voluntario(nombre, usuario, contrasenna, correo);
@@ -51,7 +69,7 @@ public class MenuVista {
     }
 
     /**
-     * Menu que pide los datos en caso de inicio de sesion.
+     * Menú que pide los datos necesarios para el inicio de sesión.
      */
     public static void pideDatosInicioSesion() {
         System.out.println("────────────────────────────────────────────");
@@ -60,7 +78,7 @@ public class MenuVista {
     }
 
     /**
-     * Menu para seleccionar el tipo de usuario.
+     * Menú para seleccionar el tipo de usuario (Creador o Voluntario).
      */
     public static void muestraMenuCreadorOVoluntario() {
         System.out.println();
@@ -70,7 +88,7 @@ public class MenuVista {
     }
 
     /**
-     * Menu de los usuarios creadores.
+     * Menú para los usuarios creadores con las opciones disponibles para gestionar iniciativas.
      */
     public static void menuCreador() {
         System.out.println("────────────────────────────────────────────");
@@ -87,7 +105,7 @@ public class MenuVista {
     }
 
     /**
-     * Menu de los usuarios voluntarios.
+     * Menú para los usuarios voluntarios con las opciones disponibles para gestionar actividades.
      */
     public static void menuVoluntarios() {
         System.out.println("────────────────────────────────────────────");

@@ -12,10 +12,18 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que gestiona las operaciones de acceso a datos relacionadas con las iniciativas y actividades en formato XML.
+ */
 public class XMLManagerIniciativas {
-    private static final String FILE_NAME = "iniciativas.xml";
-    private static ArrayList<Iniciativa> cacheIniciativas;
+    private static final String FILE_NAME = "iniciativas.xml"; // Nombre del archivo XML donde se almacenan las iniciativas
+    private static ArrayList<Iniciativa> cacheIniciativas; // Caché de iniciativas cargadas desde el XML
 
+    /**
+     * Obtiene la lista de iniciativas, cargándolas desde el XML si es necesario.
+     *
+     * @return una lista de iniciativas.
+     */
     private static ArrayList<Iniciativa> obtenerIniciativas() {
         if (cacheIniciativas == null) {
             cacheIniciativas = cargarDesdeXML();
@@ -23,15 +31,30 @@ public class XMLManagerIniciativas {
         return cacheIniciativas;
     }
 
+    /**
+     * Guarda una lista de iniciativas en el archivo XML.
+     *
+     * @param iniciativas la lista de iniciativas a guardar.
+     */
     public static void guardarIniciativas(List<Iniciativa> iniciativas) {
         guardarEnXML(new ArrayList<>(iniciativas));
     }
 
+    /**
+     * Agrega una nueva iniciativa a la lista y guarda los cambios en el XML.
+     *
+     * @param iniciativa la iniciativa a agregar.
+     */
     public static void agregarIniciativa(Iniciativa iniciativa) {
         obtenerIniciativas().add(iniciativa);
         guardarIniciativas(obtenerIniciativas());
     }
 
+    /**
+     * Elimina una iniciativa de la lista y guarda los cambios en el XML.
+     *
+     * @param iniciativa la iniciativa a eliminar.
+     */
     public static void eliminarIniciativa(Iniciativa iniciativa) {
         ArrayList<Iniciativa> lista = obtenerIniciativas();
         for (int i = 0; i < lista.size(); i++) {
@@ -43,10 +66,21 @@ public class XMLManagerIniciativas {
         guardarIniciativas(obtenerIniciativas());
     }
 
+    /**
+     * Obtiene todas las iniciativas disponibles.
+     *
+     * @return una lista de todas las iniciativas.
+     */
     public static List<Iniciativa> obtenerTodasIniciativas() {
         return new ArrayList<Iniciativa>(obtenerIniciativas());
     }
 
+    /**
+     * Agrega una actividad a una iniciativa específica y guarda los cambios.
+     *
+     * @param iniciativa la iniciativa donde se agregará la actividad.
+     * @param actividad  la actividad a agregar.
+     */
     public static void agregarActividad(Iniciativa iniciativa, Actividad actividad) {
         ArrayList<Iniciativa> lista = obtenerIniciativas();
         for (int i = 0; i < lista.size(); i++) {
@@ -60,6 +94,12 @@ public class XMLManagerIniciativas {
         }
     }
 
+    /**
+     * Elimina una actividad de una iniciativa específica y guarda los cambios.
+     *
+     * @param iniciativa la iniciativa de la cual se eliminará la actividad.
+     * @param actividad  la actividad a eliminar.
+     */
     public static void eliminarActividad(Iniciativa iniciativa, Actividad actividad) {
         ArrayList<Iniciativa> lista = obtenerIniciativas();
         for (int i = 0; i < lista.size(); i++) {
@@ -77,6 +117,12 @@ public class XMLManagerIniciativas {
         }
     }
 
+    /**
+     * Obtiene todas las actividades asociadas a una iniciativa.
+     *
+     * @param iniciativa la iniciativa de la cual obtener las actividades.
+     * @return una lista de actividades asociadas a la iniciativa.
+     */
     public static List<Actividad> obtenerActividades(Iniciativa iniciativa) {
         ArrayList<Iniciativa> lista = obtenerIniciativas();
         for (int i = 0; i < lista.size(); i++) {
@@ -87,7 +133,11 @@ public class XMLManagerIniciativas {
         return new ArrayList<Actividad>();
     }
 
-
+    /**
+     * Carga las iniciativas desde el archivo XML.
+     *
+     * @return una lista de iniciativas cargadas desde el archivo XML.
+     */
     private static ArrayList<Iniciativa> cargarDesdeXML() {
         try {
             File file = new File(FILE_NAME);
@@ -109,6 +159,11 @@ public class XMLManagerIniciativas {
         }
     }
 
+    /**
+     * Guarda las iniciativas en el archivo XML.
+     *
+     * @param iniciativas la lista de iniciativas a guardar.
+     */
     private static void guardarEnXML(ArrayList<Iniciativa> iniciativas) {
         try {
             IniciativasContenedor contenedor = new IniciativasContenedor();
