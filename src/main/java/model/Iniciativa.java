@@ -149,22 +149,6 @@ public class Iniciativa implements CRUDGenerico {
     }
 
     /**
-     * Método que modifica un objeto en la lista.
-     * Elimina el objeto anterior y añade el nuevo.
-     *
-     * @param o objeto que se modificará.
-     * @return true si se pudo modificar, false en caso contrario.
-     */
-    public boolean modificar(Object o) {
-        if (actividades.contains(o)) {
-            actividades.remove(o);
-            actividades.add((Actividad) o);
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Método que devuelve una copia de la lista de actividades.
      *
      * @return una copia de la lista de actividades.

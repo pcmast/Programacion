@@ -178,19 +178,6 @@ public class Actividad implements CRUDGenerico {
     }
 
 
-    public boolean modificar(Object o) {
-        boolean actualizado = false;
-        for (Usuario usuario : list) {
-            if (usuario.equals(o)) {
-                list.remove(usuario);
-                list.add((Usuario) o);
-                actualizado = true;
-            }
-
-        }
-        return actualizado;
-    }
-
     @Override
     public List obtenerTodos() {
         return getList();

@@ -26,14 +26,6 @@ public interface CRUDGenerico<T> {
     public boolean eliminarList(String cadena);
 
     /**
-     * Modifica un elemento de la lista.
-     *
-     * @param t El elemento con los nuevos datos.
-     * @return true si el elemento fue modificado con éxito, false si no se pudo modificar.
-     */
-    public boolean modificar(T t);
-
-    /**
      * Obtiene todos los elementos de la lista.
      *
      * @return Una lista con todos los elementos.

@@ -114,40 +114,6 @@ public class ActividadController {
         }
     }
 
-    /**
-     * Modifica una actividad existente, actualizando su información.
-     */
-    public void modificaActividad() {
-        File archivo = new File("actividades.xml");
-        ArrayList<Actividad> actividadesDesdeXML = new ArrayList<>();
-        if (archivo.exists()) {
-            actividadesDesdeXML = XMLManager.readXML(new ArrayList<>(), "actividades.xml");
-        } else {
-            XMLManager.writeXML(actividadesDesdeXML, "actividades.xml");
-        }
-        boolean existe = false;
-        boolean actualizado = false;
-        Creador creador = (Creador) usuarioActualController.getUsuario();
-        ArrayList<Iniciativa> list = creador.verIniciativas();
-        Actividad actividad = MenuIniciativaActividad.pideDatosCrearActividad();
-
-        for (Iniciativa iniciativa : list) {
-            actualizado = iniciativa.modificar(actividad);
-            existe = actividadesDesdeXML.remove(actividad);
-            actividadesDesdeXML.add(actividad);
-        }
-
-        if (actualizado) {
-            MenuVista.muestraMensaje("Se ha podido modificar correctamente.");
-            try {
-                guardarActividades();
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-            }
-        } else {
-            MenuVista.muestraMensaje("No se ha podido modificar, no existe la iniciativa.");
-        }
-    }
 
     /**
      * Muestra todas las actividades en las que está inscrito un voluntario.
