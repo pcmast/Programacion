@@ -153,6 +153,12 @@ public class Actividad implements CRUDGenerico {
 
 
     @Override
+    /**
+     *  Método que añade un objeto si no lo contiene a una lista.
+     *      *
+     *      * @param o el objeto que se va a añadir.
+     *      * @return true si se pudo añadir, false en caso contrario.
+     */
     public boolean annadirList(Object o) {
         boolean annadido = false;
         if (!list.contains(o)) {
@@ -164,7 +170,14 @@ public class Actividad implements CRUDGenerico {
 
     }
 
+
     @Override
+    /**
+     * Método que elimina un objeto por su nombre.
+     *
+     * @param nombre El nombre de ese objeto.
+     * @return true si se pudo eliminar, false en caso contrario.
+     */
     public boolean eliminarList(String cadena) {
         boolean eliminado = false;
         for (Usuario usuario : list) {
@@ -179,6 +192,11 @@ public class Actividad implements CRUDGenerico {
 
 
     @Override
+    /**
+     * Método que devuelve una copia de la lista de actividades.
+     *
+     * @return una copia de la lista de actividades.
+     */
     public List obtenerTodos() {
         return getList();
     }
