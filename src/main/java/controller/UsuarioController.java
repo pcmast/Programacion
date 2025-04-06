@@ -49,7 +49,7 @@ public class UsuarioController {
             // Añadir usuario a la lista
             if (list.add(usuarioNuevo)) {
                 MenuVista.muestraMensaje(">> ✅ ¡El usuario se ha registrado correctamente!");
-                guardarUsuariosEnXML(); // Guardar los usuarios en el archivo XML
+                guardarUsuariosEnXML();
             } else {
                 MenuVista.muestraMensaje(">> ❌ ¡El usuario no ha sido registrado!");
             }
