@@ -299,10 +299,12 @@ public class ActividadController {
             MenuVista.muestraMensaje("❌ Voluntario no encontrado.");
             return;
         }
-
+        ArrayList<String> list = new ArrayList<>();
         for (Actividad actividad : actividades) {
             if (actividad.getNombre().equals(nombreActividad)) {
                 actividad.annadirList(usuarioEncontrado);
+                list = actividad.getVoluntario();
+                list.add(nombreVoluntario);
                 MenuVista.muestraMensaje(" ✅ Voluntario añadido correctamente a la actividad.");
                 break;
             }

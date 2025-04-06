@@ -57,6 +57,7 @@ public class SistemaController {
                             }
                             opcion = 3;
                         }
+
                         break;
                     case 2: // Registro de nuevo usuario
                         MenuVista.muestraMenuCreadorOVoluntario();
@@ -79,7 +80,7 @@ public class SistemaController {
                 creador = (Creador) usuarioActual;
                 terminar = controlarCreador(creador);
                 creador = null;
-            } else if (usuarioActual instanceof Voluntario && terminar != 4) {
+            } else if (usuarioActual instanceof Voluntario && terminar != 7) {
                 voluntario = (Voluntario) usuarioActual;
                 terminar = controlarVoluntario();
                 voluntario = null;
@@ -178,7 +179,8 @@ public class SistemaController {
                     actividadController.mostrarVoluntariosAsignados();
                     break;
                 case 7:
-                    return opcion3; // Salir
+
+                    break; // Salir
             }
 
         } while (opcion3 != 7);
