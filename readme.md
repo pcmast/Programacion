@@ -8,8 +8,8 @@ Este proyecto es una aplicación de consola desarrollada en Java para la gestió
 - **Gestión de iniciativas** creadas por usuarios.
 - **Registro y organización de actividades** asociadas a iniciativas.
 - **Roles de usuario:**
-  - Creador de iniciativa (CRUD completo de actividades y asignación de voluntarios).
-  - Voluntario (ver actividades asignadas y actualizar su estado).
+    - Creador de iniciativa (CRUD completo de actividades y asignación de voluntarios).
+    - Voluntario (ver actividades asignadas y actualizar su estado).
 - **Estados de actividades:** NO INICIADA, EN PROGRESO, COMPLETADA.
 - **Persistencia de datos** para conservar la información entre ejecuciones.
 - **Uso de Wrapper para serialización**.

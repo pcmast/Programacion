@@ -1,5 +1,11 @@
 package utils;
 
+import exceptions.ValidacionException;
+import view.MenuVista;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -15,20 +21,22 @@ public class Utilidades {
      * @return El número entero introducido por el usuario.
      */
     public static int leeEntero(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in);
         int numero = 0;
         boolean valido = false;
 
-        while (!valido) {  // Repite hasta que se introduzca un número válido.
+        while (!valido) {
             try {
-                System.out.print(mensaje);  // Muestra el mensaje al usuario.
-                numero = Integer.parseInt(scanner.nextLine());  // Intenta convertir la entrada en un número entero.
-                valido = true;  // Si no hay error, se marca como válido.
+                System.out.print(mensaje);
+                numero = teclado.nextInt();  // Intenta convertir la entrada en un número entero.
+                valido = true;
             } catch (NumberFormatException e) {
-                System.out.println("Error: Ingresa un número entero válido.");  // Muestra mensaje de error si la entrada no es un número entero.
+                System.out.println("Error: Ingresa un número entero válido.");
+            }catch (InputMismatchException e){
+                System.out.println("Error: Ingresa un número entero");
             }
         }
-        return numero;  // Devuelve el número entero introducido.
+        return numero;
     }
 
     /**
@@ -39,14 +47,14 @@ public class Utilidades {
      * @return El número decimal (double) introducido por el usuario.
      */
     public static double leeDouble(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner teclado = new Scanner(System.in);
         double numero = 0;
         boolean valido = false;
 
         while (!valido) {
             try {
                 System.out.print(mensaje);
-                numero = Double.parseDouble(scanner.nextLine());
+                numero = teclado.nextDouble();
                 valido = true;
             } catch (NumberFormatException e) {
                 System.out.println("Error: Ingresa un número válido.");  // Muestra mensaje de error si la entrada no es un número válido.
@@ -64,9 +72,14 @@ public class Utilidades {
      * @param correo El correo a validar.
      * @return true si el correo es válido, false si no lo es.
      */
-    public static boolean validarCorreo(String correo) {
-        // Expresión regular que valida el formato del correo electrónico.
-        return correo.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
+    public static boolean validarCorreo(String correo) throws ValidacionException {
+        boolean valido = false;
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        if (!correo.matches(regex)) {
+            throw new ValidacionException("El correo proporcionado (" + correo + ") no tiene un formato válido.");
+        }
+        valido = true;
+        return valido;
     }
 
     /**
@@ -80,27 +93,74 @@ public class Utilidades {
      * @return true si el número de teléfono es válido según el formato, false en caso contrario.
      */
     public static boolean validarTelefono(String telefono) {
-        return telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$");
+        boolean valido = false;
+        try {
+            if (!telefono.matches("^\\+?[1-9]\\d{1,2}[\\s\\-]?\\(?\\d{1,4}\\)?[\\s\\-]?\\d{1,4}[\\s\\-]?\\d{1,4}$")) {
+                throw new ValidacionException("El número de teléfono (" + telefono + ") no tiene un formato válido.");
+            }
+            valido = true;
+        } catch (ValidacionException e) {
+            System.out.println("Error de validación: " + e.getMessage());
+            valido = false;
+        }
+        return valido;
     }
 
-    /**
-     * Muestra un mensaje en consola.
-     * @param mensaje : el mensaje a mostrar.
-     */
-    public static void mostrarMensaje(String mensaje) {
-        System.out.println(mensaje);
+    public static String pideCorreo(String mensaje) {
+        String correo;
+        boolean valido = false;
+        do {
+            correo = pideString(mensaje);
+            try {
+                if (validarCorreo(correo)) {
+                    valido = true;
+                    return correo;
+                }
+            } catch (ValidacionException e) {
+                System.out.println("⚠ " + e.getMessage());
+            }
+        } while (true);
     }
+
 
     /**
      * Pide una cadena de texto al usuario.
+     *
      * @param msn : el mensaje que se muestra al usuario.
      * @return la cadena introducida por el usuario.
      */
     public static String pideString(String msn) {
-        mostrarMensaje(msn);
+        Scanner teclado = new Scanner(System.in);
+        MenuVista.muestraMensaje(msn);
         String cadena = null;
-        cadena = sc.next(); // Lee una palabra
-        sc.nextLine(); // Consume el salto de línea pendiente
+        cadena = teclado.nextLine(); // Lee una palabra
         return cadena;
+    }
+
+    /**
+     * Pide al usuario que introduzca una fecha por texto con el siguiente formato: (dd/MM/yyyy)
+     *
+     * @param msn mensaje que vamos a mostrar al usuario
+     * @return fecha introducida por el usuario en formato LocalDate, o null si no se ha introducido una fecha correcta.
+     */
+    public static LocalDate pideFecha(String msn) {
+        Scanner teclado = new Scanner(System.in);
+        LocalDate fecha = null;
+        boolean fechaCorrecta = false;
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        while (!fechaCorrecta) {
+            MenuVista.muestraMensaje(msn);
+            String fechaString = teclado.nextLine();
+
+            try {
+                fecha = LocalDate.parse(fechaString, formatoFecha);
+                fechaCorrecta = true;
+                MenuVista.muestraMensaje("fecha introducida: " + fecha);
+            } catch (DateTimeParseException e) {
+                MenuVista.muestraMensaje("Formato de fecha incorrecto. Debe ser dd/MM/yyyy");
+            }
+        }
+        return fecha;
     }
 }
